@@ -1,0 +1,2 @@
+# snratio
+supernova ratio calculator
