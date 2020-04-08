@@ -116,14 +116,4 @@ class Calculator:
         cls.stat.set_sigma(sigma=cls.parameter_dict["stat"]["sigma"])
         cls.stat.fit()
         cls.stat.print_fit_values()
-
-    @classmethod
-    def generate_plot(cls):
-        # Plotting
-        #cls.stat.plot_chi()
-        cls.stat.fit_results()
-        #cls.stat.plot_fit(Ia_model="SelectedModel")
-
-        return cls.stat.get_plot()
-
-
+        cls.stat.set_fit_results()

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'snratio/gui/qt_snratio2.ui',
-# licensing of 'snratio/gui/qt_snratio2.ui' applies.
+# Form implementation generated from reading ui file 'qt_snratio2.ui',
+# licensing of 'qt_snratio2.ui' applies.
 #
-# Created: Wed Apr  8 22:30:20 2020
+# Created: Wed Apr  8 18:29:07 2020
 #      by: pyside2-uic  running on PySide2 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.plot_area = QtWidgets.QWidget(self.tab)
-        self.plot_area.setGeometry(QtCore.QRect(230, 120, 291, 211))
+        self.plot_area.setGeometry(QtCore.QRect(230, 120, 381, 231))
         self.plot_area.setObjectName("plot_area")
         self.line_data_path = QtWidgets.QLineEdit(self.tab)
         self.line_data_path.setGeometry(QtCore.QRect(10, 320, 131, 31))
@@ -120,9 +120,6 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.box_snIa_model.setFont(font)
         self.box_snIa_model.setObjectName("box_snIa_model")
-        self.box_snIa_model.addItem("")
-        self.box_snIa_model.addItem("")
-        self.box_snIa_model.addItem("")
         self.box_snIa_model.addItem("")
         self.box_snIa_model.addItem("")
         self.box_snIa_model.addItem("")
@@ -351,21 +348,6 @@ class Ui_MainWindow(object):
         self.button_fit.setObjectName("button_fit")
         self.verticalLayout_11.addWidget(self.button_fit)
         self.horizontalLayout_4.addLayout(self.verticalLayout_11)
-        self.widget2 = QtWidgets.QWidget(self.tab)
-        self.widget2.setGeometry(QtCore.QRect(520, 120, 108, 100))
-        self.widget2.setObjectName("widget2")
-        self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.widget2)
-        self.verticalLayout_12.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_12.setObjectName("verticalLayout_12")
-        self.button_plot_fit = QtWidgets.QPushButton(self.widget2)
-        self.button_plot_fit.setObjectName("button_plot_fit")
-        self.verticalLayout_12.addWidget(self.button_plot_fit)
-        self.button_plot_likelihood = QtWidgets.QPushButton(self.widget2)
-        self.button_plot_likelihood.setObjectName("button_plot_likelihood")
-        self.verticalLayout_12.addWidget(self.button_plot_likelihood)
-        self.button_plot_chi = QtWidgets.QPushButton(self.widget2)
-        self.button_plot_chi.setObjectName("button_plot_chi")
-        self.verticalLayout_12.addWidget(self.button_plot_chi)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -394,12 +376,9 @@ class Ui_MainWindow(object):
         self.box_snIa_table.setItemText(0, QtWidgets.QApplication.translate("MainWindow", "Iwamoto", None, -1))
         self.box_snIa_year.setItemText(0, QtWidgets.QApplication.translate("MainWindow", "1999", None, -1))
         self.box_snIa_model.setItemText(0, QtWidgets.QApplication.translate("MainWindow", "W7", None, -1))
-        self.box_snIa_model.setItemText(1, QtWidgets.QApplication.translate("MainWindow", "W70", None, -1))
-        self.box_snIa_model.setItemText(2, QtWidgets.QApplication.translate("MainWindow", "WDD1", None, -1))
-        self.box_snIa_model.setItemText(3, QtWidgets.QApplication.translate("MainWindow", "WDD2", None, -1))
-        self.box_snIa_model.setItemText(4, QtWidgets.QApplication.translate("MainWindow", "WDD3", None, -1))
-        self.box_snIa_model.setItemText(5, QtWidgets.QApplication.translate("MainWindow", "CDD1", None, -1))
-        self.box_snIa_model.setItemText(6, QtWidgets.QApplication.translate("MainWindow", "CDD2", None, -1))
+        self.box_snIa_model.setItemText(1, QtWidgets.QApplication.translate("MainWindow", "WDD2", None, -1))
+        self.box_snIa_model.setItemText(2, QtWidgets.QApplication.translate("MainWindow", "CDD1", None, -1))
+        self.box_snIa_model.setItemText(3, QtWidgets.QApplication.translate("MainWindow", "CDD2", None, -1))
         self.line_sncc_mass.setText(QtWidgets.QApplication.translate("MainWindow", "Mass Interval", None, -1))
         self.line_sncc_abund.setText(QtWidgets.QApplication.translate("MainWindow", "Abundance", None, -1))
         self.box_sncc_abund.setItemText(0, QtWidgets.QApplication.translate("MainWindow", "0.0", None, -1))
@@ -430,9 +409,6 @@ class Ui_MainWindow(object):
         self.box_fit_sigma.setItemText(0, QtWidgets.QApplication.translate("MainWindow", "1.0", None, -1))
         self.box_fit_sigma.setItemText(1, QtWidgets.QApplication.translate("MainWindow", "2.0", None, -1))
         self.button_fit.setText(QtWidgets.QApplication.translate("MainWindow", "Fit", None, -1))
-        self.button_plot_fit.setText(QtWidgets.QApplication.translate("MainWindow", "Plot Fit", None, -1))
-        self.button_plot_likelihood.setText(QtWidgets.QApplication.translate("MainWindow", "Plot lnL", None, -1))
-        self.button_plot_chi.setText(QtWidgets.QApplication.translate("MainWindow", "Plot chi_sq", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtWidgets.QApplication.translate("MainWindow", "Tab 1", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtWidgets.QApplication.translate("MainWindow", "Tab 2", None, -1))
 

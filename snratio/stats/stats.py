@@ -133,15 +133,6 @@ class Stats:
         for i, j in self.fit_values.items():
             print(i, j)
 
-    def plot_chi(self):
-        min_chi = min(self.chi_list)
-        print("chi", min_chi)
-
-        plt.plot(self.Ia_fraction_list, self.chi_list)
-        plt.axhline(y=min_chi, color="red")
-
-        plt.show()
-
     @classmethod
     def set_iteration_number(cls, N):
         cls.N = N
@@ -150,7 +141,7 @@ class Stats:
     def set_sigma(cls, sigma):
         cls.sigma = sigma
 
-    def fit_results(self):
+    def set_fit_results(self):
         self.best_chi_sq = self.fit_values['chi_min']
         self.dof = self.table["Element"].size - 2
         self.reduced_chi_sq = self.best_chi_sq / self.dof
@@ -161,6 +152,8 @@ class Stats:
                                                                                self.fit_values["positive_error_Ia"])
 
         self.best_fit_values = "{}\n{}".format(part1, part2)
+
+    def print_fit_results(self):
         print(self.best_fit_values)
 
     def set_likelihood_limits(self):
@@ -175,60 +168,49 @@ class Stats:
 
         return x_lim, y_lim
 
-    def plot_fit(self, Ia_model="", cc_model=""):
-        fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(15, 5))
-        ax1, ax2 = ax[0], ax[1]
 
-        ax1.plot(self.Ia_fraction_list, self.P_list, color="blue")
-        ax1.set_facecolor("lightgrey")
-        ax1.set_xlabel("Ratio (Ia / Total)")
-        ax1.set_ylabel("log Likelihood")
+    def get_chi_plot(self):
+        min_chi = min(self.chi_list)
+        print("chi", min_chi)
 
-        ax1.axhline(y=self.fit_values["P_max"], color="red")
-        ax1.axhline(y=self.fit_values["P_min"], color="red")
+        fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
+        ax = fig.add_subplot(111)
 
-        ax1.axvline(x=self.fit_values["best_Ia"], color="black",
+        ax.plot(self.Ia_fraction_list, self.chi_list)
+        ax.axhline(y=min_chi, color="red")
+
+        return fig
+
+    def get_likelihood_plot(self):
+        fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
+        ax = fig.add_subplot(111)
+
+        ax.plot(self.Ia_fraction_list, self.P_list, color="blue")
+        ax.set_facecolor("lightgrey")
+        ax.set_xlabel("Ratio (Ia / Total)")
+        ax.set_ylabel("log Likelihood")
+
+        ax.axhline(y=self.fit_values["P_max"], color="red")
+        ax.axhline(y=self.fit_values["P_min"], color="red")
+
+        ax.axvline(x=self.fit_values["best_Ia"], color="black",
                     label="Best fit values: {:.3f} (-{:.3f},+{:.3f})".format(self.fit_values["best_Ia"],
                                                                              self.fit_values["negative_error_Ia"],
                                                                              self.fit_values["positive_error_Ia"]))
-        ax1.axvline(x=self.fit_values["min_Ia"], color="black", ls="--")
-        ax1.axvline(x=self.fit_values["max_Ia"], color="black", ls="--")
+        ax.axvline(x=self.fit_values["min_Ia"], color="black", ls="--")
+        ax.axvline(x=self.fit_values["max_Ia"], color="black", ls="--")
 
         x_lim, y_lim = self.set_likelihood_limits()
-        ax1.set_xlim(*x_lim)
-        ax1.set_ylim(*y_lim)
+        ax.set_xlim(*x_lim)
+        ax.set_ylim(*y_lim)
 
-        ax1.legend()
-        ax1.set_title("Maximum Likelihood Estimation", fontsize=15)
-        ax1.grid(True)
+        ax.legend()
+        ax.set_title("Maximum Likelihood Estimation", fontsize=15)
+        ax.grid(True)
 
-        contribution_Ia, contribution_Cc = zip(*self.fit_values["best_fit_contribution"])
-        err_min, err_max = self.fit_values["best_fit_min_contribution_sum"], self.fit_values["best_fit_max_contribution_sum"]
+        return fig
 
-        ax2.errorbar(x=self.table["Element"], y=self.table["{}_normalised_abund".format(self.ref_element)],
-                     yerr=self.table["{}_normalised_abund_err".format(self.ref_element)], fmt='.k', markersize='15',
-                     elinewidth=2.5)
-        ax2.set_facecolor("lightgrey")
-
-        ax2.bar(self.table["Element"], contribution_Ia, 0.3, label="SNIa ({})".format(Ia_model), color="blue", alpha=0.5)
-        ax2.bar(self.table["Element"], contribution_Cc, 0.3, bottom=contribution_Ia, label="SNcc", color="green", alpha=0.5)
-        ax2.fill_between(self.table["Element"], err_min, err_max, facecolor="red", alpha=0.5,
-                         label="{} confidence interval\nred_chi2 = {:.2f} ({:.2f}/{})".format(self.fit_values["confidence"],
-                                                                                              self.reduced_chi_sq,
-                                                                                              self.best_chi_sq,
-                                                                                              self.dof))
-
-        ax2.set_ylim(bottom=0)
-
-        ax2.set_xlabel("Elements", fontsize=15)
-        ax2.set_ylabel("[X/Fe]", fontsize=15)
-        ax2.set_title("Relative Abundances", fontsize=15)
-        ax2.legend(loc="upper left")
-        ax2.grid(True)
-
-        plt.show()
-
-    def get_plot(self, Ia_model=""):
+    def get_fit_plot(self):
         fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
         ax = fig.add_subplot(111)
 
@@ -241,7 +223,7 @@ class Stats:
                      elinewidth=2.5)
         ax.set_facecolor("lightgrey")
 
-        ax.bar(self.table["Element"], contribution_Ia, 0.3, label="SNIa ({})".format(Ia_model), color="blue",
+        ax.bar(self.table["Element"], contribution_Ia, 0.3, label="SNIa", color="blue",
                 alpha=0.5)
         ax.bar(self.table["Element"], contribution_Cc, 0.3, bottom=contribution_Ia, label="SNcc", color="green",
                 alpha=0.5)
@@ -261,9 +243,3 @@ class Stats:
         ax.grid(True)
 
         return fig
-
-# fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
-# ax = fig.add_subplot(111)
-# ax.plot([1, 2, 3], [1, 2, 3])
-# canvas = FigureCanvas(fig)
-# self.plot_area_grid_layout.addWidget(canvas, 0, 0)

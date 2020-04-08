@@ -24,7 +24,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.button_data_load.clicked.connect(self.load)
+
         self.button_fit.clicked.connect(self.fit_func)
+        self.button_plot_fit.clicked.connect(self.plot_fit)
+        self.button_plot_likelihood.clicked.connect(self.plot_likelihood)
+        self.button_plot_chi.clicked.connect(self.plot_chi)
 
         self.box_sncc_table.currentTextChanged.connect(self.change_sncc_table)
         self.box_sncc_year.currentTextChanged.connect(self.change_sncc_year)
@@ -46,16 +50,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         Calculator.initialise()
         Calculator.merge()
         Calculator.fit()
+        Calculator.stat.set_fit_results()
 
-        fig = Calculator.generate_plot()
+    def plot_fit(self):
+        fig = Calculator.stat.get_fit_plot()
         canvas = FigureCanvas(fig)
         self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
-        #fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
-        #ax = fig.add_subplot(111)
-        #ax.plot([1, 2, 3], [1, 2, 3])
-        #canvas = FigureCanvas(fig)
-        #self.plot_area_grid_layout.addWidget(canvas, 0, 0)
+    def plot_likelihood(self):
+        fig = Calculator.stat.get_likelihood_plot()
+        canvas = FigureCanvas(fig)
+        self.plot_area_grid_layout.addWidget(canvas, 0, 0)
+
+    def plot_chi(self):
+        fig = Calculator.stat.get_chi_plot()
+        canvas = FigureCanvas(fig)
+        self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
     def change_sncc_table(self):
         Calculator.parameter_dict["CcTable"]["table_list"][0] = self.box_sncc_table.currentText()
