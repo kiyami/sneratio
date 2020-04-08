@@ -1,144 +1,118 @@
-from snratio.gui.snratio_gui import MainWindow
+from snratio.lib.calculator import Calculator
+
 from PySide2 import QtWidgets
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
-from snratio.lib.table import Data
-from snratio.lib.table import MassNumberTable
-from snratio.lib.table import SolarTable
-from snratio.lib.table import IaTable
-from snratio.lib.table import CcTable
-
-from snratio.lib.utils import merge_tables
-
-from snratio.stats.stats import Stats
-
+from PySide2 import QtCore
 import sys
+QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
+
+from snratio.gui.qt_snratio import Ui_MainWindow
 
 
-class Main:
-    parameter_dict = {
-        "data": {
-            "path": "snratio/data/test_data/test_data.txt",
-            "with_header": True
-        },
+nomoto_year = ["2013", "2006"]
+nomoto_2013_abund = ["0.0", "0.001", "0.004", "0.008", "0.02", "0.05"]
+nomoto_2006_abund = ["0.0", "0.001", "0.004", "0.02"]
 
-        "mass_number_table": {},
+tsujimoto_year = ["1995"]
+tsujimoto_1995_abund = ["Default"]
 
-        "solar_table": {
-            "table": "lodd"
-        },
 
-        "IaTable": {
-            "model": "W7"
-        },
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self, parent=None):
+        super(MainWindow, self).__init__(parent=parent)
+        self.setupUi(self)
 
-        "CcTable": {
-            "table_list": ["Nomoto", "2013", "0.02"],
-            "integral_limits": [10,50],
-            "integral_steps": 250
-        },
+        self.button_data_load.clicked.connect(self.load)
+        self.button_fit.clicked.connect(self.fit_func)
 
-        "ref_element": "Fe",
+        self.box_sncc_table.currentTextChanged.connect(self.change_sncc_table)
+        self.box_sncc_year.currentTextChanged.connect(self.change_sncc_year)
+        self.box_sncc_abund.currentTextChanged.connect(self.change_sncc_abund)
 
-        "stat": {
-            "iteration_number": 1000,
-            "sigma": 1.0
-        }
-    }
+        self.box_snIa_model.currentTextChanged.connect(self.set_snIa_model)
 
-    data = None
-    mass_number_table = None
-    solar_table = None
-    merged_table = None
+        self.box_solar_table.currentTextChanged.connect(self.change_solar_table)
+        self.box_solar_ref.currentTextChanged.connect(self.change_solar_ref)
 
-    stat = None
+        self.box_fit_sigma.currentTextChanged.connect(self.change_sigma)
 
-    fig_chi = None
-    fig_fit = None
+        self.plot_area_grid_layout = QtWidgets.QGridLayout(self.plot_area)
 
-    @classmethod
-    def initialise(cls):
-        cls.data = Data(cls.parameter_dict["data"]["path"], with_header=cls.parameter_dict["data"]["with_header"])
+    def load(self):
+        print(Calculator.parameter_dict)
 
-        cls.mass_number_table = MassNumberTable()
+    def fit_func(self):
+        Calculator.initialise()
+        Calculator.merge()
+        Calculator.fit()
 
-        # solar_tables = ["lodd", "angr", "aspl"]
-        cls.solar_table = SolarTable(cls.parameter_dict["solar_table"]["table"])
+        fig = Calculator.generate_plot()
+        canvas = FigureCanvas(fig)
+        self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
-        IaTable.set_model(cls.parameter_dict["IaTable"]["model"])
-        cls.Ia_table = IaTable()
+        #fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
+        #ax = fig.add_subplot(111)
+        #ax.plot([1, 2, 3], [1, 2, 3])
+        #canvas = FigureCanvas(fig)
+        #self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
-        # ------------------
-        # cc_yield tables
-        # ------------------
-        # Nomoto
-        #   2006
-        #       0
-        #       0.001
-        #       0.004
-        #       0.02
-        #   2013
-        #       0
-        #       0.001
-        #       0.004
-        #       0.008
-        #       0.02
-        #       0.05
-        # ------------------
-        # Tsujimoto
-        # ------------------
+    def change_sncc_table(self):
+        Calculator.parameter_dict["CcTable"]["table_list"][0] = self.box_sncc_table.currentText()
 
-        table, year, abund = cls.parameter_dict["CcTable"]["table_list"]
-        CcTable.set_table(table=table, year=year, abund=abund)
-        CcTable.set_integral_limits(cls.parameter_dict["CcTable"]["integral_limits"])
-        CcTable.set_integral_steps(cls.parameter_dict["CcTable"]["integral_steps"])
+        if self.box_sncc_table.currentIndex() == 0:
+            for _ in range(self.box_sncc_year.count()):
+                self.box_sncc_year.removeItem(0)
 
-        cls.cc_table = CcTable()
+            self.box_sncc_year.addItems(nomoto_year)
 
-        #data.print_columns()
-        #mass_number_table.print_columns()
-        #solar_table.print_columns()
-        #Ia_table.print_columns()
-        #cc_table.print_columns()
-        #data.print_data()
+        elif self.box_sncc_table.currentIndex() == 1:
+            for _ in range(self.box_sncc_year.count()):
+                self.box_sncc_year.removeItem(0)
 
-    @classmethod
-    def merge(cls):
-        t1 = cls.mass_number_table.data
-        t2 = cls.data.data
-        t3 = cls.solar_table.data
-        t4 = cls.Ia_table.model_yields
-        t5 = cls.cc_table.integrated_yields
+            self.box_sncc_year.addItems(tsujimoto_year)
 
-        cls.merged_table = merge_tables(t1, t2, t3, t4, t5)
-        #print(merged_table)
+    def change_sncc_year(self):
+        Calculator.parameter_dict["CcTable"]["table_list"][1] = self.box_sncc_year.currentText()
 
-    @classmethod
-    def fit(cls):
-        cls.stat = Stats(table=cls.merged_table, ref_element=cls.parameter_dict["ref_element"])
+        if self.box_sncc_year.currentIndex() == 0:
+            for _ in range(self.box_sncc_abund.count()):
+                self.box_sncc_abund.removeItem(0)
 
-        cls.stat.set_iteration_number(N=cls.parameter_dict["stat"]["iteration_number"])
-        cls.stat.set_sigma(sigma=cls.parameter_dict["stat"]["sigma"])
-        cls.stat.fit()
-        cls.stat.print_fit_values()
+            self.box_sncc_abund.addItems(nomoto_2006_abund)
 
-    @classmethod
-    def generate_plot(cls):
-        # Plotting
-        cls.stat.plot_chi()
-        cls.stat.fit_results()
-        cls.stat.plot_fit(Ia_model="SelectedModel")
+        elif self.box_sncc_year.currentIndex() == 1:
+            for _ in range(self.box_sncc_abund.count()):
+                self.box_sncc_abund.removeItem(0)
 
-    @staticmethod
-    def run_app():
-        app = QtWidgets.QApplication(sys.argv)
-        win = MainWindow()
-        win.show()
+            self.box_sncc_abund.addItems(tsujimoto_1995_abund)
 
-        sys.exit(app.exec_())
+    def change_sncc_abund(self):
+        Calculator.parameter_dict["CcTable"]["table_list"][2] = self.box_sncc_abund.currentText()
+
+    def set_snIa_model(self):
+        Calculator.parameter_dict["IaTable"]["model"] = self.box_snIa_model.currentText()
+
+    def change_solar_table(self):
+        Calculator.parameter_dict["solar_table"]["table"] = self.box_solar_table.currentText()
+
+    def change_solar_ref(self):
+        Calculator.parameter_dict["ref_element"] = self.box_solar_ref.currentText()
+
+    def change_sigma(self):
+        Calculator.parameter_dict["stat"]["sigma"] = self.box_fit_sigma.currentText()
+
+
+def run_app():
+    app = QtWidgets.QApplication(sys.argv)
+    win = MainWindow()
+    win.show()
+
+    sys.exit(app.exec_())
 
 
 if __name__ == "__main__":
-    Main.run_app()
-    Main.initialise()
-    Main.merge()
-    Main.fit()
+    run_app()
+    #Calculator.initialise()
+    #Calculator.merge()
+    #Calculator.fit()

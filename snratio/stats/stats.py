@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 
 
 class Stats:
@@ -226,3 +227,43 @@ class Stats:
         ax2.grid(True)
 
         plt.show()
+
+    def get_plot(self, Ia_model=""):
+        fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
+        ax = fig.add_subplot(111)
+
+        contribution_Ia, contribution_Cc = zip(*self.fit_values["best_fit_contribution"])
+        err_min, err_max = self.fit_values["best_fit_min_contribution_sum"], self.fit_values[
+            "best_fit_max_contribution_sum"]
+
+        ax.errorbar(x=self.table["Element"], y=self.table["{}_normalised_abund".format(self.ref_element)],
+                     yerr=self.table["{}_normalised_abund_err".format(self.ref_element)], fmt='.k', markersize='15',
+                     elinewidth=2.5)
+        ax.set_facecolor("lightgrey")
+
+        ax.bar(self.table["Element"], contribution_Ia, 0.3, label="SNIa ({})".format(Ia_model), color="blue",
+                alpha=0.5)
+        ax.bar(self.table["Element"], contribution_Cc, 0.3, bottom=contribution_Ia, label="SNcc", color="green",
+                alpha=0.5)
+        ax.fill_between(self.table["Element"], err_min, err_max, facecolor="red", alpha=0.5,
+                         label="{} confidence interval\nred_chi2 = {:.2f} ({:.2f}/{})".format(
+                             self.fit_values["confidence"],
+                             self.reduced_chi_sq,
+                             self.best_chi_sq,
+                             self.dof))
+
+        ax.set_ylim(bottom=0)
+
+        ax.set_xlabel("Elements", fontsize=15)
+        ax.set_ylabel("[X/Fe]", fontsize=15)
+        ax.set_title("Relative Abundances", fontsize=15)
+        ax.legend(loc="upper left")
+        ax.grid(True)
+
+        return fig
+
+# fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
+# ax = fig.add_subplot(111)
+# ax.plot([1, 2, 3], [1, 2, 3])
+# canvas = FigureCanvas(fig)
+# self.plot_area_grid_layout.addWidget(canvas, 0, 0)
