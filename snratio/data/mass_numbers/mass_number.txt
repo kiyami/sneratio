@@ -1,0 +1,17 @@
+Element MassNumber
+H 1.0
+He 4.0
+C 12.0
+N 14.0
+O 16.0
+Ne 20.0
+Mg 24.0
+Al 27.0
+Si 28.0
+S 32.0
+Ar 36.0
+Ca 40.0
+Cr 52.0
+Mn 55.0
+Fe 56.0
+Ni 58.0
