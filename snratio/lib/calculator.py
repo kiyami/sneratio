@@ -47,6 +47,7 @@ class Calculator:
     merged_table = None
 
     stat = None
+    fit_stat_text = ""
 
     fig_chi = None
     fig_fit = None
@@ -117,3 +118,6 @@ class Calculator:
         cls.stat.fit()
         cls.stat.print_fit_values()
         cls.stat.set_fit_results()
+
+        for k,v in cls.stat.fit_values.items():
+            cls.fit_stat_text += "{}: \n{}".format(str(k), str(v))

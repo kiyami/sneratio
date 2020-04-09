@@ -332,38 +332,3 @@ class CcTable(Reader):
             raise ValueError("Table name is not set yet!")
 
         return temp_file
-
-
-"""
-mass = MassNumberTable(mass_number_file_name)
-#mass.print_data()
-mass.print_columns()
-
-
-solar = SolarTable(solar_file_name)
-#solar.print_data()
-solar.print_columns()
-
-
-Ia = IaTable(Ia_file_name)
-#Ia.print_data()
-Ia.print_columns()
-
-
-cc = CcTable(cc_file_name)
-#cc.print_data()
-cc.print_columns()
-
-print(Ia.model_list)
-print(cc.mass_list)
-
-
-print(Ia.yields)
-print(cc.yields)
-
-print(Ia.model_yields)
-print(cc.integrated_yields)
-"""
-
-# tsuji = CcTable(Tsujimoto_file, integrated=True)
-# print(tsuji.integrated_yields)
