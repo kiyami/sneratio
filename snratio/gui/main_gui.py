@@ -52,7 +52,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.box_sigma.currentTextChanged.connect(self.set_sigma)
 
     def load(self):
-        pass
+        self.set_terminal("Data loaded..")
 
     def plot_fit(self):
         fig = Calculator.stat.get_fit_plot()
@@ -70,10 +70,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
     def fit_func(self):
+        self.set_terminal("Reading tables..")
         Calculator.initialise()
+        self.set_terminal("Merging tables..")
         Calculator.merge()
+        self.set_terminal("Fitting started..")
         Calculator.fit()
-        Calculator.stat.set_fit_results()
+        self.set_terminal("Fit completed..")
+
+        self.set_fit_results()
 
     def save_plots(self):
         pass
@@ -82,7 +87,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         pass
 
     def save_all(self):
-        self.set_fit_results()
+        pass
 
     def set_sncc_table(self):
         Calculator.parameter_dict["CcTable"]["table_list"][0] = self.box_sncc_table.currentText()
@@ -125,4 +130,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         Calculator.parameter_dict["stat"]["sigma"] = self.box_fit_sigma.currentText()
 
     def set_fit_results(self):
-        self.plainTextEdit_fit_results.setPlainText(Calculator.fit_stat_text)
+        text = Calculator.stat.get_fit_results()
+        #print(text)
+        self.plainTextEdit_fit_results.setPlainText(text)
+        self.repaint()
+
+    def set_terminal(self, text):
+        modified_text = "term$ {}".format(text)
+        self.plainTextEdit_terminal.appendPlainText(modified_text)
+        self.repaint()

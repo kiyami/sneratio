@@ -25,6 +25,8 @@ class Stats:
         self.dof = None
         self.best_fit_values = ""
 
+        self.fit_result_text = ""
+
     def function(self, fraction):
         a, b = fraction
         ref_index = self.table[self.table.Element == self.ref_element].index[0]
@@ -69,6 +71,7 @@ class Stats:
         self.cc_fraction_list = cc_fraction_list
 
         self.calculate_fit_values()
+        self.set_fit_results()
 
     def calculate_fit_values(self):
         fit_values = {}
@@ -153,6 +156,23 @@ class Stats:
 
         self.best_fit_values = "{}\n{}".format(part1, part2)
 
+    def get_fit_results(self):
+        part1 = "Reduced Chi Square: \n{:.2f} ({:.2f}/{})".format(self.reduced_chi_sq,
+                                                                  self.best_chi_sq,
+                                                                  self.dof)
+
+        part2 = "SNIa Ratio: \n{:.1f} (-{:.1f},+{:.1f})".format(self.fit_values["best_Ia"],
+                                                                self.fit_values["min_Ia"],
+                                                                self.fit_values["max_Ia"])
+
+        part3 = "SNcc Ratio: \n{:.1f} (-{:.1f},+{:.1f})".format(self.fit_values["best_cc"],
+                                                                self.fit_values["min_cc"],
+                                                                self.fit_values["max_cc"])
+
+        result = "{}\n\n{}\n\n{}\n".format(part1, part2, part3)
+
+        return result
+
     def print_fit_results(self):
         print(self.best_fit_values)
 
@@ -168,10 +188,8 @@ class Stats:
 
         return x_lim, y_lim
 
-
     def get_chi_plot(self):
         min_chi = min(self.chi_list)
-        print("chi", min_chi)
 
         fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
         ax = fig.add_subplot(111)

@@ -116,8 +116,5 @@ class Calculator:
         cls.stat.set_iteration_number(N=cls.parameter_dict["stat"]["iteration_number"])
         cls.stat.set_sigma(sigma=cls.parameter_dict["stat"]["sigma"])
         cls.stat.fit()
-        cls.stat.print_fit_values()
-        cls.stat.set_fit_results()
+        #cls.stat.print_fit_values()
 
-        for k,v in cls.stat.fit_values.items():
-            cls.fit_stat_text += "{}: \n{}".format(str(k), str(v))
