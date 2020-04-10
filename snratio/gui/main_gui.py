@@ -1,4 +1,4 @@
-
+import os
 from snratio.lib.calculator import Calculator
 
 from PySide2 import QtWidgets
@@ -27,6 +27,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.plot_area_grid_layout = QtWidgets.QGridLayout(self.widget_plot_area)
 
+        self.set_terminal("AstroLab gururla sunar..")
+
 
         self.button_load.clicked.connect(self.load)
 
@@ -52,7 +54,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.box_sigma.currentTextChanged.connect(self.set_sigma)
 
     def load(self):
-        self.set_terminal("Data loaded..")
+        path = self.lineEdit_load.text()
+        if os.path.exists(path):
+            Calculator.parameter_dict["data"] = path
+            self.set_terminal("Data loaded: '{}'..".format(os.path.basename(path)))
+        else:
+            self.set_terminal("Warning: Can not open '{}'!".format(path))
 
     def plot_fit(self):
         fig = Calculator.stat.get_fit_plot()
