@@ -1,0 +1,5 @@
+include snratio/data/mass_numbers/*
+include snratio/data/solar/*
+include snratio/data/test_data/*
+include snratio/data/yields/cc/*
+include snratio/data/yields/Ia/*
