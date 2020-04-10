@@ -1,1 +1,2 @@
+recursive-include snratio *.txt *.csv
 recursive-include package *

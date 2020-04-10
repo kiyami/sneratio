@@ -1,3 +1,10 @@
+import os
+import snratio
+
+
+def generate_path(path):
+    return os.path.join(os.path.abspath(os.path.dirname(snratio.__path__[0])), path)
+
 
 def merge_tables(*tables):
     merged_table = tables[0]

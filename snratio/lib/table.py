@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 
 from snratio.lib.utils import division_error
+from snratio.lib.utils import generate_path
 
 # sep="\s+|\t+|\s+\t+|\t+\s+|,"
 
@@ -78,7 +79,8 @@ class Data(Reader):
 
 
 class MassNumberTable(Reader):
-    file_name = "snratio/data/mass_numbers/mass_number.txt"
+    #file_name = generate_path("snratio/data/mass_numbers/mass_number.txt")
+    file_name = generate_path("snratio/data/mass_numbers/mass_number.txt")
 
     def __init__(self):
         Reader.__init__(self, MassNumberTable.file_name)
@@ -86,9 +88,9 @@ class MassNumberTable(Reader):
 
 class SolarTable(Reader):
     file_names = {
-        "lodd": "snratio/data/solar/lodd.txt",
-        "angr": "snratio/data/solar/angr.txt",
-        "aspl": "snratio/data/solar/aspl.txt"
+        "lodd": generate_path("snratio/data/solar/lodd.txt"),
+        "angr": generate_path("snratio/data/solar/angr.txt"),
+        "aspl": generate_path("snratio/data/solar/aspl.txt")
     }
 
     def __init__(self, solar_table="lodd", ref_element="Fe"):
@@ -107,7 +109,7 @@ class SolarTable(Reader):
 
 
 class IaTable(Reader):
-    file_name = "snratio/data/yields/Ia/iwamoto/Iwamoto_ApJ_1999_Table4.txt"
+    file_name = generate_path("snratio/data/yields/Ia/iwamoto/Iwamoto_ApJ_1999_Table4.txt")
     model = "W7"
 
     def __init__(self):
@@ -158,19 +160,19 @@ class IaTable(Reader):
 
 
 class CcTable(Reader):
-    Nomoto_2006_z_0 = "snratio/data/yields/cc/nomoto/2006/Nomoto_2006_Table2_Z_0.csv"
-    Nomoto_2006_z_0_001 = "snratio/data/yields/cc/nomoto/2006/Nomoto_2006_Table2_Z_0_001.csv"
-    Nomoto_2006_z_0_004 = "snratio/data/yields/cc/nomoto/2006/Nomoto_2006_Table2_Z_0_004.csv"
-    Nomoto_2006_z_0_02 = "snratio/data/yields/cc/nomoto/2006/Nomoto_2006_Table2_Z_0_02.csv"
+    Nomoto_2006_z_0 = generate_path("snratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0.txt")
+    Nomoto_2006_z_0_001 = generate_path("snratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0_001.txt")
+    Nomoto_2006_z_0_004 = generate_path("snratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0_004.txt")
+    Nomoto_2006_z_0_02 = generate_path("snratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0_02.txt")
 
-    Nomoto_2013_z_0 = "snratio/data/yields/cc/nomoto/2013/Nomoto_2013_z_0.txt"
-    Nomoto_2013_z_0_001 = "snratio/data/yields/cc/nomoto/2013/Nomoto_2013_z_0_001.txt"
-    Nomoto_2013_z_0_004 = "snratio/data/yields/cc/nomoto/2013/Nomoto_2013_z_0_004.txt"
-    Nomoto_2013_z_0_008 = "snratio/data/yields/cc/nomoto/2013/Nomoto_2013_z_0_008.txt"
-    Nomoto_2013_z_0_02 = "snratio/data/yields/cc/nomoto/2013/Nomoto_2013_z_0_02.txt"
-    Nomoto_2013_z_0_05 = "snratio/data/yields/cc/nomoto/2013/Nomoto_2013_z_0_05.txt"
+    Nomoto_2013_z_0 = generate_path("snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0.txt")
+    Nomoto_2013_z_0_001 = generate_path("snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_001.txt")
+    Nomoto_2013_z_0_004 = generate_path("snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_004.txt")
+    Nomoto_2013_z_0_008 = generate_path("snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_008.txt")
+    Nomoto_2013_z_0_02 = generate_path("snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_02.txt")
+    Nomoto_2013_z_0_05 = generate_path("snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_05.txt")
 
-    Tsujimoto_file = "snratio/data/yields/cc/tsujimoto/Tsujimoto_1995_integrated_Table2.txt"
+    Tsujimoto_file = generate_path("snratio/data/yields/cc/tsujimoto/Tsujimoto_1995_integrated_Table2.txt")
 
     table_dict = {
         "nomoto": {

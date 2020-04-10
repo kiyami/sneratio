@@ -5,6 +5,7 @@ from snratio.lib.table import IaTable
 from snratio.lib.table import CcTable
 
 from snratio.lib.utils import merge_tables
+from snratio.lib.utils import generate_path
 
 from snratio.stats.stats import Stats
 
@@ -12,7 +13,7 @@ from snratio.stats.stats import Stats
 class Calculator:
     parameter_dict = {
         "data": {
-            "path": "snratio/data/test_data/test_data.txt",
+            "path": generate_path("snratio/data/test_data/test_data.txt"),
             "with_header": True
         },
 

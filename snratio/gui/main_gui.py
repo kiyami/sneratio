@@ -56,7 +56,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def load(self):
         path = self.lineEdit_load.text()
         if os.path.exists(path):
-            Calculator.parameter_dict["data"] = path
+            Calculator.parameter_dict["data"]["path"] = os.path.abspath(path)
             self.set_terminal("Data loaded: '{}'..".format(os.path.basename(path)))
         else:
             self.set_terminal("Warning: Can not open '{}'!".format(path))
