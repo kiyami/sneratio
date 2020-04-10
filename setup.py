@@ -19,5 +19,15 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    include_package_data=True,
+    package_data = {
+        'snratio': ['data/mass_numbers/*'],
+        'snratio': ['data/solar/*'],
+        'snratio': ['data/test_data/*'],
+        'snratio': ['data/yields/cc/nomoto/2006/*'],
+        'snratio': ['data/yields/cc/nomoto/2013/*'],
+        'snratio': ['data/yields/cc/tsujimoto/2006/*/*'],
+        'snratio': ['data/yields/Ia/iwamoto/*']
+    }
 )
 
