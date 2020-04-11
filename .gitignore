@@ -1,6 +1,8 @@
 venv
+snratio.egg-info
 snratio_pkg_kiyami.egg-info
 .idea
 build
 dist
-*.pyc
+**.pyc
+.DS_Store
