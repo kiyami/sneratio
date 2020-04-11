@@ -3,3 +3,4 @@ snratio_pkg_kiyami.egg-info
 .idea
 build
 dist
+*.pyc
