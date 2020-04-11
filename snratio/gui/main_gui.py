@@ -1,5 +1,6 @@
 import os
 from snratio.lib.calculator import Calculator
+from snratio.lib.utils import check_and_create_directory
 
 from PySide2 import QtWidgets
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -29,6 +30,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.set_terminal("AstroLab gururla sunar..")
 
+        self.fit_figure = None
+        self.likelihood_figure = None
+        self.chi_figure = None
 
         self.button_load.clicked.connect(self.load)
 
@@ -62,18 +66,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.set_terminal("Warning: Can not open '{}'!".format(path))
 
     def plot_fit(self):
-        fig = Calculator.stat.get_fit_plot()
-        canvas = FigureCanvas(fig)
+        self.fit_figure = Calculator.stat.get_fit_plot()
+        canvas = FigureCanvas(self.fit_figure)
         self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
     def plot_likelihood(self):
-        fig = Calculator.stat.get_likelihood_plot()
-        canvas = FigureCanvas(fig)
+        self.likelihood_figure = Calculator.stat.get_likelihood_plot()
+        canvas = FigureCanvas(self.likelihood_figure)
         self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
     def plot_chi(self):
-        fig = Calculator.stat.get_chi_plot()
-        canvas = FigureCanvas(fig)
+        self.chi_figure = Calculator.stat.get_chi_plot()
+        canvas = FigureCanvas(self.chi_figure)
         self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
     def fit_func(self):
@@ -87,14 +91,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.set_fit_results()
 
-    def save_plots(self):
-        pass
+    def save_plots(self, path="outputs"):
+        check_and_create_directory(os.path.join(os.curdir, path))
 
-    def save_stats(self):
-        pass
+        if self.fit_figure is None:
+            self.fit_figure = Calculator.stat.get_fit_plot()
+
+        self.fit_figure.set_size_inches(10,7)
+        self.fit_figure.savefig(os.path.join(path, "Figure_Fit.png"))
+
+        if self.likelihood_figure is None:
+            self.likelihood_figure = Calculator.stat.get_fit_plot()
+
+        self.likelihood_figure.set_size_inches(10, 7)
+        self.fit_figure.savefig(os.path.join(path, "Figure_Likelihood.png"))
+
+        if self.chi_figure is None:
+            self.chi_figure = Calculator.stat.get_fit_plot()
+
+        self.chi_figure.set_size_inches(10, 7)
+        self.fit_figure.savefig(os.path.join(path, "Figure_Chi_Squared.png"))
+
+    def save_stats(self, path="outputs"):
+        check_and_create_directory(os.path.join(os.curdir, path))
+
+        file_name = "Log_File.txt"
+        with open(os.path.join(path, file_name), mode="w") as f:
+            f.writelines(Calculator.stat.get_fit_results())
 
     def save_all(self):
-        pass
+        self.save_plots()
+        self.save_stats()
 
     def set_sncc_table(self):
         Calculator.parameter_dict["CcTable"]["table_list"][0] = self.box_sncc_table.currentText()

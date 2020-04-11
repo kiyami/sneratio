@@ -79,7 +79,6 @@ class Data(Reader):
 
 
 class MassNumberTable(Reader):
-    #file_name = generate_path("snratio/data/mass_numbers/mass_number.txt")
     file_name = generate_path("snratio/data/mass_numbers/mass_number.txt")
 
     def __init__(self):

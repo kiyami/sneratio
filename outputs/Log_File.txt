@@ -1,0 +1,8 @@
+Reduced Chi Square: 
+10.12 (80.93/8)
+
+SNIa Ratio: 
+0.2 (-0.2,+0.3)
+
+SNcc Ratio: 
+0.8 (-0.8,+0.7)

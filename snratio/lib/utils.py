@@ -2,6 +2,13 @@ import os
 import snratio
 
 
+def check_and_create_directory(path):
+    if os.path.exists(path):
+        pass
+    else:
+        os.mkdir(path)
+
+
 def generate_path(path):
     return os.path.join(os.path.abspath(os.path.dirname(snratio.__path__[0])), path)
 
