@@ -1,2 +1,0 @@
-class ClobberError(ValueError):
-    pass

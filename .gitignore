@@ -5,4 +5,4 @@ snratio_pkg_kiyami.egg-info
 build
 dist
 **.pyc
-.DS_Store
+**.DS_Store
