@@ -1,5 +1,5 @@
 Reduced Chi Square: 
-10.12 (80.93/8)
+0.31 (1.25/4)
 
 SNIa Ratio: 
 0.2 (-0.2,+0.3)
