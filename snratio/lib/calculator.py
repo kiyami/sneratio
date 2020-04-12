@@ -29,7 +29,7 @@ class Calculator:
         },
 
         "CcTable": {
-            "table_list": ["Nomoto", "2013", "0.02"],
+            "table_list": ["Nomoto (2013)", "0.02"],
             "integral_limits": [10,50],
             "integral_steps": 250
         },
@@ -85,19 +85,12 @@ class Calculator:
         # Tsujimoto
         # ------------------
 
-        table, year, abund = cls.parameter_dict["CcTable"]["table_list"]
-        CcTable.set_table(table=table, year=year, abund=abund)
+        table, abund = cls.parameter_dict["CcTable"]["table_list"]
+        CcTable.set_table(table=table, abund=abund)
         CcTable.set_integral_limits(cls.parameter_dict["CcTable"]["integral_limits"])
         CcTable.set_integral_steps(cls.parameter_dict["CcTable"]["integral_steps"])
 
         cls.cc_table = CcTable()
-
-        #data.print_columns()
-        #mass_number_table.print_columns()
-        #solar_table.print_columns()
-        #Ia_table.print_columns()
-        #cc_table.print_columns()
-        #data.print_data()
 
     @classmethod
     def merge(cls):
@@ -108,7 +101,6 @@ class Calculator:
         t5 = cls.cc_table.integrated_yields
 
         cls.merged_table = merge_tables(t1, t2, t3, t4, t5)
-        #print(merged_table)
 
     @classmethod
     def fit(cls):
@@ -117,5 +109,3 @@ class Calculator:
         cls.stat.set_iteration_number(N=cls.parameter_dict["stat"]["iteration_number"])
         cls.stat.set_sigma(sigma=cls.parameter_dict["stat"]["sigma"])
         cls.stat.fit()
-        #cls.stat.print_fit_values()
-

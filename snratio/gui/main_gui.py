@@ -127,26 +127,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         Calculator.parameter_dict["CcTable"]["table_list"][0] = self.box_sncc_table.currentText()
 
         if self.box_sncc_table.currentText() == "Nomoto (2013)":
-            for _ in range(self.box_sncc_year.count()):
+            for _ in range(self.box_sncc_abund.count()):
                 self.box_sncc_abund.removeItem(0)
 
             self.box_sncc_abund.addItems(self.cc_info_dict["nomoto_2013"])
 
         elif self.box_sncc_table.currentText() == "Nomoto (2006)":
 
-            for _ in range(self.box_sncc_year.count()):
+            for _ in range(self.box_sncc_abund.count()):
                 self.box_sncc_abund.removeItem(0)
 
             self.box_sncc_abund.addItems(self.cc_info_dict["nomoto_2006"])
 
         if self.box_sncc_table.currentText() == "Tsujimoto (1995)":
-            for _ in range(self.box_sncc_year.count()):
+            for _ in range(self.box_sncc_table.count()):
                 self.box_sncc_abund.removeItem(0)
 
             self.box_sncc_abund.addItems(self.cc_info_dict["tsujimoto_1995"])
 
     def set_sncc_abund(self):
-        Calculator.parameter_dict["CcTable"]["table_list"][2] = self.box_sncc_abund.currentText()
+        Calculator.parameter_dict["CcTable"]["table_list"][1] = self.box_sncc_abund.currentText()
 
     def set_mass(self):
         Calculator.parameter_dict["CcTable"]["integral_limits"] = self.box_sncc_mass.currentText()
