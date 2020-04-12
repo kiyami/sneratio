@@ -101,16 +101,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.fit_figure.savefig(os.path.join(path, "Figure_Fit.png"))
 
         if self.likelihood_figure is None:
-            self.likelihood_figure = Calculator.stat.get_fit_plot()
+            self.likelihood_figure = Calculator.stat.get_likelihood_plot()
 
         self.likelihood_figure.set_size_inches(10, 7)
-        self.fit_figure.savefig(os.path.join(path, "Figure_Likelihood.png"))
+        self.likelihood_figure.savefig(os.path.join(path, "Figure_Likelihood.png"))
 
         if self.chi_figure is None:
-            self.chi_figure = Calculator.stat.get_fit_plot()
+            self.chi_figure = Calculator.stat.get_chi_plot()
 
         self.chi_figure.set_size_inches(10, 7)
-        self.fit_figure.savefig(os.path.join(path, "Figure_Chi_Squared.png"))
+        self.chi_figure.savefig(os.path.join(path, "Figure_Chi_Squared.png"))
 
     def save_stats(self, path="outputs"):
         check_and_create_directory(os.path.join(os.curdir, path))
