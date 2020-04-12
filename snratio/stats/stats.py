@@ -111,8 +111,8 @@ class Stats:
         fit_values["negative_error_Ia"] = abs(fit_values["best_Ia"] - fit_values["min_Ia"])
         fit_values["positive_error_Ia"] = abs(fit_values["best_Ia"] - fit_values["max_Ia"])
 
-        fit_values["min_cc"] = self.cc_fraction_list[index_min]
-        fit_values["max_cc"] = self.cc_fraction_list[index_max]
+        fit_values["min_cc"] = self.cc_fraction_list[index_max]
+        fit_values["max_cc"] = self.cc_fraction_list[index_min]
 
         fit_values["negative_error_cc"] = abs(fit_values["best_cc"] - fit_values["min_cc"])
         fit_values["positive_error_cc"] = abs(fit_values["best_cc"] - fit_values["max_cc"])
@@ -160,15 +160,15 @@ class Stats:
                                                                   self.best_chi_sq,
                                                                   self.dof)
 
-        part2 = "SNIa Ratio: \n{:.1f} (-{:.1f},+{:.1f})".format(self.fit_values["best_Ia"],
-                                                                self.fit_values["min_Ia"],
-                                                                self.fit_values["max_Ia"])
+        part2 = "SNIa Ratio: \n{:.1f}% (-{:.1f},+{:.1f})".format(self.fit_values["best_Ia"]*100,
+                                                                 self.fit_values["negative_error_Ia"]*100,
+                                                                 self.fit_values["positive_error_Ia"]*100)
 
-        part3 = "SNcc Ratio: \n{:.1f} (-{:.1f},+{:.1f})".format(self.fit_values["best_cc"],
-                                                                self.fit_values["min_cc"],
-                                                                self.fit_values["max_cc"])
+        part3 = "SNcc Ratio: \n{:.1f}% (-{:.1f},+{:.1f})".format(self.fit_values["best_cc"]*100,
+                                                                 self.fit_values["negative_error_cc"]*100,
+                                                                 self.fit_values["positive_error_cc"]*100)
 
-        result = "{}\n\n{}\n\n{}\n".format(part1, part2, part3)
+        result = "--------------------\n# Fit Results \n--------------------\n{}\n\n{}\n\n{}\n--------------------".format(part1, part2, part3)
 
         return result
 
