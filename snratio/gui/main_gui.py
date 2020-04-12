@@ -165,7 +165,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def set_fit_results(self):
         text = Calculator.stat.get_fit_results()
-        #print(text)
         self.plainTextEdit_fit_results.setPlainText(text)
         self.repaint()
 

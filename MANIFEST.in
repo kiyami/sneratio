@@ -1,2 +1,0 @@
-recursive-include snratio *.txt
-recursive-include package *
