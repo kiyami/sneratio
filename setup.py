@@ -9,10 +9,13 @@ setuptools.setup(
     version="0.1.0",
     author="M.Kıyami ERDİM",
     author_email="kiyami_erdim@hotmail.com",
+
     description="Supernova Ratio Calculator",
     long_description=long_description,
     long_description_content_type="text/markdown",
+
     url="https://github.com/kiyami/snratio",
+
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -20,14 +23,21 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+
     include_package_data=True,
     package_data = {
-        'snratio': ['data/mass_numbers/*'],
-        'snratio': ['data/solar/*'],
-        'snratio': ['data/test_data/*'],
-        'snratio': ['data/yields/cc/nomoto_2006/*'],
-        'snratio': ['data/yields/cc/nomoto_2013/*'],
-        'snratio': ['data/yields/cc/tsujimoto/*'],
-        'snratio': ['data/yields/Ia/iwamoto/*']
-    }
+        'snratio': ['data/mass_numbers/*',
+                    'data/solar/*',
+                    'data/test_data/*',
+                    'data/yields/cc/nomoto_2006/*',
+                    'data/yields/cc/nomoto_2013/*',
+                    'data/yields/cc/tsujimoto/*',
+                    'data/yields/Ia/iwamoto/*']
+    },
+
+    install_requires=[
+        "pyside2",
+        "pandas",
+        "matplotlib"
+    ],
 )
