@@ -50,8 +50,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def load(self):
         path = self.lineEdit_load.text()
+        if path == "":
+            self.calculator.update_selection("data", "test_data")
+        else:
+            self.calculator.update_selection("data", "loaded_data")
+
         if os.path.exists(path):
-            self.calculator.update_selection("data", os.path.abspath(path))
+            self.calculator.data["loaded_data"] = os.path.abspath(path)
             self.set_terminal("Data loaded: '{}'..".format(os.path.basename(path)))
         else:
             self.set_terminal("Warning: Can not open '{}'!".format(path))
@@ -91,6 +96,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.calculator.fit()
         self.set_terminal("Fit completed..")
         self.calculator.initialise_after_fit()
+
+        self.set_fit_results()
 
     def save_plots(self, path="outputs"):
         check_and_create_directory(os.path.join(os.curdir, path))
@@ -132,7 +139,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.update_sncc_abund_box()
 
     def update_sncc_abund_box(self):
-        pass
+        new_cc_table_gui_keyword = self.box_sncc_table.currentText()
+        new_cc_table_inner_keyword = self.calculator.get_inner_keyword(new_cc_table_gui_keyword)
+        for _ in range(self.box_sncc_abund.count()):
+            self.box_sncc_abund.removeItem(0)
+
+        new_abund_values = self.calculator.cc_valid_abundances[new_cc_table_inner_keyword]
+        self.box_sncc_abund.addItems(new_abund_values)
 
     def set_sncc_abund(self):
         new_selection_gui_keyword = self.box_sncc_abund.currentText()
@@ -152,7 +165,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.update_snIa_model_box()
 
     def update_snIa_model_box(self):
-        pass
+        new_Ia_table_gui_keyword = self.box_snIa_table.currentText()
+        new_Ia_table_inner_keyword = self.calculator.get_inner_keyword(new_Ia_table_gui_keyword)
+        for _ in range(self.box_snIa_model.count()):
+            self.box_snIa_model.removeItem(0)
+
+        new_model_values = self.calculator.Ia_valid_models["Ia_valid_models"][new_Ia_table_inner_keyword]
+        self.box_snIa_model.addItems(new_model_values)
 
     def set_snIa_model(self):
         new_selection_gui_keyword = self.box_snIa_model.currentText()

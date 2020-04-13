@@ -3,7 +3,8 @@ from snratio.lib.utils import generate_package_path
 
 class Paths:
     data = {
-        "test_data": "snratio/data/test_data/test_data.txt"
+        "test_data": "snratio/data/test_data/test_data.txt",
+        "loaded_data": ""
     }
     mass_number = {
         "mass_number": "snratio/data/mass_numbers/mass_number.txt"

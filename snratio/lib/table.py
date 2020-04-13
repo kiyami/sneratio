@@ -37,11 +37,11 @@ class Data(Reader):
         Reader.__init__(self, path, with_header=False)
         self.ref_element = ref_element
 
-        if "element" in str(self.data.iloc[0, 0]).lower():
+        if "element" is str(self.data.iloc[0, 0]).lower():
             self.data.columns = self.data.iloc[0]
-            self.data = self.data[1:]
+            self.data = self.data.iloc[1:]
         else:
-            self.set_columns = ["Element", "Abund", "AbundError"]
+            self.set_columns(["Element", "Abund", "AbundError"])
 
         self.set_elements()
         self.normalise_abund_data()
@@ -131,7 +131,6 @@ class IaTable(Reader):
             self.model = model
 
     def set_model_yields(self):
-        print(self.model)
         if self.model not in self.model_list:
             self.model = "W7"
             print("Invalid model. Model is set to 'W7'...")
@@ -160,18 +159,10 @@ class CcTable(Reader):
             self.set_elements()
         """
 
-        #columns_titles = ["B", "A"]
-        #df = df.reindex(columns=columns_titles)
-        #print(self.data)
-
         self.mass_list = self.data.columns[2:]
-        print("qweqwe", self.data.columns)
-        print("asdasd", self.mass_list)
 
         self.yields = pd.DataFrame()
         self.set_yields()
-
-        print("zxc", self.yields)
 
         self.integrated_yields = None
 
@@ -179,7 +170,6 @@ class CcTable(Reader):
             self.select_integrated_mass_value()
         else:
             self.integrate_yields()
-
 
     def set_yields(self):
         self.yields["Element"] = self.elements
