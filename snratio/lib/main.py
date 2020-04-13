@@ -13,8 +13,6 @@ from snratio.lib.utils import merge_tables
 from snratio.lib.stats import Stats
 from snratio.lib.plots import Plots
 
-# can not read nomoto 2006, txt files should be updated
-
 
 class Calculator(Paths, Keywords, CurrentSelections):
     def __init__(self):

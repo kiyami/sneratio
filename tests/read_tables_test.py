@@ -1,4 +1,3 @@
-import snratio
 import unittest
 
 

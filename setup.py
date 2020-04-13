@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="snratio",
-    version="0.0.1",
+    version="0.1.0",
     author="M.Kıyami ERDİM",
     author_email="kiyami_erdim@hotmail.com",
     description="Supernova Ratio Calculator",

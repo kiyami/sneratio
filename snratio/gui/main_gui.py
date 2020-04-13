@@ -8,7 +8,7 @@ from PySide2 import QtWidgets
 from PySide2 import QtCore
 QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
 
-from snratio.gui.qt_snratio_test import Ui_MainWindow
+from snratio.gui.qt_snratio import Ui_MainWindow
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
