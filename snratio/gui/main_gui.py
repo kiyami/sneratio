@@ -1,16 +1,192 @@
 import os
-from snratio.lib.calculator import Calculator
+from snratio.lib.main import Calculator
 from snratio.lib.utils import check_and_create_directory
 
-from PySide2 import QtWidgets
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
+from PySide2 import QtWidgets
 from PySide2 import QtCore
 QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
 
 from snratio.gui.qt_snratio_test import Ui_MainWindow
 
 
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self, parent=None):
+        super(MainWindow, self).__init__(parent=parent)
+        self.setupUi(self)
+        self.plot_area_grid_layout = QtWidgets.QGridLayout(self.widget_plot_area)
+
+        self.calculator = Calculator()
+
+        self.set_terminal("AstroLab gururla sunar..")
+
+        self.fit_figure = None
+        self.likelihood_figure = None
+        self.chi_figure = None
+
+        self.button_load.clicked.connect(self.load)
+
+        self.button_plot_fit.clicked.connect(self.plot_fit)
+        self.button_plot_likelihood.clicked.connect(self.plot_likelihood)
+        self.button_plot_chi.clicked.connect(self.plot_chi)
+
+        self.button_fit.clicked.connect(self.fit_func)
+
+        self.button_save_plots.clicked.connect(self.save_plots)
+        self.button_save_stats.clicked.connect(self.save_stats)
+        self.button_save_all.clicked.connect(self.save_all)
+
+        self.box_snIa_model.currentTextChanged.connect(self.set_snIa_model)
+
+        self.box_sncc_table.currentTextChanged.connect(self.set_sncc_table)
+        self.box_sncc_abund.currentTextChanged.connect(self.set_sncc_abund)
+
+        self.box_solar_table.currentTextChanged.connect(self.set_solar_table)
+
+        self.box_ref.currentTextChanged.connect(self.set_ref)
+
+        self.box_sigma.currentTextChanged.connect(self.set_sigma)
+
+    def load(self):
+        path = self.lineEdit_load.text()
+        if os.path.exists(path):
+            self.calculator.update_selection("data", os.path.abspath(path))
+            self.set_terminal("Data loaded: '{}'..".format(os.path.basename(path)))
+        else:
+            self.set_terminal("Warning: Can not open '{}'!".format(path))
+
+    def plot_fit(self):
+        if self.calculator.plots is not None:
+            self.fit_figure = self.calculator.plots.get_fit_plot()
+        else:
+            raise AttributeError("Figure class is not initialised!")
+
+        canvas = FigureCanvas(self.fit_figure)
+        self.plot_area_grid_layout.addWidget(canvas, 0, 0)
+
+    def plot_likelihood(self):
+        if self.calculator.plots is not None:
+            self.likelihood_figure = self.calculator.plots.get_likelihood_plot()
+        else:
+            raise AttributeError("Figure class is not initialised!")
+
+        canvas = FigureCanvas(self.likelihood_figure)
+        self.plot_area_grid_layout.addWidget(canvas, 0, 0)
+
+    def plot_chi(self):
+        if self.calculator.plots is not None:
+            self.chi_figure = self.calculator.plots.get_chi_plot()
+        else:
+            raise AttributeError("Figure class is not initialised!")
+
+        canvas = FigureCanvas(self.chi_figure)
+        self.plot_area_grid_layout.addWidget(canvas, 0, 0)
+
+    def fit_func(self):
+        self.set_terminal("Reading tables..")
+        self.calculator.initialise_all()
+        self.set_terminal("Merging tables..")
+        self.set_terminal("Fitting started..")
+        self.calculator.fit()
+        self.set_terminal("Fit completed..")
+        self.calculator.initialise_after_fit()
+
+    def save_plots(self, path="outputs"):
+        check_and_create_directory(os.path.join(os.curdir, path))
+
+        if self.fit_figure is None:
+            self.fit_figure = self.calculator.plots.get_fit_plot()
+
+        self.fit_figure.set_size_inches(10,7)
+        self.fit_figure.savefig(os.path.join(path, "Figure_Fit.png"))
+
+        if self.likelihood_figure is None:
+            self.likelihood_figure = self.calculator.plots.get_likelihood_plot()
+
+        self.likelihood_figure.set_size_inches(10, 7)
+        self.likelihood_figure.savefig(os.path.join(path, "Figure_Likelihood.png"))
+
+        if self.chi_figure is None:
+            self.chi_figure = self.calculator.plots.get_chi_plot()
+
+        self.chi_figure.set_size_inches(10, 7)
+        self.chi_figure.savefig(os.path.join(path, "Figure_Chi_Squared.png"))
+
+    def save_stats(self, path="outputs"):
+        check_and_create_directory(os.path.join(os.curdir, path))
+
+        file_name = "Log_File.txt"
+        with open(os.path.join(path, file_name), mode="w") as f:
+            f.writelines(self.calculator.stats.get_fit_results_text())
+
+    def save_all(self):
+        self.save_plots()
+        self.save_stats()
+
+    def set_sncc_table(self):
+        new_selection_gui_keyword = self.box_sncc_table.currentText()
+        new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
+        self.calculator.update_selection("cc_table_name", new_selection_inner_keyword)
+
+        self.update_sncc_abund_box()
+
+    def update_sncc_abund_box(self):
+        pass
+
+    def set_sncc_abund(self):
+        new_selection_gui_keyword = self.box_sncc_abund.currentText()
+        new_selection_inner_keyword = new_selection_gui_keyword
+        self.calculator.update_selection("cc_abund", new_selection_inner_keyword)
+
+    def set_mass(self):
+        new_selection_gui_keyword = self.box_sncc_mass.currentText()
+        new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
+        self.calculator.update_selection("cc_mass_range", new_selection_inner_keyword)
+
+    def set_Ia_table(self):
+        new_selection_gui_keyword = self.box_snIa_table.currentText()
+        new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
+        self.calculator.update_selection("Ia_table_name", new_selection_inner_keyword)
+
+        self.update_snIa_model_box()
+
+    def update_snIa_model_box(self):
+        pass
+
+    def set_snIa_model(self):
+        new_selection_gui_keyword = self.box_snIa_model.currentText()
+        new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
+        self.calculator.update_selection("Ia_model", new_selection_inner_keyword)
+
+    def set_solar_table(self):
+        new_selection_gui_keyword = self.box_solar_table.currentText()
+        new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
+        self.calculator.update_selection("solar_table_name", new_selection_inner_keyword)
+
+    def set_ref(self):
+        new_selection_gui_keyword = self.box_ref.currentText()
+        new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
+        self.calculator.update_selection("ref_element", new_selection_inner_keyword)
+
+    def set_sigma(self):
+        new_selection_gui_keyword = self.box_sigma.currentText()
+        new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
+        self.calculator.update_selection("sigma", new_selection_inner_keyword)
+
+    def set_fit_results(self):
+        text = self.calculator.stats.get_fit_results_text()
+        self.plainTextEdit_fit_results.setPlainText(text)
+        self.repaint()
+
+    def set_terminal(self, text):
+        modified_text = "term$ {}".format(text)
+        self.plainTextEdit_terminal.appendPlainText(modified_text)
+        self.repaint()
+
+
+
+"""
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     Ia_info_dict = {
@@ -172,3 +348,4 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         modified_text = "term$ {}".format(text)
         self.plainTextEdit_terminal.appendPlainText(modified_text)
         self.repaint()
+"""

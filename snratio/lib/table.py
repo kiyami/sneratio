@@ -39,12 +39,11 @@ class Data(Reader):
 
         if "element" in str(self.data.iloc[0, 0]).lower():
             self.data.columns = self.data.iloc[0]
-            self.set_columns = ["Element", "Abund", "AbundError"]
+            self.data = self.data[1:]
         else:
             self.set_columns = ["Element", "Abund", "AbundError"]
 
         self.set_elements()
-
         self.normalise_abund_data()
 
     def normalise_abund_data(self):
@@ -53,7 +52,7 @@ class Data(Reader):
             ref_value_ratio = self.data[ref_row]["Abund"]
             ref_value_ratio_err = self.data[ref_row]["AbundError"]
 
-            if int(ref_value_ratio_err) == 0:
+            if float(ref_value_ratio_err) == 0.0:
                 ref_value_ratio_err = 0.1
 
             if float(ref_value_ratio) != 1.0:
@@ -132,6 +131,7 @@ class IaTable(Reader):
             self.model = model
 
     def set_model_yields(self):
+        print(self.model)
         if self.model not in self.model_list:
             self.model = "W7"
             print("Invalid model. Model is set to 'W7'...")
@@ -148,11 +148,30 @@ class CcTable(Reader):
         self.abund = abund
         self.mass_range = mass_range
         self.integrated = integrated
+        self.integral_steps = 250
+
+        """
+        if self.elements[1] == "Element":
+            new_column_names = ["Element"]
+            new_column_names.append(self.elements[0])
+            new_column_names.append(self.elements[:2])
+
+            self.data = self.data.reindex(columns=new_column_names)
+            self.set_elements()
+        """
+
+        #columns_titles = ["B", "A"]
+        #df = df.reindex(columns=columns_titles)
+        #print(self.data)
 
         self.mass_list = self.data.columns[2:]
+        print("qweqwe", self.data.columns)
+        print("asdasd", self.mass_list)
 
         self.yields = pd.DataFrame()
         self.set_yields()
+
+        print("zxc", self.yields)
 
         self.integrated_yields = None
 
@@ -160,6 +179,7 @@ class CcTable(Reader):
             self.select_integrated_mass_value()
         else:
             self.integrate_yields()
+
 
     def set_yields(self):
         self.yields["Element"] = self.elements
@@ -188,7 +208,7 @@ class CcTable(Reader):
         return self.mass_list[index]
 
     def integrate_yields(self):
-        limits = self.integral_limits
+        limits = [float(i) for i in self.mass_range.split("-")]
         steps = self.integral_steps
 
         mass_range = np.linspace(*limits, int(steps))

@@ -26,7 +26,7 @@ class Paths:
         "nomoto_2006_0.004": "snratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0_004.txt",
         "nomoto_2006_0.02": "snratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0_02.txt",
 
-        "tsujimoto": "snratio/data/yields/cc/tsujimoto/Tsujimoto_1995_integrated_Table2.txt"
+        "tsujimoto_0.0": "snratio/data/yields/cc/tsujimoto/Tsujimoto_1995_integrated_Table2.txt"
     }
 
     solar = {
@@ -55,7 +55,6 @@ class Paths:
 
 
 class Keywords:
-
     Ia = {
         "iwamoto": "Iwamoto (1999)"
     }
@@ -73,7 +72,7 @@ class Keywords:
     cc_valid_abundances = {
         "nomoto_2013": ["0.0", "0.001", "0.004", "0.008", "0.02", "0.05"],
         "nomoto_2006": ["0.0", "0.001", "0.004", "0.02"],
-        "tsujimoto": ["Default"]
+        "tsujimoto": ["0.0"]
     }
 
     cc_mass_range = {
@@ -116,19 +115,9 @@ class Keywords:
 
 
 class CurrentSelections:
-    Ia_table_name = "iwamoto"
-    Ia_model = "W7"
-
-    cc_table_name = "nomoto_2013"
-    cc_abund = "0.02"
-    cc_mass_range = "10-50"
-
-    solar_table_name = "lodd"
-
-    ref_element = "Fe"
-    sigma = "1.0"
-
     selection_dictionary = {
+        "data": "test_data",
+
         "Ia_table_name": "iwamoto",
         "Ia_model": "W7",
 
