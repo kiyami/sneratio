@@ -40,6 +40,7 @@ class Stats:
 
         norm_abund_col = self.table["{}_normalised_abund".format(self.ref_element)]
         norm_abund_err_col = self.table["{}_normalised_abund_err".format(self.ref_element)]
+
         for i in self.table.index:
             c += ((contribution_list_sum[i] - norm_abund_col[i]) / norm_abund_err_col[i]) ** 2.0
         return c

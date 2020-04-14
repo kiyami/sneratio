@@ -1,4 +1,5 @@
 import os
+from snratio.gui.qt_snratio import Ui_MainWindow
 from snratio.lib.main import Calculator
 from snratio.lib.utils import check_and_create_directory
 
@@ -7,8 +8,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PySide2 import QtWidgets
 from PySide2 import QtCore
 QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
-
-from snratio.gui.qt_snratio import Ui_MainWindow
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -105,7 +104,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.fit_figure is None:
             self.fit_figure = self.calculator.plots.get_fit_plot()
 
-        self.fit_figure.set_size_inches(10,7)
+        self.fit_figure.set_size_inches(10, 7)
         self.fit_figure.savefig(os.path.join(path, "Figure_Fit.png"))
 
         if self.likelihood_figure is None:
@@ -202,7 +201,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         modified_text = "term$ {}".format(text)
         self.plainTextEdit_terminal.appendPlainText(modified_text)
         self.repaint()
-
 
 
 """

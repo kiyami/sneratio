@@ -38,7 +38,7 @@ class Data(Reader):
         self.ref_element = ref_element
 
         if "element" == str(self.data.iloc[0, 0]).lower():
-            self.data.columns = self.data.iloc[0,:]
+            self.data.columns = self.data.iloc[0, :]
             self.data = self.data.iloc[1:]
         else:
             self.set_columns(["Element", "Abund", "AbundError"])
@@ -67,7 +67,12 @@ class Data(Reader):
 
                 self.data[column_name_ratio] = normalised_ratio
                 self.data[column_name_ratio_err] = normalised_ratio_err
+            else:
+                column_name_ratio = "{}_normalised_abund".format(self.ref_element)
+                column_name_ratio_err = "{}_normalised_abund_err".format(self.ref_element)
 
+                self.data[column_name_ratio] = self.data["Abund"]
+                self.data[column_name_ratio_err] = self.data["AbundError"]
         else:
             column_name_ratio = "{}_normalised_abund".format(self.ref_element)
             column_name_ratio_err = "{}_normalised_abund_err".format(self.ref_element)

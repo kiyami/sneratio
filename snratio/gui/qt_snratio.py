@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'snratio/gui/qt_snratio_test.ui',
-# licensing of 'snratio/gui/qt_snratio_test.ui' applies.
+# Form implementation generated from reading ui file 'snratio/gui/qt_snratio.ui',
+# licensing of 'snratio/gui/qt_snratio.ui' applies.
 #
 # Created: Thu Apr  9 20:54:32 2020
 #      by: pyside2-uic  running on PySide2 5.13.2
@@ -9,6 +9,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PySide2 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

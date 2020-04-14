@@ -15,7 +15,7 @@ class Paths:
     }
 
     cc = {
-        #"nomoto_2013_0.0": "snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0.txt",
+        # "nomoto_2013_0.0": "snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0.txt",
         "nomoto_2013_0.001": "snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_001.txt",
         "nomoto_2013_0.004": "snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_004.txt",
         "nomoto_2013_0.008": "snratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_008.txt",
@@ -71,7 +71,7 @@ class Keywords:
     }
 
     cc_valid_abundances = {
-        #"nomoto_2013": ["0.0", "0.001", "0.004", "0.008", "0.02", "0.05"],
+        # "nomoto_2013": ["0.0", "0.001", "0.004", "0.008", "0.02", "0.05"],
         "nomoto_2013": ["0.001", "0.004", "0.008", "0.02", "0.05"],
         "nomoto_2006": ["0.0", "0.001", "0.004", "0.02"],
         "tsujimoto": ["0.0"]

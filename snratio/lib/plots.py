@@ -75,9 +75,9 @@ class Plots:
                      elinewidth=2.5)
         ax.set_facecolor("lightgrey")
 
-        ax.bar(self.table["Element"], contribution_Ia, 0.3, label="SNIa", color="blue",
+        ax.bar(self.table["Element"], contribution_Ia, 0.6, label="SNIa", color="blue",
                 alpha=0.5)
-        ax.bar(self.table["Element"], contribution_cc, 0.3, bottom=contribution_Ia, label="SNcc", color="green",
+        ax.bar(self.table["Element"], contribution_cc, 0.6, bottom=contribution_Ia, label="SNcc", color="green",
                 alpha=0.5)
         ax.fill_between(self.table["Element"], err_min, err_max, facecolor="red", alpha=0.5,
                          label="{} confidence interval\nred_chi2 = {:.2f} ({:.2f}/{})".format(
