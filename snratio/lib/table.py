@@ -37,8 +37,8 @@ class Data(Reader):
         Reader.__init__(self, path, with_header=False)
         self.ref_element = ref_element
 
-        if "element" is str(self.data.iloc[0, 0]).lower():
-            self.data.columns = self.data.iloc[0]
+        if "element" == str(self.data.iloc[0, 0]).lower():
+            self.data.columns = self.data.iloc[0,:]
             self.data = self.data.iloc[1:]
         else:
             self.set_columns(["Element", "Abund", "AbundError"])
@@ -101,7 +101,7 @@ class IaTable(Reader):
     def __init__(self, path, model):
         Reader.__init__(self, path)
         self.model = model
-        self.model_list = self.data.columns[3:]
+        self.model_list = self.data.columns[3:].values
 
         self.yields = pd.DataFrame()
         self.set_yields()

@@ -175,7 +175,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def set_snIa_model(self):
         new_selection_gui_keyword = self.box_snIa_model.currentText()
-        new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
+        new_selection_inner_keyword = new_selection_gui_keyword
         self.calculator.update_selection("Ia_model", new_selection_inner_keyword)
 
     def set_solar_table(self):
