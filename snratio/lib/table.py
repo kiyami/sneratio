@@ -53,8 +53,24 @@ class Data(Reader):
             ref_value_ratio_err = self.data[ref_row]["AbundError"]
 
             if float(ref_value_ratio_err) == 0.0:
-                ref_value_ratio_err = 0.1
+                ref_value_ratio_err = 0.001
 
+            normalised_values = []
+            for r, r_err in zip(self.data["Abund"], self.data["AbundError"]):
+                normalised_values.append(division_error(r, r_err, ref_value_ratio, ref_value_ratio_err))
+
+            normalised_ratio, normalised_ratio_err = zip(*normalised_values)
+
+            column_name_ratio = "{}_normalised_abund".format(self.ref_element)
+            column_name_ratio_err = "{}_normalised_abund_err".format(self.ref_element)
+
+            self.data[column_name_ratio] = normalised_ratio
+            self.data[column_name_ratio_err] = normalised_ratio_err
+
+            """
+            # this part creates a bug when the Fe value is 1.0
+            # disabled for now, so it normalises all the time even if the Fe is already 1.0
+            
             if float(ref_value_ratio) != 1.0:
                 normalised_values = []
                 for r, r_err in zip(self.data["Abund"], self.data["AbundError"]):
@@ -73,6 +89,7 @@ class Data(Reader):
 
                 self.data[column_name_ratio] = self.data["Abund"]
                 self.data[column_name_ratio_err] = self.data["AbundError"]
+            """
         else:
             column_name_ratio = "{}_normalised_abund".format(self.ref_element)
             column_name_ratio_err = "{}_normalised_abund_err".format(self.ref_element)
