@@ -16,6 +16,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.plot_area_grid_layout = QtWidgets.QGridLayout(self.widget_plot_area)
 
+        self.checkbox_dict = {"C": self.checkBox_C,
+                              "N": self.checkBox_N,
+                              "O": self.checkBox_O,
+                              "Ne": self.checkBox_Ne,
+                              "Mg": self.checkBox_Mg,
+                              "Al": self.checkBox_Al,
+                              "Si": self.checkBox_Si,
+                              "S": self.checkBox_S,
+                              "Ar": self.checkBox_Ar,
+                              "Ca": self.checkBox_Ca,
+                              "Fe": self.checkBox_Fe,
+                              "Ni": self.checkBox_Ni}
+
         self.calculator = Calculator()
 
         self.set_terminal("AstroLab gururla sunar..")
@@ -47,18 +60,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.box_sigma.currentTextChanged.connect(self.set_sigma)
 
+
     def load(self):
         path = self.lineEdit_load.text()
+        #if path == "":
+        #    self.calculator.update_selection("data", "test_data")
+        #else:
+        #    self.calculator.update_selection("data", "loaded_data")
+
         if path == "":
-            self.calculator.update_selection("data", "test_data")
-        else:
-            self.calculator.update_selection("data", "loaded_data")
+            path = self.calculator.data["test_data"]
 
         if os.path.exists(path):
             self.calculator.data["loaded_data"] = os.path.abspath(path)
             self.set_terminal("Data loaded: '{}'..".format(os.path.basename(path)))
         else:
             self.set_terminal("Warning: Can not open '{}'!".format(path))
+
+        self.calculator.initialise_data_table()
+        self.fill_checkboxes()
+
 
     def plot_fit(self):
         if self.calculator.plots is not None:
@@ -88,6 +109,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
     def fit_func(self):
+        self.calculator.initialise_data_table()
+
+        selected_elements = []
+        for element, checkbox in self.checkbox_dict.items():
+            if checkbox.isChecked() == True:
+                selected_elements.append(element)
+
+        self.calculator.selected_elements = selected_elements
+        self.calculator.initialise_selected_data()
+
         self.set_terminal("Reading tables..")
         self.calculator.initialise_all()
         self.set_terminal("Merging tables..")
@@ -97,6 +128,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.calculator.initialise_after_fit()
 
         self.set_fit_results()
+        self.plot_fit()
+
 
     def save_plots(self, path="outputs"):
         check_and_create_directory(os.path.join(os.curdir, path))
@@ -201,6 +234,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         modified_text = "term$ {}".format(text)
         self.plainTextEdit_terminal.appendPlainText(modified_text)
         self.repaint()
+
+
+    def check_checkbox(self, element):
+        self.checkbox_dict[element].setChecked(True)
+
+    def uncheck_checkbox(self, element):
+        self.checkbox_dict[element].setChecked(False)
+
+    def set_checkbox_checkable(self, element):
+        self.checkbox_dict[element].setDisabled(False)
+        self.checkbox_dict[element].setCheckable(True)
+
+    def set_checkbox_uncheckable(self, element):
+        self.checkbox_dict[element].setCheckable(False)
+        self.checkbox_dict[element].setDisabled(True)
+
+    def set_checkbox_ref_element(self, element):
+        self.checkbox_dict[element].setChecked(True)
+
+    def fill_checkboxes(self):
+        for element in self.checkbox_dict.keys():
+            if element in self.calculator.all_elements:
+                print(element)
+                if element == self.calculator.ref_element:
+                    self.set_checkbox_ref_element(element)
+                else:
+                    self.set_checkbox_checkable(element)
+                    self.check_checkbox(element)
+            else:
+                self.set_checkbox_uncheckable(element)
+                self.uncheck_checkbox(element)
+
+        self.repaint()
+
 
 
 """

@@ -52,8 +52,11 @@ class Data(Reader):
             ref_value_ratio = self.data[ref_row]["Abund"]
             ref_value_ratio_err = self.data[ref_row]["AbundError"]
 
+            if float(ref_value_ratio) == 1.0:
+                ref_value_ratio_err = float(ref_value_ratio) * 0.01
+
             if float(ref_value_ratio_err) == 0.0:
-                ref_value_ratio_err = 0.001
+                ref_value_ratio_err = float(ref_value_ratio) * 0.01
 
             normalised_values = []
             for r, r_err in zip(self.data["Abund"], self.data["AbundError"]):

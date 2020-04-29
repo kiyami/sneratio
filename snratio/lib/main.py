@@ -27,11 +27,21 @@ class Calculator(Paths, Keywords, CurrentSelections):
         self.stats = None
         self.plots = None
 
+        self.all_elements = None
+        self.ref_element = None
+        self.selected_elements = None
+        self.selected_data = None
+
     def initialise_data_table(self):
         path = self.get_path(self.get_selection("data"))
-        ref_element = self.get_selection("ref_element")
+        self.ref_element = self.get_selection("ref_element")
 
-        self.data_table = Data(path=path, ref_element=ref_element)
+        self.data_table = Data(path=path, ref_element=self.ref_element)
+        self.all_elements = self.data_table.data["Element"].values
+
+    def initialise_selected_data(self):
+        filt = self.data_table.data["Element"].isin(self.selected_elements)
+        self.selected_data = self.data_table.data[filt]
 
     def initialise_mass_number_table(self):
         path = self.get_path("mass_number")
@@ -81,14 +91,15 @@ class Calculator(Paths, Keywords, CurrentSelections):
                            Ia_fraction_list=Ia_fraction_list)
 
     def initialise_all(self):
-        self.initialise_data_table()
+        #self.initialise_data_table()
         self.initialise_mass_number_table()
         self.initialise_Ia_table()
         self.initialise_cc_table()
         self.initialise_solar_table()
 
     def merge(self):
-        t1 = self.data_table.data
+        #t1 = self.data_table.data
+        t1 = self.selected_data
         t2 = self.mass_number_table.data
         t3 = self.Ia_table.model_yields
         t4 = self.cc_table.integrated_yields
@@ -106,3 +117,7 @@ class Calculator(Paths, Keywords, CurrentSelections):
 
     def update_tables_for_new_selections(self):
         pass
+
+    def set_selected_elements(self, element_list):
+        self.selected_elements = element_list
+        print("set_selected_elements")

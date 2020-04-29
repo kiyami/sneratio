@@ -31,6 +31,13 @@ class Plots:
         ax.plot(self.Ia_fraction_list, self.chi_list)
         ax.axhline(y=min_chi, color="red")
 
+        ax.set_facecolor("lightgrey")
+        ax.set_xlabel("Ratio (Ia / Total)", fontsize=14)
+        ax.set_ylabel("Chi Squared", fontsize=14)
+
+        ax.set_title("Chi Squared Distribution", fontsize=15)
+        ax.grid(True)
+
         return fig
 
     def get_likelihood_plot(self):
@@ -39,8 +46,8 @@ class Plots:
 
         ax.plot(self.Ia_fraction_list, self.P_list, color="blue")
         ax.set_facecolor("lightgrey")
-        ax.set_xlabel("Ratio (Ia / Total)")
-        ax.set_ylabel("log Likelihood")
+        ax.set_xlabel("Ratio (Ia / Total)", fontsize=14)
+        ax.set_ylabel("log Likelihood", fontsize=14)
 
         ax.axhline(y=self.fit_results["P_max"], color="red")
         ax.axhline(y=self.fit_results["P_min"], color="red")
@@ -88,8 +95,8 @@ class Plots:
 
         ax.set_ylim(bottom=0)
 
-        ax.set_xlabel("Elements", fontsize=15)
-        ax.set_ylabel("[X/Fe]", fontsize=15)
+        ax.set_xlabel("Elements", fontsize=14)
+        ax.set_ylabel("[X/Fe]", fontsize=14)
         ax.set_title("Relative Abundances", fontsize=15)
         ax.legend(loc="upper left")
         ax.grid(True)
