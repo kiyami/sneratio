@@ -97,8 +97,8 @@ class Plots:
 
         ax.set_xlabel("Elements", fontsize=14)
         ax.set_ylabel("[X/Fe]", fontsize=14)
-        ax.set_title("Relative Abundances", fontsize=15)
-        ax.legend(loc="upper left")
+        ax.set_title("{} Normalised Relative Abundances".format(self.ref_element), fontsize=15)
+        ax.legend(loc="upper center")
         ax.grid(True)
 
         return fig

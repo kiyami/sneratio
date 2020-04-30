@@ -13,6 +13,7 @@ from snratio.lib.utils import merge_tables
 from snratio.lib.stats import Stats
 from snratio.lib.plots import Plots
 
+import pandas as pd
 
 class Calculator(Paths, Keywords, CurrentSelections):
     def __init__(self):
@@ -30,6 +31,8 @@ class Calculator(Paths, Keywords, CurrentSelections):
         self.all_elements = None
         self.ref_element = None
         self.selected_elements = None
+        self.selected_elements_values = None
+        self.selected_elements_errors = None
         self.selected_data = None
 
     def initialise_data_table(self):
@@ -40,8 +43,20 @@ class Calculator(Paths, Keywords, CurrentSelections):
         self.all_elements = self.data_table.data["Element"].values
 
     def initialise_selected_data(self):
+        #filt = self.data_table.data["Element"].isin(self.selected_elements)
+        #self.selected_data = self.data_table.data[filt]
+
+        self.ref_element = self.get_selection("ref_element")
+        self.data_table = Data(path="",
+                               ref_element=self.ref_element,
+                               read_from_gui=True,
+                               gui_elements=self.selected_elements,
+                               gui_values=self.selected_elements_values,
+                               gui_errors=self.selected_elements_errors)
+
         filt = self.data_table.data["Element"].isin(self.selected_elements)
         self.selected_data = self.data_table.data[filt]
+        self.all_elements = self.data_table.data["Element"].values
 
     def initialise_mass_number_table(self):
         path = self.get_path("mass_number")

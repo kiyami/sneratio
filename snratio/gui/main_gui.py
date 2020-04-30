@@ -9,6 +9,8 @@ from PySide2 import QtWidgets
 from PySide2 import QtCore
 QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
 
+from functools import partial
+
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -16,18 +18,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.plot_area_grid_layout = QtWidgets.QGridLayout(self.widget_plot_area)
 
-        self.checkbox_dict = {"C": self.checkBox_C,
-                              "N": self.checkBox_N,
-                              "O": self.checkBox_O,
-                              "Ne": self.checkBox_Ne,
-                              "Mg": self.checkBox_Mg,
-                              "Al": self.checkBox_Al,
-                              "Si": self.checkBox_Si,
-                              "S": self.checkBox_S,
-                              "Ar": self.checkBox_Ar,
-                              "Ca": self.checkBox_Ca,
-                              "Fe": self.checkBox_Fe,
-                              "Ni": self.checkBox_Ni}
+        self.checkbox_dict = {"C": [self.checkBox_C, self.lineEdit_C_value, self.lineEdit_C_error],
+                              "N": [self.checkBox_N, self.lineEdit_N_value, self.lineEdit_N_error],
+                              "O": [self.checkBox_O, self.lineEdit_O_value, self.lineEdit_O_error],
+                              "Ne": [self.checkBox_Ne, self.lineEdit_Ne_value, self.lineEdit_Ne_error],
+                              "Mg": [self.checkBox_Mg, self.lineEdit_Mg_value, self.lineEdit_Mg_error],
+                              "Al": [self.checkBox_Al, self.lineEdit_Al_value, self.lineEdit_Al_error],
+                              "Si": [self.checkBox_Si, self.lineEdit_Si_value, self.lineEdit_Si_error],
+                              "S": [self.checkBox_S, self.lineEdit_S_value, self.lineEdit_S_error],
+                              "Ar": [self.checkBox_Ar, self.lineEdit_Ar_value, self.lineEdit_Ar_error],
+                              "Ca": [self.checkBox_Ca, self.lineEdit_Ca_value, self.lineEdit_Ca_error],
+                              "Fe": [self.checkBox_Fe, self.lineEdit_Fe_value, self.lineEdit_Fe_error],
+                              "Ni": [self.checkBox_Ni, self.lineEdit_Ni_value, self.lineEdit_Ni_error]}
 
         self.calculator = Calculator()
 
@@ -60,6 +62,28 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.box_sigma.currentTextChanged.connect(self.set_sigma)
 
+        for element, values in self.checkbox_dict.items():
+            values[0].stateChanged.connect(self.set_checkbox_values(element))
+            #self.checkBox_C.stateChanged.connect(self.set_C_values)
+
+    def set_checkbox_values(self, element):
+        def inner_function():
+            if self.checkbox_dict[element][0].isChecked() == True:
+                self.checkbox_dict[element][1].setText("1.0")
+                self.checkbox_dict[element][2].setText("0.1")
+            else:
+                self.checkbox_dict[element][1].setText("")
+                self.checkbox_dict[element][2].setText("")
+
+        return inner_function
+
+    def set_C_values(self):
+        if self.checkBox_C.isChecked() == True:
+            self.lineEdit_C_value.setText("1.0")
+            self.lineEdit_C_error.setText("0.1")
+        else:
+            self.lineEdit_C_value.setText("")
+            self.lineEdit_C_error.setText("")
 
     def load(self):
         path = self.lineEdit_load.text()
@@ -68,7 +92,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #else:
         #    self.calculator.update_selection("data", "loaded_data")
 
-        if path == "":
+        if (path == "") or (path == "test_data.txt"):
             path = self.calculator.data["test_data"]
 
         if os.path.exists(path):
@@ -109,14 +133,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.plot_area_grid_layout.addWidget(canvas, 0, 0)
 
     def fit_func(self):
-        self.calculator.initialise_data_table()
-
         selected_elements = []
+        selected_elements_values = []
+        selected_elements_errors = []
+
+        ref_element = self.calculator.get_selection("ref_element")
+        if self.checkbox_dict[ref_element][0].isChecked() == False:
+            self.checkbox_dict[ref_element][0].setChecked(True)
+
         for element, checkbox in self.checkbox_dict.items():
-            if checkbox.isChecked() == True:
+            if checkbox[0].isChecked() == True:
                 selected_elements.append(element)
 
+                try:
+                    value = float(checkbox[1].text())
+                except:
+                    self.set_terminal("Invalid input: '{} value = {}'".format(element, checkbox[1].text()))
+                    break
+
+                selected_elements_values.append(value)
+
+                try:
+                    error = float(checkbox[2].text())
+                except:
+                    self.set_terminal("Invalid input: '{} error = {}'".format(element, checkbox[2].text()))
+                    break
+
+                selected_elements_errors.append(error)
+
         self.calculator.selected_elements = selected_elements
+        self.calculator.selected_elements_values = selected_elements_values
+        self.calculator.selected_elements_errors = selected_elements_errors
         self.calculator.initialise_selected_data()
 
         self.set_terminal("Reading tables..")
@@ -237,33 +284,52 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def check_checkbox(self, element):
-        self.checkbox_dict[element].setChecked(True)
+        self.checkbox_dict[element][0].setChecked(True)
 
     def uncheck_checkbox(self, element):
-        self.checkbox_dict[element].setChecked(False)
+        self.checkbox_dict[element][0].setChecked(False)
 
     def set_checkbox_checkable(self, element):
-        self.checkbox_dict[element].setDisabled(False)
-        self.checkbox_dict[element].setCheckable(True)
+        self.checkbox_dict[element][0].setDisabled(False)
+        self.checkbox_dict[element][0].setCheckable(True)
+
+        self.checkbox_dict[element][1].setDisabled(False)
+        self.checkbox_dict[element][2].setDisabled(False)
+
+        self.checkbox_dict[element][1].setText("")
+        self.checkbox_dict[element][2].setText("")
 
     def set_checkbox_uncheckable(self, element):
-        self.checkbox_dict[element].setCheckable(False)
-        self.checkbox_dict[element].setDisabled(True)
+        self.checkbox_dict[element][0].setCheckable(False)
+        self.checkbox_dict[element][0].setDisabled(True)
+
+        self.checkbox_dict[element][1].setText("")
+        self.checkbox_dict[element][2].setText("")
+
+        self.checkbox_dict[element][1].setDisabled(True)
+        self.checkbox_dict[element][2].setDisabled(True)
 
     def set_checkbox_ref_element(self, element):
-        self.checkbox_dict[element].setChecked(True)
+        self.checkbox_dict[element][0].setChecked(True)
+
+    def set_element_value_and_error(self, element):
+        value = self.calculator.data_table.data[self.calculator.data_table.data["Element"] == element]["Abund"].values[0]
+        error = self.calculator.data_table.data[self.calculator.data_table.data["Element"] == element]["AbundError"].values[0]
+        self.checkbox_dict[element][1].setText(value)
+        self.checkbox_dict[element][2].setText(error)
 
     def fill_checkboxes(self):
         for element in self.checkbox_dict.keys():
             if element in self.calculator.all_elements:
-                print(element)
                 if element == self.calculator.ref_element:
                     self.set_checkbox_ref_element(element)
                 else:
                     self.set_checkbox_checkable(element)
                     self.check_checkbox(element)
+
+                self.set_element_value_and_error(element)
             else:
-                self.set_checkbox_uncheckable(element)
+                #self.set_checkbox_uncheckable(element)
                 self.uncheck_checkbox(element)
 
         self.repaint()

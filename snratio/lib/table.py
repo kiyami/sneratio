@@ -5,19 +5,28 @@ from snratio.lib.utils import division_error
 
 
 class Reader:
-    def __init__(self, path, with_header=True):
+    def __init__(self, path, with_header=True, read_from_gui=False, gui_elements=None, gui_values=None, gui_errors=None):
         self.path = path
         self.with_header = with_header
         self.data = None
         self.elements = None
 
-        try:
-            self.read_data()
-        except FileNotFoundError:
-            raise FileNotFoundError("{}".format(path))
+        self.read_from_gui = read_from_gui
+        self.gui_elements = gui_elements
+        self.gui_values = gui_values
+        self.gui_errors = gui_errors
 
-        if with_header:
-            self.set_elements()
+        if not self.read_from_gui:
+            try:
+                self.read_data()
+            except FileNotFoundError:
+                raise FileNotFoundError("{}".format(path))
+
+            if with_header:
+                self.set_elements()
+
+        else:
+            self.set_from_gui()
 
     def read_data(self, sep="\s+"):
         if self.with_header is True:
@@ -31,10 +40,15 @@ class Reader:
     def set_columns(self, columns):
         self.data.columns = columns
 
+    def set_from_gui(self):
+        self.data = pd.DataFrame({"Element": self.gui_elements,
+                                  "Abund": self.gui_values,
+                                  "AbundError": self.gui_errors})
+
 
 class Data(Reader):
-    def __init__(self, path, ref_element="Fe"):
-        Reader.__init__(self, path, with_header=False)
+    def __init__(self, path, ref_element="Fe", with_header=False, read_from_gui=False, gui_elements=None, gui_values=None, gui_errors=None):
+        Reader.__init__(self, path, with_header, read_from_gui, gui_elements, gui_values, gui_errors)
         self.ref_element = ref_element
 
         if "element" == str(self.data.iloc[0, 0]).lower():
