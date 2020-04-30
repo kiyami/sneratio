@@ -94,6 +94,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if (path == "") or (path == "test_data.txt"):
             path = self.calculator.data["test_data"]
+        else:
+            self.calculator.update_selection("data", "loaded_data")
 
         if os.path.exists(path):
             self.calculator.data["loaded_data"] = os.path.abspath(path)
