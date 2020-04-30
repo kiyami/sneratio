@@ -20,7 +20,10 @@ class Stats:
 
     def function(self, fraction):
         a, b = fraction
-        ref_index = self.table[self.table.Element == self.ref_element].index[0]
+        if self.ref_element == "H":
+            ref_index = None
+        else:
+            ref_index = self.table[self.table.Element == self.ref_element].index[0]
 
         contribution_list = []
         for i in self.table.index:

@@ -64,26 +64,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         for element, values in self.checkbox_dict.items():
             values[0].stateChanged.connect(self.set_checkbox_values(element))
-            #self.checkBox_C.stateChanged.connect(self.set_C_values)
+            values[1].setDisabled(True)
+            values[2].setDisabled(True)
+
 
     def set_checkbox_values(self, element):
         def inner_function():
             if self.checkbox_dict[element][0].isChecked() == True:
+                self.checkbox_dict[element][1].setDisabled(False)
+                self.checkbox_dict[element][2].setDisabled(False)
+
                 self.checkbox_dict[element][1].setText("1.0")
                 self.checkbox_dict[element][2].setText("0.1")
             else:
                 self.checkbox_dict[element][1].setText("")
                 self.checkbox_dict[element][2].setText("")
 
-        return inner_function
+                self.checkbox_dict[element][1].setDisabled(True)
+                self.checkbox_dict[element][2].setDisabled(True)
 
-    def set_C_values(self):
-        if self.checkBox_C.isChecked() == True:
-            self.lineEdit_C_value.setText("1.0")
-            self.lineEdit_C_error.setText("0.1")
-        else:
-            self.lineEdit_C_value.setText("")
-            self.lineEdit_C_error.setText("")
+        return inner_function
 
     def load(self):
         path = self.lineEdit_load.text()
@@ -161,6 +161,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
                 selected_elements_errors.append(error)
 
+        if len(selected_elements) < 3:
+            self.set_terminal("Please select at least 3 elements before fitting!")
+            return
+
         self.calculator.selected_elements = selected_elements
         self.calculator.selected_elements_values = selected_elements_values
         self.calculator.selected_elements_errors = selected_elements_errors
@@ -178,7 +182,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.plot_fit()
 
 
-    def save_plots(self, path="outputs"):
+    def save_plots(self):
+        path = "outputs"
         check_and_create_directory(os.path.join(os.curdir, path))
 
         if self.fit_figure is None:
@@ -199,7 +204,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.chi_figure.set_size_inches(10, 7)
         self.chi_figure.savefig(os.path.join(path, "Figure_Chi_Squared.png"))
 
-    def save_stats(self, path="outputs"):
+    def save_stats(self):
+        path = "outputs"
         check_and_create_directory(os.path.join(os.curdir, path))
 
         file_name = "Log_File.txt"
