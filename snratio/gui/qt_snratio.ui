@@ -98,7 +98,8 @@
               </property>
               <property name="font">
                <font>
-                <pointsize>14</pointsize>
+                <family>Arial</family>
+                <pointsize>13</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -138,6 +139,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -169,6 +171,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -195,6 +198,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -221,6 +225,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -258,6 +263,7 @@
               </property>
               <property name="font">
                <font>
+                <family>Arial</family>
                 <pointsize>11</pointsize>
                </font>
               </property>
@@ -285,6 +291,7 @@
               </property>
               <property name="font">
                <font>
+                <family>Arial</family>
                 <pointsize>11</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
@@ -322,7 +329,8 @@
               </property>
               <property name="font">
                <font>
-                <pointsize>14</pointsize>
+                <family>Arial</family>
+                <pointsize>13</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -362,6 +370,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -388,6 +397,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -424,6 +434,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -450,6 +461,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -481,6 +493,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -507,6 +520,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -561,6 +575,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -587,6 +602,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -617,7 +633,8 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>15</pointsize>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
               <weight>75</weight>
               <bold>true</bold>
               <underline>false</underline>
@@ -653,7 +670,8 @@
               </property>
               <property name="font">
                <font>
-                <pointsize>14</pointsize>
+                <family>Arial</family>
+                <pointsize>13</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -693,6 +711,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -719,6 +738,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -761,7 +781,8 @@
               </property>
               <property name="font">
                <font>
-                <pointsize>14</pointsize>
+                <family>Arial</family>
+                <pointsize>13</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -795,6 +816,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -821,6 +843,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -847,6 +870,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
@@ -873,6 +897,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
@@ -930,6 +955,11 @@
               <width>16777215</width>
               <height>100</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+             </font>
             </property>
            </widget>
           </item>
@@ -1035,6 +1065,7 @@
            <widget class="QPushButton" name="button_plot_likelihood">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>11</pointsize>
               <weight>50</weight>
               <bold>false</bold>
@@ -1049,6 +1080,7 @@
            <widget class="QPushButton" name="button_save_all">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>11</pointsize>
               <weight>50</weight>
               <bold>false</bold>
@@ -1063,6 +1095,7 @@
            <widget class="QPushButton" name="button_save_plots">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>11</pointsize>
               <weight>50</weight>
               <bold>false</bold>
@@ -1083,6 +1116,7 @@
             </property>
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
@@ -1097,6 +1131,7 @@
            <widget class="QPushButton" name="button_save_stats">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>11</pointsize>
               <weight>50</weight>
               <bold>false</bold>
@@ -1111,6 +1146,7 @@
            <widget class="QPushButton" name="button_plot_fit">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>11</pointsize>
               <weight>50</weight>
               <bold>false</bold>
@@ -1125,6 +1161,7 @@
            <widget class="QPushButton" name="button_plot_chi">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>11</pointsize>
               <weight>50</weight>
               <bold>false</bold>
@@ -1264,6 +1301,11 @@
                  <height>16777215</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                </font>
+               </property>
                <property name="text">
                 <string>Error:</string>
                </property>
@@ -1310,6 +1352,11 @@
                  <width>70</width>
                  <height>16777215</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                </font>
                </property>
                <property name="text">
                 <string>Value:</string>
@@ -1383,6 +1430,11 @@
                  <width>70</width>
                  <height>16777215</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                </font>
                </property>
                <property name="text">
                 <string>Element:</string>
