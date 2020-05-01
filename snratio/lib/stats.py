@@ -92,6 +92,12 @@ class Stats:
 
         index = self.P_list.index(fit_values["P_max"])
 
+        # if ratio is too close to zero, the index becomes also zero.
+        # but index should be greater than index_min.
+        # if index is zero, set it to 1
+        if index == 0:
+            index = 1
+
         fit_values["best_Ia"] = self.Ia_fraction_list[index]
         fit_values["best_cc"] = self.cc_fraction_list[index]
 
