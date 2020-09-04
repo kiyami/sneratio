@@ -78,8 +78,7 @@ class Plots:
             "best_fit_max_contribution_sum"]
 
         # set ref elements error to zero for visualisation
-        ref_row = self.table["Element"] == self.ref_element
-        self.table["{}_normalised_abund_err".format(self.ref_element)][ref_row] = 0.0
+        self.table.loc[self.table["Element"] == self.ref_element, "{}_normalised_abund_err".format(self.ref_element)] = 0.0
 
         ax.errorbar(x=self.table["Element"], y=self.table["{}_normalised_abund".format(self.ref_element)],
                      yerr=self.table["{}_normalised_abund_err".format(self.ref_element)], fmt='.k', markersize='15',
