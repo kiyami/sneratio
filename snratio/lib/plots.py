@@ -31,7 +31,7 @@ class Plots:
         ax.plot(self.Ia_fraction_list, self.chi_list)
         ax.axhline(y=min_chi, color="red")
 
-        ax.set_facecolor("lightgrey")
+        #ax.set_facecolor("lightgrey")
         ax.set_xlabel("Ratio (Ia / Total)", fontsize=14)
         ax.set_ylabel("Chi Squared", fontsize=14)
 
@@ -45,7 +45,7 @@ class Plots:
         ax = fig.add_subplot(111)
 
         ax.plot(self.Ia_fraction_list, self.P_list, color="blue")
-        ax.set_facecolor("lightgrey")
+        #ax.set_facecolor("lightgrey")
         ax.set_xlabel("Ratio (Ia / Total)", fontsize=14)
         ax.set_ylabel("log Likelihood", fontsize=14)
 
@@ -77,21 +77,28 @@ class Plots:
         err_min, err_max = self.fit_results["best_fit_min_contribution_sum"], self.fit_results[
             "best_fit_max_contribution_sum"]
 
+        # set ref elements error to zero for visualisation
+        ref_row = self.table["Element"] == self.ref_element
+        self.table["{}_normalised_abund_err".format(self.ref_element)][ref_row] = 0.0
+
         ax.errorbar(x=self.table["Element"], y=self.table["{}_normalised_abund".format(self.ref_element)],
                      yerr=self.table["{}_normalised_abund_err".format(self.ref_element)], fmt='.k', markersize='15',
                      elinewidth=2.5)
-        ax.set_facecolor("lightgrey")
+        #ax.set_facecolor("lightgrey")
 
         ax.bar(self.table["Element"], contribution_Ia, 0.6, label="SNIa", color="blue",
                 alpha=0.5)
         ax.bar(self.table["Element"], contribution_cc, 0.6, bottom=contribution_Ia, label="SNcc", color="green",
                 alpha=0.5)
+
+        """
         ax.fill_between(self.table["Element"], err_min, err_max, facecolor="red", alpha=0.5,
                          label="{} confidence interval\nred_chi2 = {:.2f} ({:.2f}/{})".format(
                              self.fit_results["confidence"],
                              self.fit_results["reduced_chi_sq"],
                              self.fit_results["chi_min"],
                              self.fit_results["dof"]))
+        """
 
         ax.set_ylim(bottom=0)
 
