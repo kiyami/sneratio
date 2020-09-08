@@ -103,6 +103,10 @@ class Plots:
 
         #ax.set_xlabel("Elements", fontsize=16)
         ax.set_ylabel("[X/Fe]", fontsize=16)
+
+        ax.tick_params(axis="x", labelsize=14)
+        ax.tick_params(axis="y", labelsize=15)
+        
         #ax.set_title("{} Normalised Relative Abundances".format(self.ref_element), fontsize=15)
         ax.legend(loc="upper center")
         ax.grid(True)
