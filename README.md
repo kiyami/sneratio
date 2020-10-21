@@ -15,10 +15,11 @@
 
 #### Usage:
 
-> import sneratio
+> Type the following commands in python3 interactive shell
 >
-> sneratio.run_app()
->
+    import sneratio
+    sneratio.run_app()
+
 
 
 ![GitHub Logo](/examples/gui.png)
