@@ -7,13 +7,18 @@
 #### Installation:
 
 > git clone https://github.com/kiyami/sneratio.git
+>
 > cd sneratio
+>
 > python3 setup.py
+>
 
 #### Usage:
 
 > import sneratio
+>
 > sneratio.run_app()
+>
 
 
 ![GitHub Logo](/examples/gui.png)
