@@ -14,7 +14,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
 
-    url="https://github.com/kiyami/snratio",
+    url="https://github.com/kiyami/sneratio",
 
     packages=setuptools.find_packages(),
     classifiers=[
@@ -36,8 +36,8 @@ setuptools.setup(
     },
 
     install_requires=[
-        "pyside2",
-        "pandas",
-        "matplotlib"
+        "pyside2==5.13.2",
+        "pandas==1.1.3",
+        "matplotlib==3.3.2"
     ],
 )
