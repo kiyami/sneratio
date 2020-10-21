@@ -1,10 +1,10 @@
 import unittest
-from snratio.lib.table import MassNumberTable
+from sneratio.lib.table import MassNumberTable
 
-mass_number_file_name = "snratio/data/mass_numbers/mass_number.txt"
-solar_file_name = "snratio/data/solar/angr.txt"
-Ia_file_name = "snratio/data/yields/Ia/iwamoto/Iwamoto_ApJ_1999_Table4.txt"
-cc_file_name = "snratio/data/yields/cc/nomoto/2013/Nomoto_2013_all.txt"
+mass_number_file_name = "sneratio/data/mass_numbers/mass_number.txt"
+solar_file_name = "sneratio/data/solar/angr.txt"
+Ia_file_name = "sneratio/data/yields/Ia/iwamoto/Iwamoto_ApJ_1999_Table4.txt"
+cc_file_name = "sneratio/data/yields/cc/nomoto/2013/Nomoto_2013_all.txt"
 
 
 class DataReading(unittest.TestCase):

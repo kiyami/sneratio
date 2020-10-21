@@ -1,4 +1,4 @@
-from snratio.gui.main_gui import MainWindow
+from sneratio.gui.main_gui import MainWindow
 from PySide2 import QtWidgets
 import sys
 

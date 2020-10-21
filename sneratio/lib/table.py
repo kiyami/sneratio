@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from snratio.lib.utils import division_error
+from sneratio.lib.utils import division_error
 
 
 class Reader:

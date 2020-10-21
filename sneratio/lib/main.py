@@ -1,17 +1,17 @@
-from snratio.lib.info import Paths
-from snratio.lib.info import Keywords
-from snratio.lib.info import CurrentSelections
+from sneratio.lib.info import Paths
+from sneratio.lib.info import Keywords
+from sneratio.lib.info import CurrentSelections
 
-from snratio.lib.table import Data
-from snratio.lib.table import MassNumberTable
-from snratio.lib.table import IaTable
-from snratio.lib.table import CcTable
-from snratio.lib.table import SolarTable
+from sneratio.lib.table import Data
+from sneratio.lib.table import MassNumberTable
+from sneratio.lib.table import IaTable
+from sneratio.lib.table import CcTable
+from sneratio.lib.table import SolarTable
 
-from snratio.lib.utils import merge_tables
+from sneratio.lib.utils import merge_tables
 
-from snratio.lib.stats import Stats
-from snratio.lib.plots import Plots
+from sneratio.lib.stats import Stats
+from sneratio.lib.plots import Plots
 
 
 class Calculator(Paths, Keywords, CurrentSelections):

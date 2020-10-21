@@ -1,7 +1,7 @@
 import os
-from snratio.gui.qt_snratio import Ui_MainWindow
-from snratio.lib.main import Calculator
-from snratio.lib.utils import check_and_create_directory
+from sneratio.gui.qt_snratio import Ui_MainWindow
+from sneratio.lib.main import Calculator
+from sneratio.lib.utils import check_and_create_directory
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 

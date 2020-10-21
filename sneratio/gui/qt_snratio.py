@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'snratio/gui/qt_snratio.ui',
-# licensing of 'snratio/gui/qt_snratio.ui' applies.
+# Form implementation generated from reading ui file 'sneratio/gui/qt_snratio.ui',
+# licensing of 'sneratio/gui/qt_snratio.ui' applies.
 #
 # Created: Thu Apr 30 22:35:51 2020
 #      by: pyside2-uic  running on PySide2 5.13.2

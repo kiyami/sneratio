@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="snratio",
+    name="sneratio",
     version="0.1.0",
     author="M.Kıyami ERDİM",
     author_email="kiyami_erdim@hotmail.com",
@@ -26,7 +26,7 @@ setuptools.setup(
 
     include_package_data=True,
     package_data = {
-        'snratio': ['data/mass_numbers/*',
+        'sneratio': ['data/mass_numbers/*',
                     'data/solar/*',
                     'data/test_data/*',
                     'data/yields/cc/nomoto_2006/*',

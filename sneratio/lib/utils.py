@@ -1,5 +1,5 @@
 import os
-import snratio
+import sneratio
 
 
 def check_and_create_directory(path):
@@ -10,7 +10,7 @@ def check_and_create_directory(path):
 
 
 def generate_package_path(path):
-    return os.path.join(os.path.abspath(os.path.dirname(snratio.__path__[0])), path)
+    return os.path.join(os.path.abspath(os.path.dirname(sneratio.__path__[0])), path)
 
 
 def merge_tables(*tables):
