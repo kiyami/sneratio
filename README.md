@@ -24,6 +24,12 @@
 > Make your selections and click "Fit".
 
 
+
+> Feel free to make contributions or report bugs.
+>
+> M.K.Erdim
+
+
 #### GUI:
 
 ![GitHub Logo](/examples/gui.png)
