@@ -6,19 +6,18 @@
 
 #### Installation:
 
-> git clone https://github.com/kiyami/sneratio.git
+> Type the following commands in terminal
 >
-> cd sneratio
->
-> python3 setup.py
->
+    $ git clone https://github.com/kiyami/sneratio.git
+    $ cd sneratio
+    $ python3 setup.py
 
 #### Usage:
 
 > Type the following commands in python3 interactive shell
 >
-    import sneratio
-    sneratio.run_app()
+    >>> import sneratio
+    >>> sneratio.run_app()
 
 
 
