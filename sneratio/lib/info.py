@@ -79,7 +79,7 @@ class Keywords:
 
     cc_mass_range = {
         "10-50": "10-50 M sun",
-        "10-70": "10-70 M sun"
+        #"10-70": "10-70 M sun"
     }
 
     solar = {
@@ -90,7 +90,7 @@ class Keywords:
 
     ref_elements = {
         "Fe": "Fe",
-        "H": "H"
+        #"H": "H"
     }
 
     sigma = {
