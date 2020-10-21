@@ -19,7 +19,8 @@
     >>> import sneratio
     >>> sneratio.run_app()
 
-> Clicked "Load" button to load the test data.
+> Click "Load" button to load the test data.
+>
 > Make your selections and click "Fit".
 
 
