@@ -24,8 +24,8 @@
 > Make your selections and click "Fit".
 
 
+#### GUI:
+
 ![GitHub Logo](/examples/gui.png)
-![GitHub Logo](/outputs/Figure_Fit.png)
-![GitHub Logo](/outputs/Figure_Likelihood.png)
-![GitHub Logo](/outputs/Figure_Chi_Squared.png)
+
 
