@@ -1,4 +1,4 @@
-## Package Name: SnRatio
+## Package Name: SNeRatio
 
 > **Definition:** A supernova ratio calculator for x-ray observation of galaxies and galaxy clusters.
 
