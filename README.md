@@ -4,6 +4,9 @@
 
 > This package calculates the best fit percentage contribution of supernova types (SNIa and SNcc) for a given abundace data for selected yield tables and models.
 
+> This package is introduced and used in the paper "The Relative Supernovae Contribution to the Chemical Enrichment History of Abell 1837". (Not published yet)
+
+
 #### Installation:
 
 > Type the following commands in terminal
