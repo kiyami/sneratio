@@ -13,7 +13,7 @@
 >
     $ git clone https://github.com/kiyami/sneratio.git
     $ cd sneratio
-    $ python3 setup.py
+    $ python3 setup.py install
 
 #### Usage:
 
@@ -24,6 +24,16 @@
 
 > Click "Load" button to load the test data.
 >
+> You can also load your data from a txt file by entering full path of the file and click "Load". 
+> An example txt file is shown below:
+>
+    Element Abund AbundError
+    Mg 0.190754 0.162
+    Si 0.465456 0.106
+    S 0.307239 0.1525
+    Fe 0.515208 0.0265
+    Ni 0.844307 0.349
+
 > Make your selections and click "Fit".
 
 
