@@ -9,7 +9,12 @@
 
 #### Installation:
 
-> Type the following commands in terminal
+> Type the following commands in terminal:
+>
+    $ git clone https://github.com/kiyami/sneratio.git
+    $ pip3 install ./sneratio
+
+> (Alternative way)
 >
     $ git clone https://github.com/kiyami/sneratio.git
     $ cd sneratio
