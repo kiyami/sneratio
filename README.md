@@ -36,7 +36,7 @@
 
 > Make your selections and click "Fit".
 
-
+> Save directory will be your current directory. (The current directory of the terminal that you initialized SNeRatio.)
 
 > Feel free to make contributions or report bugs.
 >
