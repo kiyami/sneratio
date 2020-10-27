@@ -20,6 +20,9 @@
     $ cd sneratio
     $ python3 setup.py install
 
+> After installation, you can remove the downloaded sneratio folder.
+
+
 #### Usage:
 
 > Type the following commands in python3 interactive shell
