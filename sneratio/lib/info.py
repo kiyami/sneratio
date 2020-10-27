@@ -3,7 +3,7 @@ from sneratio.lib.utils import generate_package_path
 
 class Paths:
     data = {
-        "test_data": "sneratio/data/test_data/test_data.txt",
+        "test_data": "data/test_data/test_data.txt",
         "loaded_data": ""
     }
     mass_number = {
