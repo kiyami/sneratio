@@ -36,8 +36,8 @@ setuptools.setup(
     },
 
     install_requires=[
-        "pyside2==5.13.2",
-        "pandas==1.1.3",
-        "matplotlib==3.3.2"
+        "pyside2>=5.13.2",
+        "pandas>=1.1.3",
+        "matplotlib>=3.3.2"
     ],
 )
