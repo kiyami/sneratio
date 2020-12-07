@@ -1,4 +1,6 @@
 import numpy as np
+from scipy.optimize import leastsq
+
 
 class Stats:
     def __init__(self, table, ref_element, sigma):
@@ -156,3 +158,29 @@ class Stats:
 
     def get_fit_results_text(self):
         return self.fit_results_text
+
+
+    def new_function(self, fraction):
+        a, b = fraction
+        if self.ref_element == "H":
+            ref_index = None
+        else:
+            ref_index = self.table[self.table.Element == self.ref_element].index[0]
+
+        contribution_list = []
+        for i in self.table.index:
+            arg1_Ia = a * self.table[self.Ia_column_name][i]
+            arg1_cc = b * self.table[self.cc_column_name][i]
+            arg2 = a * self.table[self.Ia_column_name][ref_index] + b * self.table[self.cc_column_name][ref_index]
+            arg3 = 1.0 / self.table["{}_normalised_solar".format(self.ref_element)][i]
+            arg4 = self.table["MassNumber"][ref_index] / self.table["MassNumber"][i]
+            contribution = ((arg1_Ia / arg2) * arg3 * arg4, (arg1_cc / arg2) * arg3 * arg4)
+            contribution_list.append(contribution)
+        return contribution_list
+
+    def new_fit(self):
+        fraction = np.array([0.25, 0.75])
+        result = leastsq(self.new_function, fraction)
+
+        print(result)
+

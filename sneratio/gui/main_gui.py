@@ -49,6 +49,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_save_stats.clicked.connect(self.save_stats)
         self.button_save_all.clicked.connect(self.save_all)
 
+        self.box_snIa_table.currentTextChanged.connect(self.set_snIa_table)
         self.box_snIa_model.currentTextChanged.connect(self.set_snIa_model)
 
         self.box_sncc_table.currentTextChanged.connect(self.set_sncc_table)
@@ -181,6 +182,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.set_fit_results()
         self.plot_fit()
 
+        # self.calculator.stats.new_fit()
+
 
     def save_plots(self):
         path = "outputs"
@@ -242,21 +245,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
         self.calculator.update_selection("cc_mass_range", new_selection_inner_keyword)
 
-    def set_Ia_table(self):
+    def set_snIa_table(self):
         new_selection_gui_keyword = self.box_snIa_table.currentText()
         new_selection_inner_keyword = self.calculator.get_inner_keyword(new_selection_gui_keyword)
         self.calculator.update_selection("Ia_table_name", new_selection_inner_keyword)
-
         self.update_snIa_model_box()
 
     def update_snIa_model_box(self):
+
         new_Ia_table_gui_keyword = self.box_snIa_table.currentText()
         new_Ia_table_inner_keyword = self.calculator.get_inner_keyword(new_Ia_table_gui_keyword)
         for _ in range(self.box_snIa_model.count()):
             self.box_snIa_model.removeItem(0)
 
+        new_model_values = self.calculator.Ia_valid_models[new_Ia_table_inner_keyword]
+        self.box_snIa_model.addItems(new_model_values)
+
+        """
+        new_Ia_table_gui_keyword = self.box_snIa_table.currentText()
+        new_Ia_table_inner_keyword = self.calculator.get_inner_keyword(new_Ia_table_gui_keyword)
+        for _ in range(self.box_snIa_model.count()):
+            self.box_snIa_model.removeItem(0)
+        print("now")
+
         new_model_values = self.calculator.Ia_valid_models["Ia_valid_models"][new_Ia_table_inner_keyword]
         self.box_snIa_model.addItems(new_model_values)
+        """
 
     def set_snIa_model(self):
         new_selection_gui_keyword = self.box_snIa_model.currentText()
