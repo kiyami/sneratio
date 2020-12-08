@@ -66,8 +66,8 @@ class Keywords:
 
     Ia_valid_models = {
         "iwamoto": ["W7", "W70", "WDD1", "WDD2", "WDD3", "CDD1", "CDD2"],
-        "fink": ["N3def", "N5def", "N10def", "N20def", "N40def", "N100Ldef", "N100def", "N100Hdef", "N150def", "N200def", "N300Cdef", "N1600def", "N1600Cdef"],
-        "seitenzahl": ["N3","N5", "N10","N20","N40","N100H","N100","N100L","N150","N200","N300C","N1600","N1600C","N100_Z0.5","N100_Z0.1","N100_Z0.01"],
+        "fink": ["N1def", "N3def", "N5def", "N10def", "N20def", "N40def", "N100Ldef", "N100def", "N100Hdef", "N150def", "N200def", "N300Cdef", "N1600def", "N1600Cdef"],
+        "seitenzahl": ["N1", "N3","N5", "N10","N20","N40","N100H","N100","N100L","N150","N200","N300C","N1600","N1600C","N100_Z0.5","N100_Z0.1","N100_Z0.01"],
     }
 
     cc = {

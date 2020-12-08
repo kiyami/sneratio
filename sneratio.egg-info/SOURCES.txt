@@ -8,9 +8,6 @@ sneratio.egg-info/dependency_links.txt
 sneratio.egg-info/requires.txt
 sneratio.egg-info/top_level.txt
 sneratio/data/__init__.py
-sneratio/data/new_yields/__init__.py
-sneratio/data/new_yields/Ia/__init__.py
-sneratio/data/new_yields/cc/__init__.py
 sneratio/data/yields/__init__.py
 sneratio/data/yields/Ia/__init__.py
 sneratio/data/yields/cc/__init__.py

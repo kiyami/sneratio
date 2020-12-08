@@ -141,7 +141,7 @@ class IaTable(Reader):
     def __init__(self, path, model):
         Reader.__init__(self, path)
         self.model = model
-        self.model_list = self.data.columns[3:].values
+        self.model_list = self.data.columns[2:].values
 
         self.yields = pd.DataFrame()
         self.set_yields()
