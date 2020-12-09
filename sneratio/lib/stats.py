@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.optimize import leastsq
 
 
 class Stats:
@@ -177,10 +176,3 @@ class Stats:
             contribution = ((arg1_Ia / arg2) * arg3 * arg4, (arg1_cc / arg2) * arg3 * arg4)
             contribution_list.append(contribution)
         return contribution_list
-
-    def new_fit(self):
-        fraction = np.array([0.25, 0.75])
-        result = leastsq(self.new_function, fraction)
-
-        print(result)
-

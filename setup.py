@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="sneratio",
-    version="0.2.0",
+    version="0.2.1",
     author="M.Kıyami ERDİM",
     author_email="kiyami_erdim@hotmail.com",
 
@@ -33,7 +33,8 @@ setuptools.setup(
                     'data/yields/cc/nomoto_2013/*',
                     'data/yields/cc/tsujimoto/*',
                     'data/yields/Ia/iwamoto/*',
-                    'data/yields/Ia/fink/*']
+                    'data/yields/Ia/fink/*',
+                     'data/yields/Ia/seitenzahl/*']
     },
 
     install_requires=[
