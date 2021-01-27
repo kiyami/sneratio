@@ -11,25 +11,23 @@ class Paths:
     }
 
     Ia = {
-        "iwamoto": "sneratio/data/yields/Ia/iwamoto/Iwamoto_ApJ_1999_Table4.txt",
-        "fink": "sneratio/data/yields/Ia/fink/Fink2013.txt",
-        "seitenzahl": "sneratio/data/yields/Ia/seitenzahl/Seitenzahl_2013.txt"
+        "iwamoto": "sneratio/data/yields/Ia/Iwamoto_1999.txt",
+        "fink": "sneratio/data/yields/Ia/Fink_2013.txt",
+        "seitenzahl": "sneratio/data/yields/Ia/Seitenzahl_2013.txt"
     }
 
     cc = {
-        # "nomoto_2013_0.0": "sneratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0.txt",
-        "nomoto_2013_0.001": "sneratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_001.txt",
-        "nomoto_2013_0.004": "sneratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_004.txt",
-        "nomoto_2013_0.008": "sneratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_008.txt",
-        "nomoto_2013_0.02": "sneratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_02.txt",
-        "nomoto_2013_0.05": "sneratio/data/yields/cc/nomoto_2013/Nomoto_2013_z_0_05.txt",
+        "nomoto_2013_0.0": "sneratio/data/yields/cc/Nomoto_2013_z_0.txt",
+        "nomoto_2013_0.001": "sneratio/data/yields/cc/Nomoto_2013_z_0_001.txt",
+        "nomoto_2013_0.004": "sneratio/data/yields/cc/Nomoto_2013_z_0_004.txt",
+        "nomoto_2013_0.008": "sneratio/data/yields/cc/Nomoto_2013_z_0_008.txt",
+        "nomoto_2013_0.02": "sneratio/data/yields/cc/Nomoto_2013_z_0_02.txt",
+        "nomoto_2013_0.05": "sneratio/data/yields/cc/Nomoto_2013_z_0_05.txt",
 
-        "nomoto_2006_0.0": "sneratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0.txt",
-        "nomoto_2006_0.001": "sneratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0_001.txt",
-        "nomoto_2006_0.004": "sneratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0_004.txt",
-        "nomoto_2006_0.02": "sneratio/data/yields/cc/nomoto_2006/Nomoto_2006_Table2_Z_0_02.txt",
-
-        "tsujimoto_0.0": "sneratio/data/yields/cc/tsujimoto/Tsujimoto_1995_integrated_Table2.txt"
+        "nomoto_2006_0.0": "sneratio/data/yields/cc/Nomoto_2006_z_0.txt",
+        "nomoto_2006_0.001": "sneratio/data/yields/cc/Nomoto_2006_z_0_001.txt",
+        "nomoto_2006_0.004": "sneratio/data/yields/cc/Nomoto_2006_z_0_004.txt",
+        "nomoto_2006_0.02": "sneratio/data/yields/cc/Nomoto_2006_z_0_02.txt",
     }
 
     solar = {
@@ -73,14 +71,14 @@ class Keywords:
     cc = {
         "nomoto_2013": "Nomoto (2013)",
         "nomoto_2006": "Nomoto (2006)",
-        "tsujimoto": "Tsujimoto (1995)",
+        #"tsujimoto": "Tsujimoto (1995)",
     }
 
     cc_valid_abundances = {
-        # "nomoto_2013": ["0.0", "0.001", "0.004", "0.008", "0.02", "0.05"],
-        "nomoto_2013": ["0.001", "0.004", "0.008", "0.02", "0.05"],
+        "nomoto_2013": ["0.0", "0.001", "0.004", "0.008", "0.02", "0.05"],
+        # "nomoto_2013": ["0.001", "0.004", "0.008", "0.02", "0.05"],
         "nomoto_2006": ["0.0", "0.001", "0.004", "0.02"],
-        "tsujimoto": ["0.0"]
+        #"tsujimoto": ["0.0"]
     }
 
     cc_mass_range = {
