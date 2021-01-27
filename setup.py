@@ -30,9 +30,9 @@ setuptools.setup(
     },
 
     install_requires=[
-        "flask>=1.1.2",
-        "pandas>=1.2.1",
-        "matplotlib>=3.3.3",
-        "scipy>=1.6.0",
+        "flask",
+        "pandas",
+        "matplotlib",
+        "scipy",
     ],
 )
