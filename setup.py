@@ -34,5 +34,6 @@ setuptools.setup(
         "pandas",
         "matplotlib",
         "scipy",
+        "gunicorn",
     ],
 )
