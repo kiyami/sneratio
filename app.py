@@ -32,7 +32,7 @@ def main():
 
     Methods.set_status_text("Welcome to the SNeRatio App..")
 
-    return render_template('sneratio/templates/index.html',
+    return render_template('index.html',
                            data_field=Methods.get_data_field(),
                            img_data=encoded_img_data.decode(),
                            status=Methods.get_status_text())
@@ -61,12 +61,12 @@ def fit():
 
         Methods.set_status_text("Fitting completed..")
 
-        return render_template('sneratio/templates/index.html',
+        return render_template('index.html',
                                data_field=Methods.get_data_field(),
                                img_data=encoded_img_data.decode(),
                                status=Methods.get_status_text())
 
-    return render_template('sneratio/templates/index.html',
+    return render_template('index.html',
                            data_field=Methods.get_data_field(),
                            img_data=encoded_img_data.decode(),
                            status=Methods.get_status_text())
@@ -94,12 +94,12 @@ def fit_loop():
 
         Methods.set_status_text("Fitting for all models completed..")
 
-        return render_template('sneratio/templates/index.html',
+        return render_template('index.html',
                                data_field=Methods.get_data_field(),
                                img_data=encoded_img_data.decode(),
                                status=Methods.get_status_text())
 
-    return render_template('sneratio/templates/index.html',
+    return render_template('index.html',
                            data_field=Methods.get_data_field(),
                            img_data=encoded_img_data.decode(),
                            status=Methods.get_status_text())
