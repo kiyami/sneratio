@@ -1,0 +1,884 @@
+{% extends 'base.html' %}
+
+
+{% block left_column %}
+
+<div class="col-md-3" style="background-color:#dcdcdc; padding-right: 2%; padding-left: 2%; padding-bottom: 2%; border-style: solid; border-color: rgb(255, 255, 255); border-width: 10px;">
+  <font size="2.0">
+
+    <p class="m-4 text-center" style="font-size: larger; background-color: rgb(129, 216, 129);">Selections</p>
+
+    <hr class="mt-3 mb-3" style="border-width: 1px; border-color: rgb(157, 157, 157);">
+    
+    <label class="custom-select-label m-1">SNIa - Model</label>
+    <select class="custom-select custom-select-sm" id="Ia_table">
+    </select>
+
+    <hr class="mt-3 mb-3" style="border-width: 1px; border-color: rgb(157, 157, 157);">
+
+    <label class="custom-select-label m-1">SNcc - Model</label>
+    <select class="custom-select custom-select-sm" id="cc_table">
+    </select>
+
+    <br>
+    <label class="custom-select-label m-1"> SNcc - Mass Range</label>
+    <select class="custom-select custom-select-sm" id="cc_mass_range">
+    </select>
+
+    <br>
+    <label class="custom-select-label m-1">SNcc - IMF</label>
+    <select class="custom-select custom-select-sm" id="cc_imf">
+    </select>
+
+    <hr class="mt-3 mb-3" style="border-width: 1px; border-color: rgb(157, 157, 157);">
+
+    <label class="custom-select-label m-1">Solar Table</label>
+    <select class="custom-select custom-select-sm" id="solar_table">
+    </select>
+
+    <br>
+    <label class="custom-select-label m-1">Reference Element</label>
+    <select class="custom-select custom-select-sm" id="ref_element">
+    </select>
+
+    <br>
+    <label class="custom-select-label m-1">Confidence Interval</label>
+    <select class="custom-select custom-select-sm" id="sigma">
+    </select>
+
+    <hr class="mt-3 mb-3" style="border-width: 1px; border-color: rgb(157, 157, 157);">
+
+    <form action="/load" method="POST">
+      <label class="m-1" for="load_data">Load Data</label>
+      <div class="custom-file mb-2">
+          <input type="file" class="custom-file-input" id="load_data">
+          <label class="custom-file-label" for="load_data">{{ data_field["options"]["input_data"][0] }}</label>
+          <textarea id="content-target"></textarea>
+      </div>
+
+      <script>
+        /*
+        $('#load_data').on('change',function(){
+            //get the file name
+            var fileName = $(this).val().replace('C:\\fakepath\\', " ");
+            //replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+        })
+        */
+
+        document.getElementById('load_data')
+          .addEventListener('change', getFile)
+
+        function getFile(event) {
+          const input = event.target
+          if ('files' in input && input.files.length > 0) {
+            placeFileContent(
+              document.getElementById('content-target'),
+              input.files[0])
+          }
+        }
+
+        function placeFileContent(target, file) {
+          readFileContent(file).then(content => {
+            asd = "asd";
+            content_list = content.split("\n");
+            for(i = 1; i < content_list.length(); i++) {
+              asd += content_list[i].split(" ")[0] + "\n";
+            }
+            alert(asd);
+            //target.value = content
+          }).catch(error => console.log(error))
+        }
+
+        function readFileContent(file) {
+          const reader = new FileReader()
+          return new Promise((resolve, reject) => {
+            reader.onload = event => resolve(event.target.result)
+            reader.onerror = error => reject(error)
+            reader.readAsText(file)
+          })
+        }
+    </script>
+    </form>
+    <br>
+  </font>
+
+
+    <script>
+        json_data_field = {{ data_field | tojson }};
+
+        
+        function fill_select(select_id, element_list) {
+            for(i = 0; i < element_list.length; i++) {
+                var new_selection = "<option>" + element_list[i] + "</option>";
+                document.getElementById(select_id).innerHTML += new_selection;
+            }
+        }
+
+        var id = "Ia_table";
+        var element_list = json_data_field['options'][id];
+        fill_select(id, element_list);
+        index = json_data_field['selections'][id];
+        document.getElementById(id).value = element_list[index];
+
+        var id = "cc_table";
+        var element_list = json_data_field['options'][id];
+        fill_select(id, element_list);
+        index = json_data_field['selections'][id];
+        document.getElementById(id).value = element_list[index];
+
+        var id = "cc_mass_range";
+        var element_list = json_data_field['options'][id];
+        fill_select(id, element_list);
+        index = json_data_field['selections'][id];
+        document.getElementById(id).value = element_list[index];
+
+        var id = "cc_imf";
+        var element_list = json_data_field['options'][id];
+        fill_select(id, element_list);
+        index = json_data_field['selections'][id];
+        document.getElementById(id).value = element_list[index];
+
+        var id = "solar_table";
+        var element_list = json_data_field['options'][id];
+        fill_select(id, element_list);
+        index = json_data_field['selections'][id];
+        document.getElementById(id).value = element_list[index];
+
+        var id = "ref_element";
+        var element_list = json_data_field['options'][id];
+        fill_select(id, element_list);
+        index = json_data_field['selections'][id];
+        document.getElementById(id).value = element_list[index];
+
+        var id = "sigma";
+        var element_list = json_data_field['options'][id];
+        fill_select(id, element_list);
+        index = json_data_field['selections'][id];
+        document.getElementById(id).value = element_list[index];
+
+    </script>
+
+    <script>
+ 
+        $(document).ready(function() {
+            $('#Ia_table').change(function() {
+                text = $(this).val();
+                index = json_data_field['options']['Ia_table'].indexOf(text);
+                json_data_field['selections']['Ia_table'] = index;
+            });
+
+            $('#cc_table').change(function() {
+                text = $(this).val();
+                index = json_data_field['options']['cc_table'].indexOf(text);
+                json_data_field['selections']['cc_table'] = index;
+            });
+
+            $('#cc_mass_range').change(function() {
+                text = $(this).val();
+                index = json_data_field['options']['cc_mass_range'].indexOf(text);
+                json_data_field['selections']['cc_mass_range'] = index;
+            });
+
+            $('#cc_imf').change(function() {
+                text = $(this).val();
+                index = json_data_field['options']['cc_imf'].indexOf(text);
+                json_data_field['selections']['cc_imf'] = index;
+            });
+
+            $('#solar_table').change(function() {
+                text = $(this).val();
+                index = json_data_field['options']['solar_table'].indexOf(text);
+                json_data_field['selections']['solar_table'] = index;
+            });
+
+            $('#ref_element').change(function() {
+                text = $(this).val();
+                index = json_data_field['options']['ref_element'].indexOf(text);
+                json_data_field['selections']['ref_element'] = index;
+            });
+
+            $('#sigma').change(function() {
+                text = $(this).val();
+                index = json_data_field['options']['sigma'].indexOf(text);
+                json_data_field['selections']['sigma'] = index;
+            });
+        });
+              
+        /*
+        $(document).ready(function() {
+            $('.custom-select').change(function() {
+                id = $(this).attr('id');
+                document.getElementById('textarea').innerHTML = id;
+                text = $(this).val();
+                document.getElementById('textarea').innerHTML += text;
+                index = json_data_field['options'][id].indexOf(text);
+                json_data_field['selections'][id] = index;
+                document.getElementById('textarea').innerHTML += json_data_field['selections'][id];
+            });
+        });
+        */
+        
+    </script>
+
+</div>
+{% endblock %}
+
+
+
+{% block middle_column %}
+<div class="col-md-6" style="background-color:#bbbbbb; font-weight: bold; border-style: solid; border-color: rgb(255, 255, 255); border-width: 10px;">
+
+    <div class="row text-center" style="background-color:#ffffff;">
+        <div class="col-md-12 text-center">
+            <img style='display:block; width:600px;height:450px;' src="data:image/png;base64,{{ img_data | safe }}" class="img m-1" alt="Fit Plot" id="fit_image">
+        </div>
+    </div>
+
+    <div class="row input-group input-group-sm m-1 mr-2 mt-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Status</span>
+      </div>
+      <input type="text" class="form-control" id="status" placeholder="{{ status }}">
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 text-center">
+            <div class="custom-form">
+              <font size="2.5">
+                <table class="table table-sm table-hover table-inverse table-responsive-sm m-1">
+                  <tbody>
+                    <tr>
+                      <td scope="row" class="text-center align-middle">Chi-Squared</td>
+                      <td><input type="text" class="form-control" id="val_chi" value='{{ data_field["results"]["fit_results"]["chi_squared"] }}'>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td scope="row" class="text-center align-middle">D.o.f.</td>
+                      <td><input type="text" class="form-control" id="val_dof" value='{{ data_field["results"]["fit_results"]["dof"] }}'>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td scope="row" class="text-center align-middle">Ratio %</td>
+                      <td><input type="text" class="form-control" id="val_ratio" value='{{ data_field["results"]["fit_results"]["ratio"] }}'>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </font>
+            </div>
+        </div>
+
+        <div class="col-md-4 text-center">
+
+            <form name="fit" action="/fit" method="POST"> 
+                <script>
+
+                  $(document).ready(function() {
+                        $('#btn_fit').click(function() {
+
+                          $("#status").value = "Fitting..";
+
+                          all_elements = ['C', 'N', 'O', 'Ne', 'Mg', 'Al', 'Si', 'S', 'Ar', 'Ca', 'Fe', 'Ni'];
+                          selected_elements = []
+                          abund = []
+                          abund_err = []
+                   
+                          if($('#chb_C').prop("checked") == true) {
+                              selected_elements.push('C');
+                              abund.push($('#val_C').val());
+                              abund_err.push($('#err_C').val());
+                            }
+                          
+                          if($('#chb_N').prop("checked") == true) {
+                            selected_elements.push('N');
+                            abund.push($('#val_N').val());
+                            abund_err.push($('#err_N').val());
+                          }
+
+                          if($('#chb_O').prop("checked") == true) {
+                            selected_elements.push('O');
+                            abund.push($('#val_O').val());
+                            abund_err.push($('#err_O').val());
+                          }
+
+                          if($('#chb_Ne').prop("checked") == true) {
+                            selected_elements.push('Ne');
+                            abund.push($('#val_Ne').val());
+                            abund_err.push($('#err_Ne').val());
+                          }
+
+                          if($('#chb_Mg').prop("checked") == true) {
+                            selected_elements.push('Mg');
+                            abund.push($('#val_Mg').val());
+                            abund_err.push($('#err_Mg').val());
+                          }
+
+                          if($('#chb_Al').prop("checked") == true) {
+                            selected_elements.push('Al');
+                            abund.push($('#val_Al').val());
+                            abund_err.push($('#err_Al').val());
+                          }
+
+                          if($('#chb_Si').prop("checked") == true) {
+                              selected_elements.push('Si');
+                              abund.push($('#val_Si').val());
+                              abund_err.push($('#err_Si').val());
+                            }
+                          
+                          if($('#chb_S').prop("checked") == true) {
+                            selected_elements.push('S');
+                            abund.push($('#val_S').val());
+                            abund_err.push($('#err_S').val());
+                          }
+
+                          if($('#chb_Ar').prop("checked") == true) {
+                            selected_elements.push('Ar');
+                            abund.push($('#val_Ar').val());
+                            abund_err.push($('#err_Ar').val());
+                          }
+
+                          if($('#chb_Ca').prop("checked") == true) {
+                            selected_elements.push('Ca');
+                            abund.push($('#val_Ca').val());
+                            abund_err.push($('#err_Ca').val());
+                          }
+
+                          if($('#chb_Fe').prop("checked") == true) {
+                            selected_elements.push('Fe');
+                            abund.push($('#val_Fe').val());
+                            abund_err.push($('#err_Fe').val());
+                          }
+
+                          if($('#chb_Ni').prop("checked") == true) {
+                            selected_elements.push('Ni');
+                            abund.push($('#val_Ni').val());
+                            abund_err.push($('#err_Ni').val());
+                          }
+
+                          json_data_field['elements']['element'] = selected_elements;
+                          json_data_field['elements']['abund'] = abund;
+                          json_data_field['elements']['abund_err'] = abund_err;
+
+                          json_data_field['results']['fit_results'] = '';
+
+                          $('#hidden_val').prop("value", JSON.stringify(json_data_field));
+                          
+                          $('#fit_image').prop("src", "data:image/png;base64,{{ img_data | safe }}");
+
+                        });
+                    });
+
+
+                </script>
+
+                <input type="hidden" name="data_field" class="form-control" id="hidden_val" value='{{ data_field | tojson }}'>
+
+                <input class="btn btn-dark btn-sm btn-block m-1" type="submit" id="btn_fit" value="Fit">
+
+            </form>
+
+            
+
+            <form name="fit_loop" action="/fit_loop" method="POST">
+
+              <script>
+
+                $(document).ready(function() {
+                      $('#btn_fit_loop').click(function() {
+
+                        $("#status").value = "Fitting for all models..";
+
+                        all_elements = ['C', 'N', 'O', 'Ne', 'Mg', 'Al', 'Si', 'S', 'Ar', 'Ca', 'Fe', 'Ni'];
+                          selected_elements = []
+                          abund = []
+                          abund_err = []
+                   
+                          if($('#chb_C').prop("checked") == true) {
+                              selected_elements.push('C');
+                              abund.push($('#val_C').val());
+                              abund_err.push($('#err_C').val());
+                            }
+                          
+                          if($('#chb_N').prop("checked") == true) {
+                            selected_elements.push('N');
+                            abund.push($('#val_N').val());
+                            abund_err.push($('#err_N').val());
+                          }
+
+                          if($('#chb_O').prop("checked") == true) {
+                            selected_elements.push('O');
+                            abund.push($('#val_O').val());
+                            abund_err.push($('#err_O').val());
+                          }
+
+                          if($('#chb_Ne').prop("checked") == true) {
+                            selected_elements.push('Ne');
+                            abund.push($('#val_Ne').val());
+                            abund_err.push($('#err_Ne').val());
+                          }
+
+                          if($('#chb_Mg').prop("checked") == true) {
+                            selected_elements.push('Mg');
+                            abund.push($('#val_Mg').val());
+                            abund_err.push($('#err_Mg').val());
+                          }
+
+                          if($('#chb_Al').prop("checked") == true) {
+                            selected_elements.push('Al');
+                            abund.push($('#val_Al').val());
+                            abund_err.push($('#err_Al').val());
+                          }
+
+                          if($('#chb_Si').prop("checked") == true) {
+                              selected_elements.push('Si');
+                              abund.push($('#val_Si').val());
+                              abund_err.push($('#err_Si').val());
+                            }
+                          
+                          if($('#chb_S').prop("checked") == true) {
+                            selected_elements.push('S');
+                            abund.push($('#val_S').val());
+                            abund_err.push($('#err_S').val());
+                          }
+
+                          if($('#chb_Ar').prop("checked") == true) {
+                            selected_elements.push('Ar');
+                            abund.push($('#val_Ar').val());
+                            abund_err.push($('#err_Ar').val());
+                          }
+
+                          if($('#chb_Ca').prop("checked") == true) {
+                            selected_elements.push('Ca');
+                            abund.push($('#val_Ca').val());
+                            abund_err.push($('#err_Ca').val());
+                          }
+
+                          if($('#chb_Fe').prop("checked") == true) {
+                            selected_elements.push('Fe');
+                            abund.push($('#val_Fe').val());
+                            abund_err.push($('#err_Fe').val());
+                          }
+
+                          if($('#chb_Ni').prop("checked") == true) {
+                            selected_elements.push('Ni');
+                            abund.push($('#val_Ni').val());
+                            abund_err.push($('#err_Ni').val());
+                          }
+
+                          json_data_field['elements']['element'] = selected_elements;
+                          json_data_field['elements']['abund'] = abund;
+                          json_data_field['elements']['abund_err'] = abund_err;
+
+                          json_data_field['results']['fit_results'] = '';
+
+
+                        $('#hidden_val_loop').prop("value", JSON.stringify(json_data_field));
+                        
+                        $('#fit_image').prop("src", "data:image/png;base64,{{ img_data | safe }}");
+
+                      });
+                  });
+
+
+              </script>
+                
+                <input type="hidden" name="data_field_2" class="form-control" id="hidden_val_loop" value='{{ data_field | tojson }}'>
+              
+                <input class="btn btn-dark btn-sm btn-block m-1" type="submit" id="btn_fit_loop" value="Fit All">
+
+            </form>
+
+
+            <button id="btn_save" type="button" class="btn btn-dark btn-sm btn-block m-1">Save Results</button>
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+
+
+
+{% block right_column %}
+<div class="col-md-3" style="background-color:#dcdcdc; padding-right: 3%; padding-left: 3%; border-style: solid; border-color: rgb(255, 255, 255); border-width: 10px;">
+    
+    <font size="2.0">
+    <table class="table table-sm table-hover table-inverse table-responsive mt-2">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="col-md-3 col-sm-3 col-xs-3 text-center">Element:</th>
+                <th class="col-md-4 col-sm-4 col-xs-4 text-center">Value</th>
+                <th class="col-md-1 col-sm-1 col-xs-1"></th>
+                <th class="col-md-4 col-sm-4 col-xs-4 text-center">Error</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_C">C</label></td>
+                    <td><input type="text" class="form-control" id="val_C"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_C"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_N"> N</label></td>
+                    <td><input type="text" class="form-control" id="val_N"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_N"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_O"> O</label></td>
+                    <td><input type="text" class="form-control" id="val_O"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_O"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Ne"> Ne</label></td>
+                    <td><input type="text" class="form-control" id="val_Ne"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_Ne"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Mg"> Mg</label></td>
+                    <td><input type="text" class="form-control" id="val_Mg"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_Mg"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Al"> Al</label></td>
+                    <td><input type="text" class="form-control" id="val_Al"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_Al"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Si"> Si</label></td>
+                    <td><input type="text" class="form-control" id="val_Si"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_Si"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_S"> S</label></td>
+                    <td><input type="text" class="form-control" id="val_S"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_S"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Ar"> Ar</label></td>
+                    <td><input type="text" class="form-control" id="val_Ar"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_Ar"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Ca"> Ca</label></td>
+                    <td><input type="text" class="form-control" id="val_Ca"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_Ca"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Fe"> Fe</label></td>
+                    <td><input type="text" class="form-control" id="val_Fe"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_Fe"></td>
+                </tr>
+                <tr>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Ni"> Ni</label></td>
+                    <td><input type="text" class="form-control" id="val_Ni"></td>
+                    <td class="text-center align-middle"><label>+/-</label></td>
+                    <td><input type="text" class="form-control" id="err_Ni"></td>
+                </tr>
+            </tbody>
+    </table>
+    </font>
+
+    <script>
+      function fill_element(name, json_data_field_elements) {
+        if(json_data_field_elements['element'].includes(name)) {
+
+          index = json_data_field_elements['element'].indexOf(name);
+
+          document.getElementById('chb_' + name).checked = true;
+
+          document.getElementById('val_' + name).value = json_data_field_elements['abund'][index];
+          document.getElementById('val_' + name).disabled = false;
+
+          document.getElementById('err_' + name).value = json_data_field_elements['abund_err'][index];
+          document.getElementById('err_' + name).disabled = false;
+          } else {
+          document.getElementById('chb_' + name).checked = false;
+
+          document.getElementById('val_' + name).value = "";
+          document.getElementById('val_' + name).disabled = true;
+
+          document.getElementById('err_' + name).value = "";
+          document.getElementById('err_' + name).disabled = true;
+        }
+      }
+
+      element = "C";
+      fill_element("C", json_data_field["elements"]);
+
+      element = "N";
+      fill_element("N", json_data_field["elements"]);
+
+      element = "O";
+      fill_element("O", json_data_field["elements"]);
+
+      element = "Ne";
+      fill_element("Ne", json_data_field["elements"]);
+
+      element = "Mg";
+      fill_element("Mg", json_data_field["elements"]);
+
+      element = "Al";
+      fill_element("Al", json_data_field["elements"]);
+
+      element = "Si";
+      fill_element("Si", json_data_field["elements"]);
+
+      element = "S";
+      fill_element("S", json_data_field["elements"]);
+
+      element = "Ar";
+      fill_element("Ar", json_data_field["elements"]);
+
+      element = "Ca";
+      fill_element("Ca", json_data_field["elements"]);
+
+      element = "Fe";
+      fill_element("Fe", json_data_field["elements"]);
+
+      element = "Ni";
+      fill_element("Ni", json_data_field["elements"]);
+
+    </script>
+
+    <script>
+    
+        $(document).ready(function() {
+          $('#chb_' + 'C').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'C').prop("value", "1.0");
+                $('#val_' + 'C').prop("disabled", false);
+
+                $('#err_' + 'C').prop("value", "0.1");
+                $('#err_' + 'C').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'C').prop("value", "");
+                $('#val_' + 'C').prop("disabled", true);
+
+                $('#err_' + 'C').prop("value", "");
+                $('#err_' + 'C').prop("disabled", true);
+              }
+            });
+
+          $('#chb_' + 'N').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'N').prop("value", "1.0");
+                $('#val_' + 'N').prop("disabled", false);
+
+                $('#err_' + 'N').prop("value", "0.1");
+                $('#err_' + 'N').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'N').prop("value", "");
+                $('#val_' + 'N').prop("disabled", true);
+
+                $('#err_' + 'N').prop("value", "");
+                $('#err_' + 'N').prop("disabled", true);
+              }
+            });
+
+            $('#chb_' + 'O').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'O').prop("value", "1.0");
+                $('#val_' + 'O').prop("disabled", false);
+
+                $('#err_' + 'O').prop("value", "0.1");
+                $('#err_' + 'O').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'O').prop("value", "");
+                $('#val_' + 'O').prop("disabled", true);
+
+                $('#err_' + 'O').prop("value", "");
+                $('#err_' + 'O').prop("disabled", true);
+              }
+            });
+
+            $('#chb_' + 'Ne').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'Ne').prop("value", "1.0");
+                $('#val_' + 'Ne').prop("disabled", false);
+
+                $('#err_' + 'Ne').prop("value", "0.1");
+                $('#err_' + 'Ne').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'Ne').prop("value", "");
+                $('#val_' + 'Ne').prop("disabled", true);
+
+                $('#err_' + 'Ne').prop("value", "");
+                $('#err_' + 'Ne').prop("disabled", true);
+              }
+            });
+
+            $('#chb_' + 'Mg').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'Mg').prop("value", "1.0");
+                $('#val_' + 'Mg').prop("disabled", false);
+
+                $('#err_' + 'Mg').prop("value", "0.1");
+                $('#err_' + 'Mg').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'Mg').prop("value", "");
+                $('#val_' + 'Mg').prop("disabled", true);
+
+                $('#err_' + 'Mg').prop("value", "");
+                $('#err_' + 'Mg').prop("disabled", true);
+              }
+            });
+
+            $('#chb_' + 'Al').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'Al').prop("value", "1.0");
+                $('#val_' + 'Al').prop("disabled", false);
+
+                $('#err_' + 'Al').prop("value", "0.1");
+                $('#err_' + 'Al').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'Al').prop("value", "");
+                $('#val_' + 'Al').prop("disabled", true);
+
+                $('#err_' + 'Al').prop("value", "");
+                $('#err_' + 'Al').prop("disabled", true);
+              }
+            });
+
+          $('#chb_' + 'Si').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'Si').prop("value", "1.0");
+                $('#val_' + 'Si').prop("disabled", false);
+
+                $('#err_' + 'Si').prop("value", "0.1");
+                $('#err_' + 'Si').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'Si').prop("value", "");
+                $('#val_' + 'Si').prop("disabled", true);
+
+                $('#err_' + 'Si').prop("value", "");
+                $('#err_' + 'Si').prop("disabled", true);
+              }
+            });
+
+          $('#chb_' + 'S').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'S').prop("value", "1.0");
+                $('#val_' + 'S').prop("disabled", false);
+
+                $('#err_' + 'S').prop("value", "0.1");
+                $('#err_' + 'S').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'S').prop("value", "");
+                $('#val_' + 'S').prop("disabled", true);
+
+                $('#err_' + 'S').prop("value", "");
+                $('#err_' + 'S').prop("disabled", true);
+              }
+            });
+
+            $('#chb_' + 'Ar').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'Ar').prop("value", "1.0");
+                $('#val_' + 'Ar').prop("disabled", false);
+
+                $('#err_' + 'Ar').prop("value", "0.1");
+                $('#err_' + 'Ar').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'Ar').prop("value", "");
+                $('#val_' + 'Ar').prop("disabled", true);
+
+                $('#err_' + 'Ar').prop("value", "");
+                $('#err_' + 'Ar').prop("disabled", true);
+              }
+            });
+
+            $('#chb_' + 'Ca').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'Ca').prop("value", "1.0");
+                $('#val_' + 'Ca').prop("disabled", false);
+
+                $('#err_' + 'Ca').prop("value", "0.1");
+                $('#err_' + 'Ca').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'Ca').prop("value", "");
+                $('#val_' + 'Ca').prop("disabled", true);
+
+                $('#err_' + 'Ca').prop("value", "");
+                $('#err_' + 'Ca').prop("disabled", true);
+              }
+            });
+
+            $('#chb_' + 'Fe').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'Fe').prop("value", "1.0");
+                $('#val_' + 'Fe').prop("disabled", false);
+
+                $('#err_' + 'Fe').prop("value", "0.1");
+                $('#err_' + 'Fe').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'Fe').prop("value", "");
+                $('#val_' + 'Fe').prop("disabled", true);
+
+                $('#err_' + 'Fe').prop("value", "");
+                $('#err_' + 'Fe').prop("disabled", true);
+              }
+            });
+
+            $('#chb_' + 'Ni').click(function() {
+              if($(this).prop("checked") == true) {
+                $('#val_' + 'Ni').prop("value", "1.0");
+                $('#val_' + 'Ni').prop("disabled", false);
+
+                $('#err_' + 'Ni').prop("value", "0.1");
+                $('#err_' + 'Ni').prop("disabled", false);
+                  }
+              else if($(this).prop("checked") == false) {
+                $('#val_' + 'Ni').prop("value", "");
+                $('#val_' + 'Ni').prop("disabled", true);
+
+                $('#err_' + 'Ni').prop("value", "");
+                $('#err_' + 'Ni').prop("disabled", true);
+              }
+            });
+        });
+        
+    </script>
+
+</div>
+
+{% endblock %}
+
+
+
+
+{% block bottom_row %}
+<div class="col-md-12">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+          <div class="navbar-nav">
+              <a href="#" class="nav-item nav-link">Copyright</a>
+          </div>
+      </div>
+  </nav>
+</div>
+{% endblock %}

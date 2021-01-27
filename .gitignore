@@ -1,4 +1,5 @@
 venv
+venv_desktop
 snratio.egg-info
 snratio_pkg_kiyami.egg-info
 .idea
