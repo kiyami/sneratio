@@ -7,41 +7,6 @@ from sneratio.src.lib.table import Data
 from sneratio.src.lib import info
 
 
-
-def create_fit_plot(outfile):
-    fig = Figure(dpi=65, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
-    ax = fig.add_subplot(111)
-
-    contribution_Ia = Stats.fit_results["Ia_contribution"]
-    contribution_cc = Stats.fit_results["cc_contribution"]
-
-    ref_element = Data.ref_element
-    ref_row_index = Data.ref_row_index
-    elements = Data.merged_table["Element"]
-    norm_abund = Data.merged_table["Abund"]
-    norm_abund_err = Data.merged_table["AbundError"]
-    norm_abund_err[ref_row_index] = 0.0
-
-    ax.errorbar(x=elements, y=norm_abund, yerr=norm_abund_err, fmt='.k', markersize='15', elinewidth=2.5)
-
-    ax.bar(elements, contribution_Ia, 0.6, label="SNIa", color="blue", alpha=0.5)
-    ax.bar(elements, contribution_cc, 0.6, bottom=contribution_Ia, label="SNcc", color="green", alpha=0.5)
-
-    ax.set_ylim(bottom=0)
-
-    # ax.set_xlabel("Elements", fontsize=16)
-    ax.set_ylabel("[X/{}]".format(ref_element), fontsize=12)
-
-    ax.tick_params(axis="x", labelsize=12)
-    ax.tick_params(axis="y", labelsize=12)
-
-    # ax.set_title("{} Normalised Relative Abundances".format(self.ref_element), fontsize=15)
-    ax.legend(loc="upper left", fontsize=12)
-    ax.grid(True)
-
-    fig.savefig(outfile)
-
-
 def get_fit_plot():
     fig = Figure(dpi=200, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
     ax = fig.add_subplot(111)
@@ -177,9 +142,9 @@ def get_fit_loop_plot():
 
 def get_empty_plot():
     fig = Figure(dpi=200, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
-    ax = fig.add_subplot(111)
+    #ax = fig.add_subplot(111)
 
 
-    ax.plot([0,1,2,3], [0,1,2,3])
+    #ax.plot([0,1,2,3], [0,1,2,3])
 
     return fig

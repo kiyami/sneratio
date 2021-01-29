@@ -3,18 +3,17 @@
 
 {% block left_column %}
 
-<div class="col-md-3" style="background-color:#dcdcdc; padding-right: 2%; padding-left: 2%; padding-bottom: 2%; border-style: solid; border-color: rgb(255, 255, 255); border-width: 10px;">
-  <font size="2.0">
+<div id="left_column" class="col-md-3">
 
-    <p class="m-4 text-center" style="font-size: larger; background-color: rgb(129, 216, 129);">Selections</p>
+    <p id="selections_header" class="m-4 text-center">Selections</p>
 
-    <hr class="mt-3 mb-3" style="border-width: 1px; border-color: rgb(157, 157, 157);">
+    <hr class="mt-3 mb-3">
     
     <label class="custom-select-label m-1">SNIa - Model</label>
     <select class="custom-select custom-select-sm" id="Ia_table">
     </select>
 
-    <hr class="mt-3 mb-3" style="border-width: 1px; border-color: rgb(157, 157, 157);">
+    <hr class="mt-3 mb-3">
 
     <label class="custom-select-label m-1">SNcc - Model</label>
     <select class="custom-select custom-select-sm" id="cc_table">
@@ -30,7 +29,7 @@
     <select class="custom-select custom-select-sm" id="cc_imf">
     </select>
 
-    <hr class="mt-3 mb-3" style="border-width: 1px; border-color: rgb(157, 157, 157);">
+    <hr class="mt-3 mb-3">
 
     <label class="custom-select-label m-1">Solar Table</label>
     <select class="custom-select custom-select-sm" id="solar_table">
@@ -46,7 +45,7 @@
     <select class="custom-select custom-select-sm" id="sigma">
     </select>
 
-    <hr class="mt-3 mb-3" style="border-width: 1px; border-color: rgb(157, 157, 157);">
+    <hr class="mt-3 mb-3">
 
     <form action="/load" method="POST">
       <label class="m-1" for="load_data">Load Data</label>
@@ -55,54 +54,8 @@
           <label class="custom-file-label" for="load_data">{{ data_field["options"]["input_data"][0] }}</label>
           <textarea id="content-target"></textarea>
       </div>
-
-      <script>
-        /*
-        $('#load_data').on('change',function(){
-            //get the file name
-            var fileName = $(this).val().replace('C:\\fakepath\\', " ");
-            //replace the "Choose a file" label
-            $(this).next('.custom-file-label').html(fileName);
-        })
-        */
-
-        document.getElementById('load_data')
-          .addEventListener('change', getFile)
-
-        function getFile(event) {
-          const input = event.target
-          if ('files' in input && input.files.length > 0) {
-            placeFileContent(
-              document.getElementById('content-target'),
-              input.files[0])
-          }
-        }
-
-        function placeFileContent(target, file) {
-          readFileContent(file).then(content => {
-            asd = "asd";
-            content_list = content.split("\n");
-            for(i = 1; i < content_list.length(); i++) {
-              asd += content_list[i].split(" ")[0] + "\n";
-            }
-            alert(asd);
-            //target.value = content
-          }).catch(error => console.log(error))
-        }
-
-        function readFileContent(file) {
-          const reader = new FileReader()
-          return new Promise((resolve, reject) => {
-            reader.onload = event => resolve(event.target.result)
-            reader.onerror = error => reject(error)
-            reader.readAsText(file)
-          })
-        }
-    </script>
     </form>
     <br>
-  </font>
-
 
     <script>
         json_data_field = {{ data_field | tojson }};
@@ -156,68 +109,6 @@
         fill_select(id, element_list);
         index = json_data_field['selections'][id];
         document.getElementById(id).value = element_list[index];
-
-    </script>
-
-    <script>
- 
-        $(document).ready(function() {
-            $('#Ia_table').change(function() {
-                text = $(this).val();
-                index = json_data_field['options']['Ia_table'].indexOf(text);
-                json_data_field['selections']['Ia_table'] = index;
-            });
-
-            $('#cc_table').change(function() {
-                text = $(this).val();
-                index = json_data_field['options']['cc_table'].indexOf(text);
-                json_data_field['selections']['cc_table'] = index;
-            });
-
-            $('#cc_mass_range').change(function() {
-                text = $(this).val();
-                index = json_data_field['options']['cc_mass_range'].indexOf(text);
-                json_data_field['selections']['cc_mass_range'] = index;
-            });
-
-            $('#cc_imf').change(function() {
-                text = $(this).val();
-                index = json_data_field['options']['cc_imf'].indexOf(text);
-                json_data_field['selections']['cc_imf'] = index;
-            });
-
-            $('#solar_table').change(function() {
-                text = $(this).val();
-                index = json_data_field['options']['solar_table'].indexOf(text);
-                json_data_field['selections']['solar_table'] = index;
-            });
-
-            $('#ref_element').change(function() {
-                text = $(this).val();
-                index = json_data_field['options']['ref_element'].indexOf(text);
-                json_data_field['selections']['ref_element'] = index;
-            });
-
-            $('#sigma').change(function() {
-                text = $(this).val();
-                index = json_data_field['options']['sigma'].indexOf(text);
-                json_data_field['selections']['sigma'] = index;
-            });
-        });
-              
-        /*
-        $(document).ready(function() {
-            $('.custom-select').change(function() {
-                id = $(this).attr('id');
-                document.getElementById('textarea').innerHTML = id;
-                text = $(this).val();
-                document.getElementById('textarea').innerHTML += text;
-                index = json_data_field['options'][id].indexOf(text);
-                json_data_field['selections'][id] = index;
-                document.getElementById('textarea').innerHTML += json_data_field['selections'][id];
-            });
-        });
-        */
         
     </script>
 
@@ -227,13 +118,14 @@
 
 
 {% block middle_column %}
-<div class="col-md-6" style="background-color:#bbbbbb; font-weight: bold; border-style: solid; border-color: rgb(255, 255, 255); border-width: 10px;">
+<div id="middle_column" class="col-md-6">
 
-    <div class="row text-center" style="background-color:#ffffff;">
+    <div id="image_div" class="row box center mt-3">
         <div class="col-md-12 text-center">
-            <img style='display:block; width:600px;height:450px;' src="data:image/png;base64,{{ img_data | safe }}" class="img m-1" alt="Fit Plot" id="fit_image">
+            <img src="data:image/png;base64,{{ img_data | safe }}" class="img m-1" alt="Fit Plot" id="fit_image">
         </div>
     </div>
+    
 
     <div class="row input-group input-group-sm m-1 mr-2 mt-2">
       <div class="input-group-prepend">
@@ -245,8 +137,7 @@
     <div class="row">
         <div class="col-md-8 text-center">
             <div class="custom-form">
-              <font size="2.5">
-                <table class="table table-sm table-hover table-inverse table-responsive-sm m-1">
+                <table id="middle_table" class="table my_table_1 table-sm table-hover table-inverse table-responsive-sm m-1">
                   <tbody>
                     <tr>
                       <td scope="row" class="text-center align-middle">Chi-Squared</td>
@@ -265,120 +156,15 @@
                     </tr>
                   </tbody>
                 </table>
-              </font>
             </div>
         </div>
 
         <div class="col-md-4 text-center">
 
             <form name="fit" action="/fit" method="POST"> 
-                <script>
-
-                  $(document).ready(function() {
-                        $('#btn_fit').click(function() {
-
-                          $("#status").value = "Fitting..";
-
-                          all_elements = ['C', 'N', 'O', 'Ne', 'Mg', 'Al', 'Si', 'S', 'Ar', 'Ca', 'Fe', 'Ni'];
-                          selected_elements = []
-                          abund = []
-                          abund_err = []
-                   
-                          if($('#chb_C').prop("checked") == true) {
-                              selected_elements.push('C');
-                              abund.push($('#val_C').val());
-                              abund_err.push($('#err_C').val());
-                            }
-                          
-                          if($('#chb_N').prop("checked") == true) {
-                            selected_elements.push('N');
-                            abund.push($('#val_N').val());
-                            abund_err.push($('#err_N').val());
-                          }
-
-                          if($('#chb_O').prop("checked") == true) {
-                            selected_elements.push('O');
-                            abund.push($('#val_O').val());
-                            abund_err.push($('#err_O').val());
-                          }
-
-                          if($('#chb_Ne').prop("checked") == true) {
-                            selected_elements.push('Ne');
-                            abund.push($('#val_Ne').val());
-                            abund_err.push($('#err_Ne').val());
-                          }
-
-                          if($('#chb_Mg').prop("checked") == true) {
-                            selected_elements.push('Mg');
-                            abund.push($('#val_Mg').val());
-                            abund_err.push($('#err_Mg').val());
-                          }
-
-                          if($('#chb_Al').prop("checked") == true) {
-                            selected_elements.push('Al');
-                            abund.push($('#val_Al').val());
-                            abund_err.push($('#err_Al').val());
-                          }
-
-                          if($('#chb_Si').prop("checked") == true) {
-                              selected_elements.push('Si');
-                              abund.push($('#val_Si').val());
-                              abund_err.push($('#err_Si').val());
-                            }
-                          
-                          if($('#chb_S').prop("checked") == true) {
-                            selected_elements.push('S');
-                            abund.push($('#val_S').val());
-                            abund_err.push($('#err_S').val());
-                          }
-
-                          if($('#chb_Ar').prop("checked") == true) {
-                            selected_elements.push('Ar');
-                            abund.push($('#val_Ar').val());
-                            abund_err.push($('#err_Ar').val());
-                          }
-
-                          if($('#chb_Ca').prop("checked") == true) {
-                            selected_elements.push('Ca');
-                            abund.push($('#val_Ca').val());
-                            abund_err.push($('#err_Ca').val());
-                          }
-
-                          if($('#chb_Fe').prop("checked") == true) {
-                            selected_elements.push('Fe');
-                            abund.push($('#val_Fe').val());
-                            abund_err.push($('#err_Fe').val());
-                          }
-
-                          if($('#chb_Ni').prop("checked") == true) {
-                            selected_elements.push('Ni');
-                            abund.push($('#val_Ni').val());
-                            abund_err.push($('#err_Ni').val());
-                          }
-
-                          json_data_field['elements']['element'] = selected_elements;
-                          json_data_field['elements']['abund'] = abund;
-                          json_data_field['elements']['abund_err'] = abund_err;
-
-                          json_data_field['results']['fit_results'] = '';
-
-                          $('#hidden_val').prop("value", JSON.stringify(json_data_field));
-                          
-                          $('#fit_image').prop("src", "data:image/png;base64,{{ img_data | safe }}");
-
-                        });
-                    });
-
-
-                </script>
-
                 <input type="hidden" name="data_field" class="form-control" id="hidden_val" value='{{ data_field | tojson }}'>
-
                 <input class="btn btn-dark btn-sm btn-block m-1" type="submit" id="btn_fit" value="Fit">
-
             </form>
-
-            
 
             <form name="fit_loop" action="/fit_loop" method="POST">
 
@@ -503,9 +289,12 @@
 
 
 {% block right_column %}
-<div class="col-md-3" style="background-color:#dcdcdc; padding-right: 3%; padding-left: 3%; border-style: solid; border-color: rgb(255, 255, 255); border-width: 10px;">
+<div id="right_column" class="col-md-3">
+
+  <p id="elements_header" class="m-4 text-center">Abundance Values</p>
+
+  <hr>
     
-    <font size="2.0">
     <table class="table table-sm table-hover table-inverse table-responsive mt-2">
         <thead class="thead-inverse">
             <tr>
@@ -517,80 +306,79 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_C">C</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_C">C</label></td>
                     <td><input type="text" class="form-control" id="val_C"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_C"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_N"> N</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_N"> N</label></td>
                     <td><input type="text" class="form-control" id="val_N"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_N"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_O"> O</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_O"> O</label></td>
                     <td><input type="text" class="form-control" id="val_O"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_O"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Ne"> Ne</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_Ne"> Ne</label></td>
                     <td><input type="text" class="form-control" id="val_Ne"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_Ne"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Mg"> Mg</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_Mg"> Mg</label></td>
                     <td><input type="text" class="form-control" id="val_Mg"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_Mg"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Al"> Al</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_Al"> Al</label></td>
                     <td><input type="text" class="form-control" id="val_Al"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_Al"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Si"> Si</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_Si"> Si</label></td>
                     <td><input type="text" class="form-control" id="val_Si"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_Si"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_S"> S</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_S"> S</label></td>
                     <td><input type="text" class="form-control" id="val_S"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_S"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Ar"> Ar</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_Ar"> Ar</label></td>
                     <td><input type="text" class="form-control" id="val_Ar"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_Ar"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Ca"> Ca</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_Ca"> Ca</label></td>
                     <td><input type="text" class="form-control" id="val_Ca"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_Ca"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Fe"> Fe</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_Fe"> Fe</label></td>
                     <td><input type="text" class="form-control" id="val_Fe"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_Fe"></td>
                 </tr>
                 <tr>
-                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" class="m-2" id="chb_Ni"> Ni</label></td>
+                    <td scope="row" class="text-left align-middle"><label class="custom-control-inline"><input type="checkbox" id="chb_Ni"> Ni</label></td>
                     <td><input type="text" class="form-control" id="val_Ni"></td>
                     <td class="text-center align-middle"><label>+/-</label></td>
                     <td><input type="text" class="form-control" id="err_Ni"></td>
                 </tr>
             </tbody>
     </table>
-    </font>
 
     <script>
       function fill_element(name, json_data_field_elements) {
