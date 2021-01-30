@@ -62,10 +62,60 @@ document.getElementById(id).value = element_list[index];
 */
 
 
+// Selections (change)
+
+document.getElementById('Ia_table')
+        .addEventListener("change", function(){
+            text = $(this).val();
+            index = json_data_field['options']['Ia_table'].indexOf(text);
+            json_data_field['selections']['Ia_table'] = index;
+        });
+
+document.getElementById('cc_table')
+        .addEventListener("change", function(){
+            text = $(this).val();
+            index = json_data_field['options']['cc_table'].indexOf(text);
+            json_data_field['selections']['cc_table'] = index;
+        });
+
+document.getElementById('cc_mass_range')
+        .addEventListener("change", function(){
+            text = $(this).val();
+            index = json_data_field['options']['cc_mass_range'].indexOf(text);
+            json_data_field['selections']['cc_mass_range'] = index;
+        });
+
+document.getElementById('cc_imf')
+        .addEventListener("change", function(){
+            text = $(this).val();
+            index = json_data_field['options']['cc_imf'].indexOf(text);
+            json_data_field['selections']['cc_imf'] = index;
+        });
+
+document.getElementById('solar_table')
+        .addEventListener("change", function(){
+            text = $(this).val();
+            index = json_data_field['options']['solar_table'].indexOf(text);
+            json_data_field['selections']['solar_table'] = index;
+        });
+
+document.getElementById('ref_element')
+        .addEventListener("change", function(){
+            text = $(this).val();
+            index = json_data_field['options']['ref_element'].indexOf(text);
+            json_data_field['selections']['ref_element'] = index;
+        });
+
+document.getElementById('sigma')
+        .addEventListener("change", function(){
+            text = $(this).val();
+            index = json_data_field['options']['sigma'].indexOf(text);
+            json_data_field['selections']['sigma'] = index;
+        });
 
 
-// Selections JQuery
 
+/*
 $(document).ready(function() {
     $('#Ia_table').change(function() {
         text = $(this).val();
@@ -109,7 +159,7 @@ $(document).ready(function() {
         json_data_field['selections']['sigma'] = index;
     });
 });
-
+*/
 
 
 
@@ -369,7 +419,7 @@ document.getElementById('load_data').onchange = function(){
 
       for(var i = 1; i < lines.length; i++){
         //console.log(lines[line]);
-        document.getElementById('content-target').value += lines[i] + '\n';
+        //document.getElementById('content-target').value += lines[i] + '\n';
         ele = lines[i].split(' ')[0];
         val = lines[i].split(' ')[1];
         err = lines[i].split(' ')[2];
@@ -386,3 +436,14 @@ document.getElementById('load_data').onchange = function(){
     };
     reader.readAsText(file);
 };
+
+
+
+// Reset Elements
+// doesn't work!!
+
+$('#btn_reset').click(function() {
+    $(':checkbox').prop('checked', false);
+    $('.form-control').prop('value', '');
+    $('.form-control').prop('disabled', true);
+});

@@ -14,7 +14,8 @@
 
 :root {
     --color_1: #e3edf2;
-    --color_2: #ff844b;
+    /* --color_2: #ff844b; */
+    --color_2: #9bee8b;
     --color_3: #e3edf2;
     --color_4: #4e7d96;
     --color_5: #0a0d25;

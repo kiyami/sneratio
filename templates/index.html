@@ -52,7 +52,6 @@
       <div class="custom-file mb-2">
           <input type="file" class="custom-file-input" id="load_data">
           <label class="custom-file-label" for="load_data">{{ data_field["options"]["input_data"][0] }}</label>
-          <textarea id="content-target"></textarea>
       </div>
     </form>
     <br>
@@ -60,7 +59,6 @@
     <script>
         json_data_field = {{ data_field | tojson }};
 
-        
         function fill_select(select_id, element_list) {
             for(i = 0; i < element_list.length; i++) {
                 var new_selection = "<option>" + element_list[i] + "</option>";
@@ -379,6 +377,12 @@
                 </tr>
             </tbody>
     </table>
+
+    <hr>
+
+    <form name="reset"> 
+      <input class="btn btn-dark btn-sm btn-block mb-3" type="submit" id="btn_reset" value="Reset">
+    </form>
 
     <script>
       function fill_element(name, json_data_field_elements) {
