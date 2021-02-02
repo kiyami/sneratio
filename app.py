@@ -23,13 +23,14 @@ bp = Blueprint('', __name__)
 
 Methods.initialise_options()
 
-
+"""
 @bp.route('/', methods=('GET', 'POST'))
 def index():
     return redirect(url_for('.main'))
+"""
 
 
-@bp.route('/sneratio/', methods=('GET', 'POST'))
+@bp.route('/', methods=('GET', 'POST'))
 def main():
     fig = Methods.get_empty_plot()
     img_data = io.BytesIO()
