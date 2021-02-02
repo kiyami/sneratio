@@ -161,7 +161,13 @@ elements_dict = {
 
 
 results_dict = {
-    "fit_results": "",
+    "fit_results": {
+        "chi_squared": "",
+        "dof": "",
+        "ratio": "",
+    },
+
+    "fit_results_text": "",
 }
 
 

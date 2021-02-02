@@ -52,6 +52,7 @@ class Methods:
         Stats.fit()
 
         info.results_dict["fit_results"] = Stats.get_fit_results()
+        info.results_dict["fit_results_text"] = Stats.get_fit_results_text()
         info.plot_dict["fit_plot"] = plots.get_fit_plot()
 
 
@@ -74,6 +75,7 @@ class Methods:
         Stats.fit_loop()
 
         info.results_dict["fit_results"] = Stats.get_fit_loop_results()
+        info.results_dict["fit_results_text"] = Stats.get_fit_loop_results_text()
         info.plot_dict["fit_loop_plot"] = plots.get_fit_loop_plot()
 
     @staticmethod
@@ -95,3 +97,11 @@ class Methods:
     @staticmethod
     def set_status_text(new_text):
         info.status_text = new_text
+
+    @staticmethod
+    def get_fit_results():
+        return Stats.get_fit_results()
+
+    @staticmethod
+    def get_fit_loop_results():
+        return Stats.get_fit_loop_results()

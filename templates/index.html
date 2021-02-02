@@ -57,57 +57,7 @@
     <br>
 
     <script>
-        json_data_field = {{ data_field | tojson }};
-
-        function fill_select(select_id, element_list) {
-            for(i = 0; i < element_list.length; i++) {
-                var new_selection = "<option>" + element_list[i] + "</option>";
-                document.getElementById(select_id).innerHTML += new_selection;
-            }
-        }
-
-        var id = "Ia_table";
-        var element_list = json_data_field['options'][id];
-        fill_select(id, element_list);
-        index = json_data_field['selections'][id];
-        document.getElementById(id).value = element_list[index];
-
-        var id = "cc_table";
-        var element_list = json_data_field['options'][id];
-        fill_select(id, element_list);
-        index = json_data_field['selections'][id];
-        document.getElementById(id).value = element_list[index];
-
-        var id = "cc_mass_range";
-        var element_list = json_data_field['options'][id];
-        fill_select(id, element_list);
-        index = json_data_field['selections'][id];
-        document.getElementById(id).value = element_list[index];
-
-        var id = "cc_imf";
-        var element_list = json_data_field['options'][id];
-        fill_select(id, element_list);
-        index = json_data_field['selections'][id];
-        document.getElementById(id).value = element_list[index];
-
-        var id = "solar_table";
-        var element_list = json_data_field['options'][id];
-        fill_select(id, element_list);
-        index = json_data_field['selections'][id];
-        document.getElementById(id).value = element_list[index];
-
-        var id = "ref_element";
-        var element_list = json_data_field['options'][id];
-        fill_select(id, element_list);
-        index = json_data_field['selections'][id];
-        document.getElementById(id).value = element_list[index];
-
-        var id = "sigma";
-        var element_list = json_data_field['options'][id];
-        fill_select(id, element_list);
-        index = json_data_field['selections'][id];
-        document.getElementById(id).value = element_list[index];
-        
+      json_data_field = {{ data_field | tojson }};
     </script>
 
 </div>
@@ -164,117 +114,12 @@
                 <input class="btn btn-dark btn-sm btn-block m-1" type="submit" id="btn_fit" value="Fit">
             </form>
 
-            <form name="fit_loop" action="/fit_loop" method="POST">
-
-              <script>
-
-                $(document).ready(function() {
-                      $('#btn_fit_loop').click(function() {
-
-                        $("#status").value = "Fitting for all models..";
-
-                        all_elements = ['C', 'N', 'O', 'Ne', 'Mg', 'Al', 'Si', 'S', 'Ar', 'Ca', 'Fe', 'Ni'];
-                          selected_elements = []
-                          abund = []
-                          abund_err = []
-                   
-                          if($('#chb_C').prop("checked") == true) {
-                              selected_elements.push('C');
-                              abund.push($('#val_C').val());
-                              abund_err.push($('#err_C').val());
-                            }
-                          
-                          if($('#chb_N').prop("checked") == true) {
-                            selected_elements.push('N');
-                            abund.push($('#val_N').val());
-                            abund_err.push($('#err_N').val());
-                          }
-
-                          if($('#chb_O').prop("checked") == true) {
-                            selected_elements.push('O');
-                            abund.push($('#val_O').val());
-                            abund_err.push($('#err_O').val());
-                          }
-
-                          if($('#chb_Ne').prop("checked") == true) {
-                            selected_elements.push('Ne');
-                            abund.push($('#val_Ne').val());
-                            abund_err.push($('#err_Ne').val());
-                          }
-
-                          if($('#chb_Mg').prop("checked") == true) {
-                            selected_elements.push('Mg');
-                            abund.push($('#val_Mg').val());
-                            abund_err.push($('#err_Mg').val());
-                          }
-
-                          if($('#chb_Al').prop("checked") == true) {
-                            selected_elements.push('Al');
-                            abund.push($('#val_Al').val());
-                            abund_err.push($('#err_Al').val());
-                          }
-
-                          if($('#chb_Si').prop("checked") == true) {
-                              selected_elements.push('Si');
-                              abund.push($('#val_Si').val());
-                              abund_err.push($('#err_Si').val());
-                            }
-                          
-                          if($('#chb_S').prop("checked") == true) {
-                            selected_elements.push('S');
-                            abund.push($('#val_S').val());
-                            abund_err.push($('#err_S').val());
-                          }
-
-                          if($('#chb_Ar').prop("checked") == true) {
-                            selected_elements.push('Ar');
-                            abund.push($('#val_Ar').val());
-                            abund_err.push($('#err_Ar').val());
-                          }
-
-                          if($('#chb_Ca').prop("checked") == true) {
-                            selected_elements.push('Ca');
-                            abund.push($('#val_Ca').val());
-                            abund_err.push($('#err_Ca').val());
-                          }
-
-                          if($('#chb_Fe').prop("checked") == true) {
-                            selected_elements.push('Fe');
-                            abund.push($('#val_Fe').val());
-                            abund_err.push($('#err_Fe').val());
-                          }
-
-                          if($('#chb_Ni').prop("checked") == true) {
-                            selected_elements.push('Ni');
-                            abund.push($('#val_Ni').val());
-                            abund_err.push($('#err_Ni').val());
-                          }
-
-                          json_data_field['elements']['element'] = selected_elements;
-                          json_data_field['elements']['abund'] = abund;
-                          json_data_field['elements']['abund_err'] = abund_err;
-
-                          json_data_field['results']['fit_results'] = '';
-
-
-                        $('#hidden_val_loop').prop("value", JSON.stringify(json_data_field));
-                        
-                        $('#fit_image').prop("src", "data:image/png;base64,{{ img_data | safe }}");
-
-                      });
-                  });
-
-
-              </script>
-                
+            <form name="fit_loop" action="/fit_loop" method="POST">            
                 <input type="hidden" name="data_field_2" class="form-control" id="hidden_val_loop" value='{{ data_field | tojson }}'>
-              
                 <input class="btn btn-dark btn-sm btn-block m-1" type="submit" id="btn_fit_loop" value="Fit All">
-
             </form>
 
-
-            <button id="btn_save" type="button" class="btn btn-dark btn-sm btn-block m-1">Save Results</button>
+            <button id="btn_detailed_results" type="button" class="btn btn-dark btn-sm btn-block m-1">Detailed Results</button>
         </div>
     </div>
 
@@ -385,6 +230,7 @@
     </form>
 
     <script>
+    
       function fill_element(name, json_data_field_elements) {
         if(json_data_field_elements['element'].includes(name)) {
 
@@ -443,10 +289,6 @@
 
       element = "Ni";
       fill_element("Ni", json_data_field["elements"]);
-
-    </script>
-
-    <script>
     
         $(document).ready(function() {
           $('#chb_' + 'C').click(function() {

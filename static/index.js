@@ -1,15 +1,5 @@
 
-document.getElementById('btn_save')
-        .addEventListener("click", function(){alert('asd')});
-
-
-/*
-// Data Field
-
-json_data_field = {{ data_field | tojson }};
-
 // Selections
-
 
 function fill_select(select_id, element_list) {
     for(i = 0; i < element_list.length; i++) {
@@ -18,48 +8,49 @@ function fill_select(select_id, element_list) {
     }
 }
 
-var id = "Ia_table";
-var element_list = json_data_field['options'][id];
-fill_select(id, element_list);
-index = json_data_field['selections'][id];
-document.getElementById(id).value = element_list[index];
+function trigger_onload_select() {
+    var id = "Ia_table";
+    var element_list = json_data_field['options'][id];
+    fill_select(id, element_list);
+    index = json_data_field['selections'][id];
+    document.getElementById(id).value = element_list[index];
 
-var id = "cc_table";
-var element_list = json_data_field['options'][id];
-fill_select(id, element_list);
-index = json_data_field['selections'][id];
-document.getElementById(id).value = element_list[index];
+    var id = "cc_table";
+    var element_list = json_data_field['options'][id];
+    fill_select(id, element_list);
+    index = json_data_field['selections'][id];
+    document.getElementById(id).value = element_list[index];
 
-var id = "cc_mass_range";
-var element_list = json_data_field['options'][id];
-fill_select(id, element_list);
-index = json_data_field['selections'][id];
-document.getElementById(id).value = element_list[index];
+    var id = "cc_mass_range";
+    var element_list = json_data_field['options'][id];
+    fill_select(id, element_list);
+    index = json_data_field['selections'][id];
+    document.getElementById(id).value = element_list[index];
 
-var id = "cc_imf";
-var element_list = json_data_field['options'][id];
-fill_select(id, element_list);
-index = json_data_field['selections'][id];
-document.getElementById(id).value = element_list[index];
+    var id = "cc_imf";
+    var element_list = json_data_field['options'][id];
+    fill_select(id, element_list);
+    index = json_data_field['selections'][id];
+    document.getElementById(id).value = element_list[index];
 
-var id = "solar_table";
-var element_list = json_data_field['options'][id];
-fill_select(id, element_list);
-index = json_data_field['selections'][id];
-document.getElementById(id).value = element_list[index];
+    var id = "solar_table";
+    var element_list = json_data_field['options'][id];
+    fill_select(id, element_list);
+    index = json_data_field['selections'][id];
+    document.getElementById(id).value = element_list[index];
 
-var id = "ref_element";
-var element_list = json_data_field['options'][id];
-fill_select(id, element_list);
-index = json_data_field['selections'][id];
-document.getElementById(id).value = element_list[index];
+    var id = "ref_element";
+    var element_list = json_data_field['options'][id];
+    fill_select(id, element_list);
+    index = json_data_field['selections'][id];
+    document.getElementById(id).value = element_list[index];
 
-var id = "sigma";
-var element_list = json_data_field['options'][id];
-fill_select(id, element_list);
-index = json_data_field['selections'][id];
-document.getElementById(id).value = element_list[index];
-*/
+    var id = "sigma";
+    var element_list = json_data_field['options'][id];
+    fill_select(id, element_list);
+    index = json_data_field['selections'][id];
+    document.getElementById(id).value = element_list[index];
+}
 
 
 // Selections (change)
@@ -447,3 +438,21 @@ $('#btn_reset').click(function() {
     $('.form-control').prop('value', '');
     $('.form-control').prop('disabled', true);
 });
+
+
+// Detailed Results
+
+document.getElementById('btn_detailed_results')
+        .addEventListener("click", function(){
+            alert(json_data_field["results"]["fit_results_text"])
+        });
+
+
+
+// onload events
+
+function trigger_onload() {
+    trigger_onload_select();
+}
+
+window.onload = trigger_onload;

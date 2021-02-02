@@ -287,7 +287,26 @@ class Stats:
         Stats.fit_loop_results["model_index_list"] = filt_model_index_list
 
     @classmethod
-    def print_fit_results(cls):
+    def get_fit_results(cls):
+        _fit_results = {
+            "chi_squared": "",
+            "dof": "",
+            "ratio": "",
+        }
+
+        try:
+            _fit_results["chi_squared"] = "{:.2f}".format(cls.fit_results["chi_squared"])
+            _fit_results["dof"] = cls.fit_results["dof"]
+            _fit_results["ratio"] = "{:.1f} (-{:.1f},+{:.1f})".format(100 * cls.fit_results["ratio_percent"],
+                                                                      100 * cls.fit_results["ratio_percent_error_n"],
+                                                                      100 * cls.fit_results["ratio_percent_error_p"],)
+        except:
+            pass
+
+        return _fit_results
+
+    @classmethod
+    def get_fit_results_text(cls):
         text_Ia_model = "SNIa Model: {}".format(info.get_selected_option("Ia_table").rsplit(".",1)[0])
         text_cc_model = "SNcc Model: {}".format(info.get_selected_option("cc_table").rsplit(".",1)[0])
         text_solar_table = "Solar Table: {}".format(info.get_selected_option("solar_table").rsplit(".",1)[0])
@@ -314,33 +333,25 @@ class Stats:
                                                                  cls.fit_results["ratio_percent_error_n"],
                                                                  cls.fit_results["ratio_percent_error_p"])
 
-        print("\n----- Fit Results ---------------------------")
-        print(text_Ia_model, text_cc_model, text_solar_table, " ", text1, text2, " ", text3, text4, text5, text6, " ", text7, text8, sep="\n")
-        result_text = "\n".join([text_Ia_model, text_cc_model, text_solar_table, " ", text1, text2, " ", text3, text4, text5, text6, " ", text7, text8])
+        text9 = "Confidence: {} sigma".format(info.get_selected_option("sigma"))
+
+        result_text = "\n".join([text_Ia_model, text_cc_model, text_solar_table, " ", text1, text2, " ", text3, text4, text5, text6, " ", text7, text8, text9])
 
         return result_text
 
     @classmethod
-    def get_fit_results(cls):
+    def get_fit_loop_results(cls):
         _fit_results = {
             "chi_squared": "",
             "dof": "",
             "ratio": "",
         }
 
-        try:
-            _fit_results["chi_squared"] = "{:.2f}".format(cls.fit_results["chi_squared"])
-            _fit_results["dof"] = cls.fit_results["dof"]
-            _fit_results["ratio"] = "{:.1f} (-{:.1f},+{:.1f})".format(100 * cls.fit_results["ratio_percent"],
-                                                                      100 * cls.fit_results["ratio_percent_error_n"],
-                                                                      100 * cls.fit_results["ratio_percent_error_p"],)
-        except:
-            pass
-
         return _fit_results
 
     @classmethod
-    def print_fit_loop_results(cls):
+    def get_fit_loop_results_text(cls):
+        """
         print("\n----- Fit Loop Results ----------------------")
         print("chi_squared", cls.fit_loop_results["chi_squared"])
         print("ratio", cls.fit_loop_results["ratio"])
@@ -358,13 +369,8 @@ class Stats:
         print("chi_max", cls.fit_loop_results["chi_max"])
         print("ratio_percent_min", cls.fit_loop_results["ratio_percent_min"])
         print("ratio_percent_max", cls.fit_loop_results["ratio_percent_max"])
+        """
 
-    @classmethod
-    def get_fit_loop_results(cls):
-        _fit_results = {
-            "chi_squared": "",
-            "dof": "",
-            "ratio": "",
-        }
+        result_text = "\n".join(["{}:\n{}".format(k,v) for k,v in cls.fit_loop_results.items()])
 
-        return _fit_results
+        return result_text
