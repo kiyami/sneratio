@@ -22,11 +22,53 @@ class Methods:
         return data_field
 
     @staticmethod
+    def reset_data_field():
+        info.selected_option_dict = {
+            "Ia_table": 0,
+
+            "cc_table": 0,
+            "cc_mass_range": 0,
+            "cc_imf": 0,
+
+            "solar_table": 0,
+
+            "ref_element": 0,
+            "sigma": 0,
+
+            "input_data": 0,
+            "mass_number_table": 0,
+        }
+
+        info.elements_dict = {
+            "element": [],
+            "abund": [],
+            "abund_err": [],
+        }
+
+        info.results_dict = {
+            "fit_results": {
+                "chi_squared": "",
+                "dof": "",
+                "ratio": "",
+            },
+
+            "fit_results_text": "",
+        }
+
+    @staticmethod
     def update_data_field(data_field):
         info.options_dict = data_field["options"]
         info.selected_option_dict = data_field["selections"]
         info.elements_dict = data_field["elements"]
-        info.results_dict = {}
+        info.results_dict = {
+            "fit_results": {
+                "chi_squared": "",
+                "dof": "",
+                "ratio": "",
+            },
+
+            "fit_results_text": "",
+        }
 
     @staticmethod
     def fit():

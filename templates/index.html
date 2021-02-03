@@ -56,10 +56,6 @@
     </form>
     <br>
 
-    <script>
-      json_data_field = {{ data_field | tojson }};
-    </script>
-
 </div>
 {% endblock %}
 
@@ -225,7 +221,7 @@
 
     <hr>
 
-    <form name="reset"> 
+    <form name="reset" action="/reset" method="GET"> 
       <input class="btn btn-dark btn-sm btn-block mb-3" type="submit" id="btn_reset" value="Reset">
     </form>
 

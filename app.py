@@ -1,7 +1,7 @@
 from flask import Flask
-import requests
-from multiprocessing import Process
-import time
+#import requests
+#from multiprocessing import Process
+#import time
 
 
 app = Flask(__name__, instance_relative_config=True)
@@ -55,7 +55,6 @@ def fit():
 
     if request.method == 'POST':
         updated_data_field = json.loads(request.form["data_field"])
-        #print("updated_data_field elements", updated_data_field["selections"])
 
         Methods.update_data_field(updated_data_field)
         Methods.fit()
@@ -185,6 +184,24 @@ def fit_loop():
                            data_field=Methods.get_data_field(),
                            img_data=encoded_img_data.decode(),
                            status=Methods.get_status_text())
+
+
+@bp.route('/reset')
+def reset():
+    fig = Methods.get_empty_plot()
+    img_data = io.BytesIO()
+    fig.savefig(img_data, format="png")
+    img_data.seek(0)
+    encoded_img_data = base64.b64encode(img_data.read())
+
+    Methods.reset_data_field()
+    Methods.set_status_text("Reset..")
+
+    return render_template('index.html',
+                           data_field=Methods.get_data_field(),
+                           img_data=encoded_img_data.decode(),
+                           status=Methods.get_status_text())
+
 
 
 #################################

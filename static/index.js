@@ -277,12 +277,11 @@ $(document).ready(function() {
       json_data_field['results']['fit_results'] = '';
 
       $('#hidden_val').prop("value", JSON.stringify(json_data_field));
-      
+        
       $('#fit_image').prop("src", "data:image/png;base64,{{ img_data | safe }}");
 
     });
 });
-
 
 
 
@@ -432,13 +431,13 @@ document.getElementById('load_data').onchange = function(){
 
 // Reset Elements
 // doesn't work!!
-
+/*
 $('#btn_reset').click(function() {
     $(':checkbox').prop('checked', false);
     $('.form-control').prop('value', '');
     $('.form-control').prop('disabled', true);
 });
-
+*/
 
 // Detailed Results
 
@@ -450,7 +449,6 @@ document.getElementById('btn_detailed_results')
 
 
 // onload events
-
 function trigger_onload() {
     trigger_onload_select();
 }
