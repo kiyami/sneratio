@@ -1,7 +1,7 @@
 from flask import Flask
-#import requests
-#from multiprocessing import Process
-#import time
+import requests
+from multiprocessing import Process
+import time
 
 
 app = Flask(__name__, instance_relative_config=True)
@@ -29,7 +29,7 @@ def index():
     return redirect(url_for('.main'))
 
 
-@bp.route('/sneratio', methods=('GET', 'POST'))
+@bp.route('/sneratio/', methods=('GET', 'POST'))
 def main():
     fig = Methods.get_empty_plot()
     img_data = io.BytesIO()
@@ -76,6 +76,67 @@ def fit():
                            data_field=Methods.get_data_field(),
                            img_data=encoded_img_data.decode(),
                            status=Methods.get_status_text())
+
+
+@bp.route('/fit_loop', methods=('GET', 'POST'))
+def fit_loop():
+    fig = Methods.get_empty_plot()
+    img_data = io.BytesIO()
+    fig.savefig(img_data, format="png")
+    img_data.seek(0)
+    encoded_img_data = base64.b64encode(img_data.read())
+
+    if request.method == 'POST':
+        updated_data_field = json.loads(request.form["data_field_2"])
+
+        Methods.update_data_field(updated_data_field)
+        Methods.fit_loop()
+
+        fig = Methods.get_fit_loop_plot()
+        img_data = io.BytesIO()
+        fig.savefig(img_data, format="png")
+        img_data.seek(0)
+        encoded_img_data = base64.b64encode(img_data.read())
+
+        Methods.set_status_text("Fitting for all models completed..")
+
+        return render_template('index.html',
+                               data_field=Methods.get_data_field(),
+                               img_data=encoded_img_data.decode(),
+                               status=Methods.get_status_text())
+
+    return render_template('index.html',
+                           data_field=Methods.get_data_field(),
+                           img_data=encoded_img_data.decode(),
+                           status=Methods.get_status_text())
+
+@bp.route('/reset')
+def reset():
+    fig = Methods.get_empty_plot()
+    img_data = io.BytesIO()
+    fig.savefig(img_data, format="png")
+    img_data.seek(0)
+    encoded_img_data = base64.b64encode(img_data.read())
+
+    Methods.reset_data_field()
+    Methods.set_status_text("Reset..")
+
+    return render_template('index.html',
+                           data_field=Methods.get_data_field(),
+                           img_data=encoded_img_data.decode(),
+                           status=Methods.get_status_text())
+
+
+
+#################################
+
+
+app.register_blueprint(bp)
+app.add_url_rule('/', endpoint='index')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 """
@@ -152,6 +213,30 @@ def fit_loop():
     return render_template('index.html', data_field=Methods.get_data_field(), img_data=encoded_img_data.decode(), status=Methods.get_status_text())
 """    
 
+"""
+
+@bp.route('/fit_loop_result', methods=['GET'])
+def _fit_loop_process(data_field):
+    Methods.update_data_field(data_field)
+    print("asdasdasd")
+
+    fig = Methods.get_empty_plot()
+    img_data = io.BytesIO()
+    fig.savefig(img_data, format="png")
+    img_data.seek(0)
+    encoded_img_data = base64.b64encode(img_data.read())
+
+    Methods.set_status_text("asdasd..")
+    time.sleep(3)
+    print("asdasdasd after 3 secs")
+
+    requests.get(url_for('.fit_loop_result'), params={})
+
+    return render_template('index.html',
+                            data_field=Methods.get_data_field(),
+                            img_data=encoded_img_data.decode(),
+                            status=Methods.get_status_text())
+
 
 @bp.route('/fit_loop', methods=('GET', 'POST'))
 def fit_loop():
@@ -165,13 +250,16 @@ def fit_loop():
         updated_data_field = json.loads(request.form["data_field_2"])
 
         Methods.update_data_field(updated_data_field)
-        Methods.fit_loop()
+        Methods.fit()
 
-        fig = Methods.get_fit_loop_plot()
+        fig = Methods.get_fit_plot()
         img_data = io.BytesIO()
         fig.savefig(img_data, format="png")
         img_data.seek(0)
         encoded_img_data = base64.b64encode(img_data.read())
+
+        proc = Process(target=_fit_loop_process, args=(updated_data_field,))
+        proc.start()
 
         Methods.set_status_text("Fitting for all models completed..")
 
@@ -184,32 +272,4 @@ def fit_loop():
                            data_field=Methods.get_data_field(),
                            img_data=encoded_img_data.decode(),
                            status=Methods.get_status_text())
-
-
-@bp.route('/reset')
-def reset():
-    fig = Methods.get_empty_plot()
-    img_data = io.BytesIO()
-    fig.savefig(img_data, format="png")
-    img_data.seek(0)
-    encoded_img_data = base64.b64encode(img_data.read())
-
-    Methods.reset_data_field()
-    Methods.set_status_text("Reset..")
-
-    return render_template('index.html',
-                           data_field=Methods.get_data_field(),
-                           img_data=encoded_img_data.decode(),
-                           status=Methods.get_status_text())
-
-
-
-#################################
-
-
-app.register_blueprint(bp)
-app.add_url_rule('/', endpoint='index')
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+"""
