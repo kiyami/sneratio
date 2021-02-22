@@ -168,6 +168,8 @@ results_dict = {
     },
 
     "fit_results_text": "",
+    "ref_element_selected": False,
+    "min_elements_selected": False,
 }
 
 

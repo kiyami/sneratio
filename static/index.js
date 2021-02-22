@@ -276,9 +276,23 @@ $(document).ready(function() {
 
       json_data_field['results']['fit_results'] = '';
 
+      if(!json_data_field['elements']['element'].includes("Fe")) {
+        alert("Reference element must have a value! (Fe)");
+        json_data_field['results']['ref_element_selected'] = false;
+      } else {
+        json_data_field['results']['ref_element_selected'] = true;
+      }
+
+      if(json_data_field['elements']['element'].length < 3) {
+        alert("Minimum 3 elements must be selected!");
+        json_data_field['results']['min_elements_selected'] = false;
+      } else {
+        json_data_field['results']['min_elements_selected'] = true;
+      }
+
       $('#hidden_val').prop("value", JSON.stringify(json_data_field));
-      
       $('#fit_image').prop("src", "data:image/png;base64,{{ img_data | safe }}");
+
 
     });
 });

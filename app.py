@@ -1,8 +1,4 @@
 from flask import Flask
-import requests
-from multiprocessing import Process
-import time
-
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -58,16 +54,21 @@ def fit():
         updated_data_field = json.loads(request.form["data_field"])
         #print("updated_data_field elements", updated_data_field["selections"])
 
-        Methods.update_data_field(updated_data_field)
-        Methods.fit()
+        if updated_data_field["results"]["ref_element_selected"] and updated_data_field["results"]["min_elements_selected"]:
 
-        fig = Methods.get_fit_plot()
-        img_data = io.BytesIO()
-        fig.savefig(img_data, format="png")
-        img_data.seek(0)
-        encoded_img_data = base64.b64encode(img_data.read())
+            Methods.update_data_field(updated_data_field)
+            Methods.fit()
 
-        Methods.set_status_text("Fitting completed..")
+            fig = Methods.get_fit_plot()
+            img_data = io.BytesIO()
+            fig.savefig(img_data, format="png")
+            img_data.seek(0)
+            encoded_img_data = base64.b64encode(img_data.read())
+
+            Methods.set_status_text("Fitting completed..")
+
+        else:
+            Methods.set_status_text("Invalid Selections..")
 
         return render_template('index.html',
                                data_field=Methods.get_data_field(),
