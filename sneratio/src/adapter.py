@@ -53,6 +53,8 @@ class Methods:
             },
 
             "fit_results_text": "",
+            "fit_loop_status": None,
+            "fit_loop_progress_percent": None,
         }
 
     @staticmethod
@@ -68,6 +70,8 @@ class Methods:
             },
 
             "fit_results_text": "",
+            "fit_loop_status": None,
+            "fit_loop_progress_percent": None,
         }
 
     @staticmethod
@@ -100,6 +104,11 @@ class Methods:
 
     @staticmethod
     def fit_loop():
+        info.results_dict["fit_loop_status"] = "started"
+        info.results_dict["fit_loop_progress_percent"] = "1"
+
+        print("fit loop fit loop fit loop")
+
         Data.read_solar_table()
         Data.read_mass_number_table()
         Data.set_input_data()
@@ -114,11 +123,16 @@ class Methods:
 
         Data.set_mass_numbers()
 
+        print("########## set values set values set values")
+
         Stats.fit_loop()
 
         info.results_dict["fit_results"] = Stats.get_fit_loop_results()
         info.results_dict["fit_results_text"] = Stats.get_fit_loop_results_text()
         info.plot_dict["fit_loop_plot"] = plots.get_fit_loop_plot()
+
+        info.results_dict["fit_loop_status"] = "completed"
+        info.results_dict["fit_loop_progress_percent"] = "100"
 
     @staticmethod
     def get_fit_plot():
@@ -147,3 +161,11 @@ class Methods:
     @staticmethod
     def get_fit_loop_results():
         return Stats.get_fit_loop_results()
+
+    @staticmethod
+    def get_fit_loop_status():
+        return info.results_dict["fit_loop_status"]
+
+    @staticmethod
+    def get_fit_loop_progress_percent():
+        return info.results_dict["fit_loop_progress_percent"]

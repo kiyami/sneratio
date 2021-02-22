@@ -293,87 +293,87 @@ $(document).ready(function() {
       $("#status").value = "Fitting for all models..";
 
       all_elements = ['C', 'N', 'O', 'Ne', 'Mg', 'Al', 'Si', 'S', 'Ar', 'Ca', 'Fe', 'Ni'];
-        selected_elements = []
-        abund = []
-        abund_err = []
- 
-        if($('#chb_C').prop("checked") == true) {
-            selected_elements.push('C');
-            abund.push($('#val_C').val());
-            abund_err.push($('#err_C').val());
-          }
-        
-        if($('#chb_N').prop("checked") == true) {
-          selected_elements.push('N');
-          abund.push($('#val_N').val());
-          abund_err.push($('#err_N').val());
+      selected_elements = []
+      abund = []
+      abund_err = []
+
+      if($('#chb_C').prop("checked") == true) {
+          selected_elements.push('C');
+          abund.push($('#val_C').val());
+          abund_err.push($('#err_C').val());
         }
+      
+      if($('#chb_N').prop("checked") == true) {
+        selected_elements.push('N');
+        abund.push($('#val_N').val());
+        abund_err.push($('#err_N').val());
+      }
 
-        if($('#chb_O').prop("checked") == true) {
-          selected_elements.push('O');
-          abund.push($('#val_O').val());
-          abund_err.push($('#err_O').val());
+      if($('#chb_O').prop("checked") == true) {
+        selected_elements.push('O');
+        abund.push($('#val_O').val());
+        abund_err.push($('#err_O').val());
+      }
+
+      if($('#chb_Ne').prop("checked") == true) {
+        selected_elements.push('Ne');
+        abund.push($('#val_Ne').val());
+        abund_err.push($('#err_Ne').val());
+      }
+
+      if($('#chb_Mg').prop("checked") == true) {
+        selected_elements.push('Mg');
+        abund.push($('#val_Mg').val());
+        abund_err.push($('#err_Mg').val());
+      }
+
+      if($('#chb_Al').prop("checked") == true) {
+        selected_elements.push('Al');
+        abund.push($('#val_Al').val());
+        abund_err.push($('#err_Al').val());
+      }
+
+      if($('#chb_Si').prop("checked") == true) {
+          selected_elements.push('Si');
+          abund.push($('#val_Si').val());
+          abund_err.push($('#err_Si').val());
         }
+      
+      if($('#chb_S').prop("checked") == true) {
+        selected_elements.push('S');
+        abund.push($('#val_S').val());
+        abund_err.push($('#err_S').val());
+      }
 
-        if($('#chb_Ne').prop("checked") == true) {
-          selected_elements.push('Ne');
-          abund.push($('#val_Ne').val());
-          abund_err.push($('#err_Ne').val());
-        }
+      if($('#chb_Ar').prop("checked") == true) {
+        selected_elements.push('Ar');
+        abund.push($('#val_Ar').val());
+        abund_err.push($('#err_Ar').val());
+      }
 
-        if($('#chb_Mg').prop("checked") == true) {
-          selected_elements.push('Mg');
-          abund.push($('#val_Mg').val());
-          abund_err.push($('#err_Mg').val());
-        }
+      if($('#chb_Ca').prop("checked") == true) {
+        selected_elements.push('Ca');
+        abund.push($('#val_Ca').val());
+        abund_err.push($('#err_Ca').val());
+      }
 
-        if($('#chb_Al').prop("checked") == true) {
-          selected_elements.push('Al');
-          abund.push($('#val_Al').val());
-          abund_err.push($('#err_Al').val());
-        }
+      if($('#chb_Fe').prop("checked") == true) {
+        selected_elements.push('Fe');
+        abund.push($('#val_Fe').val());
+        abund_err.push($('#err_Fe').val());
+      }
 
-        if($('#chb_Si').prop("checked") == true) {
-            selected_elements.push('Si');
-            abund.push($('#val_Si').val());
-            abund_err.push($('#err_Si').val());
-          }
-        
-        if($('#chb_S').prop("checked") == true) {
-          selected_elements.push('S');
-          abund.push($('#val_S').val());
-          abund_err.push($('#err_S').val());
-        }
+      if($('#chb_Ni').prop("checked") == true) {
+        selected_elements.push('Ni');
+        abund.push($('#val_Ni').val());
+        abund_err.push($('#err_Ni').val());
+      }
 
-        if($('#chb_Ar').prop("checked") == true) {
-          selected_elements.push('Ar');
-          abund.push($('#val_Ar').val());
-          abund_err.push($('#err_Ar').val());
-        }
+      json_data_field['elements']['element'] = selected_elements;
+      json_data_field['elements']['abund'] = abund;
+      json_data_field['elements']['abund_err'] = abund_err;
 
-        if($('#chb_Ca').prop("checked") == true) {
-          selected_elements.push('Ca');
-          abund.push($('#val_Ca').val());
-          abund_err.push($('#err_Ca').val());
-        }
-
-        if($('#chb_Fe').prop("checked") == true) {
-          selected_elements.push('Fe');
-          abund.push($('#val_Fe').val());
-          abund_err.push($('#err_Fe').val());
-        }
-
-        if($('#chb_Ni').prop("checked") == true) {
-          selected_elements.push('Ni');
-          abund.push($('#val_Ni').val());
-          abund_err.push($('#err_Ni').val());
-        }
-
-        json_data_field['elements']['element'] = selected_elements;
-        json_data_field['elements']['abund'] = abund;
-        json_data_field['elements']['abund_err'] = abund_err;
-
-        json_data_field['results']['fit_results'] = '';
+      json_data_field['results']['fit_results'] = '';
 
 
       $('#hidden_val_loop').prop("value", JSON.stringify(json_data_field));
@@ -384,6 +384,61 @@ $(document).ready(function() {
 });
 
 
+/*
+function myLoop() {
+  var done = false;
+  while(!done) {
+    if(!json_data_field['fit_loop_result']) {
+
+      var intervalId = window.setInterval(function(){
+        document.getElementById("val_chi").value += "*";
+      }, 100);
+            
+      //clearInterval(intervalId) 
+      
+    }
+  }
+}
+*/
+
+var in_loop = false;
+var intervalId = null;
+var percent = "0";
+
+document.getElementById('btn_loop_trigger')
+.addEventListener("click", function(){
+
+  if(in_loop == false) {
+
+    in_loop = true;
+
+    intervalId = window.setInterval(function(){
+      document.getElementById("my_p").innerHTML += "*";
+  
+      //document.getElementById("btn_fit_loop").click();
+      /*
+      document.getElementsByName("fit_loop").submit();
+      in_loop = json_data_field["results"]["fit_loop_status"];
+      percent = json_data_field["results"]["fit_loop_progress_percent"];
+
+      if(in_loop == false) {
+        clearInterval(intervalId);
+      }
+      */
+
+    }, 500);
+
+  } else {
+
+    in_loop = false;
+
+    clearInterval(intervalId);
+
+  }
+     
+  //clearInterval(intervalId) 
+
+});
 
 // Load File
 

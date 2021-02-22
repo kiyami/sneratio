@@ -168,6 +168,8 @@ results_dict = {
     },
 
     "fit_results_text": "",
+    "fit_loop_status": None,
+    "fit_loop_progress_percent": None,
 }
 
 

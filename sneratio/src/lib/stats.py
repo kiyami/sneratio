@@ -174,6 +174,8 @@ class Stats:
 
         for i in range(Ia_model_count):
             for j in range(cc_model_count):
+                info.results_dict["fit_loop_progress_percent"] = "{}".format(int(((i+1)*(j+1) / total_model_count) * 100))
+
                 info.set_selected_option("Ia_table", i)
                 info.set_selected_option("cc_table", j)
 
