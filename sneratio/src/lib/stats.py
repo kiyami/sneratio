@@ -159,6 +159,8 @@ class Stats:
 
     @staticmethod
     def fit_loop(chi_min = None, chi_max = None, ratio_percent_min = None, ratio_percent_max = None):
+        print("fit_loop fit_loop fit_loop")
+
         Ia_model_count = len(info.options_dict["Ia_table"])
         cc_model_count = len(info.options_dict["cc_table"])
 
@@ -285,6 +287,8 @@ class Stats:
         Stats.fit_loop_results["ratio_percent_error_n_list"] = ratio_percent_error_n_list
         Stats.fit_loop_results["ratio_percent_error_p_list"] = ratio_percent_error_p_list
         Stats.fit_loop_results["model_index_list"] = filt_model_index_list
+
+        info.loop_status = "completed"
 
     @classmethod
     def get_fit_results(cls):

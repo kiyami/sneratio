@@ -6,7 +6,7 @@ __all__ = [
     "path_dict", "get_path", "get_path_content", "get_keyword_content",
     "options_dict", "get_options", "get_option_count", "get_option_path", "get_option_index", "get_parsed_Ia_option", "get_parsed_cc_option",
     "selected_option_dict", "get_selected_option", "get_selected_option_path", "set_selected_option",
-    "elements_dict", "results_dict", "plot_dict", "status_text",
+    "elements_dict", "results_dict", "plot_dict", "status_text", "loop_status"
 ]
 
 
@@ -180,3 +180,5 @@ plot_dict = {
 
 
 status_text = "Welcome to SNeRatio App.."
+
+loop_status = "idle"

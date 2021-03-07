@@ -17,6 +17,7 @@ class Methods:
             "selections": info.selected_option_dict,
             "elements": info.elements_dict,
             "results": info.results_dict,
+            "loop_status": info.loop_status,
         }
 
         return data_field
@@ -26,7 +27,18 @@ class Methods:
         info.options_dict = data_field["options"]
         info.selected_option_dict = data_field["selections"]
         info.elements_dict = data_field["elements"]
-        info.results_dict = {}
+        info.results_dict = {
+            "fit_results": {
+                "chi_squared": "",
+                "dof": "",
+                "ratio": "",
+            },
+
+            "fit_results_text": "",
+            "ref_element_selected": False,
+            "min_elements_selected": False,
+        }
+        #info.loop_status = data_field["loop_status"]
 
     @staticmethod
     def fit():
@@ -54,7 +66,6 @@ class Methods:
         info.results_dict["fit_results"] = Stats.get_fit_results()
         info.results_dict["fit_results_text"] = Stats.get_fit_results_text()
         info.plot_dict["fit_plot"] = plots.get_fit_plot()
-
 
     @staticmethod
     def fit_loop():
@@ -105,3 +116,11 @@ class Methods:
     @staticmethod
     def get_fit_loop_results():
         return Stats.get_fit_loop_results()
+
+    @staticmethod
+    def get_loop_status():
+        return info.loop_status
+
+    @staticmethod
+    def set_loop_status(status):
+        info.loop_status = status

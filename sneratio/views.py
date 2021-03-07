@@ -1,23 +1,20 @@
-from flask import (
+"""from flask import (
     Blueprint, render_template, request,
 )
-
-import redis
-from rq import Queue
-
 
 import json
 from sneratio.src.adapter import Methods
 
 import io
 import base64
-import time
+
+#from sneratio import bp
+from sneratio import r
+from sneratio import q
+from sneratio.tasks import task_fit_all
 
 
 bp = Blueprint('', __name__)
-
-r = redis.Redis()
-q = Queue(connection=r)
 
 Methods.initialise_options()
 
@@ -76,11 +73,6 @@ def fit():
                            status=Methods.get_status_text())
 
 
-def fit_loop_task(updated_data_field):
-    Methods.update_data_field(updated_data_field)
-    Methods.fit_loop()
-
-
 @bp.route('/fit_loop', methods=('GET', 'POST'))
 def fit_loop():
     fig = Methods.get_empty_plot()
@@ -89,28 +81,19 @@ def fit_loop():
     img_data.seek(0)
     encoded_img_data = base64.b64encode(img_data.read())
 
-    print("clicked fit_loop", time.time())
-    #Methods.set_status_text(f"Fitting for all models.. (in progress) {time.time()}")
-    #Methods.set_loop_status("in_loop")
-
-
     if request.method == 'POST':
         updated_data_field = json.loads(request.form["data_field_2"])
-        #Methods.update_data_field(updated_data_field)
 
-        print("###### loop status:", Methods.get_loop_status())
+        if Methods.get_loop_status == "idle":
+            Methods.update_data_field(updated_data_field)
+            task = q.enqueue(Methods.fit_loop)  # Send a job to the task queue
 
-        if Methods.get_loop_status() == "idle":
-            q.enqueue(fit_loop_task, updated_data_field)  # Send a job to the task queue
+            Methods.set_status_text("Fitting for all models.. (started)")
 
-            Methods.set_loop_status("in_loop")
-            Methods.set_status_text(f"Fitting for all models.. (started) {time.time()}")
-            print("###### loop status:", Methods.get_loop_status())
+        if Methods.get_loop_status == "in_loop":
+            Methods.set_status_text("Fitting for all models.. (in progress)")
 
-        if Methods.get_loop_status() == "in_loop":
-            Methods.set_status_text(f"Fitting for all models.. (in progress) {time.time()}")
-
-        if Methods.get_loop_status() == "completed":
+        if Methods.get_loop_status == "completed":
             fig = Methods.get_fit_loop_plot()
             img_data = io.BytesIO()
             fig.savefig(img_data, format="png")
@@ -118,7 +101,7 @@ def fit_loop():
             encoded_img_data = base64.b64encode(img_data.read())
 
             Methods.set_loop_status("idle")
-            Methods.set_status_text(f"Fitting for all models.. (completed) {time.time()}")
+            Methods.set_status_text("Fitting for all models.. (completed)")
 
         return render_template('index.html',
                                data_field=Methods.get_data_field(),
@@ -129,4 +112,4 @@ def fit_loop():
                            data_field=Methods.get_data_field(),
                            img_data=encoded_img_data.decode(),
                            status=Methods.get_status_text())
-
+"""

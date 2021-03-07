@@ -390,6 +390,20 @@ $(document).ready(function() {
 
         json_data_field['results']['fit_results'] = '';
 
+        if(!json_data_field['elements']['element'].includes("Fe")) {
+          alert("Reference element must have a value! (Fe)");
+          json_data_field['results']['ref_element_selected'] = false;
+        } else {
+          json_data_field['results']['ref_element_selected'] = true;
+        }
+  
+        if(json_data_field['elements']['element'].length < 3) {
+          alert("Minimum 3 elements must be selected!");
+          json_data_field['results']['min_elements_selected'] = false;
+        } else {
+          json_data_field['results']['min_elements_selected'] = true;
+        }
+
 
       $('#hidden_val_loop').prop("value", JSON.stringify(json_data_field));
       
@@ -398,6 +412,49 @@ $(document).ready(function() {
     });
 });
 
+// the problem is here !!!
+
+var loop_started = false;
+var interval = null;
+
+function interval_function() {
+  document.getElementById("val_chi").value += json_data_field["loop_status"];
+  document.getElementById("val_dof").value += loop_started;
+
+  document.getElementById("btn_fit_loop").click();
+  loop_controller();
+}
+
+function loop_controller() {
+
+  var loop_status = json_data_field["loop_status"];
+  document.getElementById("val_dof").value += loop_status;
+
+  if(!loop_started) {
+
+    loop_started = true;
+    interval = setInterval(interval_function, 1500);
+    document.getElementById("val_dof").value += "if1";
+
+  } else if(loop_started && loop_status == "idle") {
+
+    loop_started = false;
+    clearInterval(interval);
+
+    document.getElementById("val_dof").value += "if2";
+
+    
+  }
+
+};
+
+
+function trigger_onload_fit_loop() {
+
+  document.getElementById("btn_fit_loop_trigger")
+          .addEventListener("click", loop_controller);
+
+};
 
 
 // Load File
@@ -467,6 +524,7 @@ document.getElementById('btn_detailed_results')
 
 function trigger_onload() {
     trigger_onload_select();
+    trigger_onload_fit_loop();
 }
 
 window.onload = trigger_onload;

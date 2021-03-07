@@ -114,11 +114,14 @@
                 <input class="btn btn-dark btn-sm btn-block m-1" type="submit" id="btn_fit" value="Fit">
             </form>
 
+            <button id="btn_fit_loop_trigger" type="button" class="btn btn-dark btn-sm btn-block m-1">Fit All (Trigger)</button>
+
             <form name="fit_loop" action="/fit_loop" method="POST">            
                 <input type="hidden" name="data_field_2" class="form-control" id="hidden_val_loop" value='{{ data_field | tojson }}'>
                 <input class="btn btn-dark btn-sm btn-block m-1" type="submit" id="btn_fit_loop" value="Fit All">
             </form>
 
+            <p>{{ data_field["loop_count"] }}</p>
             <button id="btn_detailed_results" type="button" class="btn btn-dark btn-sm btn-block m-1">Detailed Results</button>
         </div>
     </div>

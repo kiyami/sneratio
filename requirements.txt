@@ -3,3 +3,5 @@ pandas
 matplotlib
 scipy
 gunicorn
+redis
+rq
