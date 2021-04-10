@@ -49,11 +49,6 @@
   >         Prepare a text file that contains 3 columns with column names __"Element"__, __"Abund"__ and __"AbundErr"__
             written in the first row. The following rows should contain element name, abundance value and abundance
             uncertainty (e.g. __"Fe 0.78 0.01"__)
-  >         > Element Abund AbundErr
-  >         > 
-  >         > Mg 0.54 0.12
-  >         > 
-  >         > Si 1.21 0.24
   >   
   >     * Enter your values from 'Abundance Values' column;
   > 
