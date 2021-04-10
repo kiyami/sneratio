@@ -54,9 +54,8 @@
   > 
   >         You should clicking the little box next to the element name for activation, then enter the abundance
             value into the 'Value' box and uncertainty value into the 'Error' box.
-            
-  >     * Note: The reference element should be selected. At least 3 elements should be selected.
-          Asymmetric uncertainties can not be used yet.
+          
+  >     * Note: The reference element should be selected. At least 3 elements should be selected. Asymmetric uncertainties can not be used yet.
   >    
   > * Click __'Fit'__ button
   > 
