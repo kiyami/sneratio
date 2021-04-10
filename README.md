@@ -66,18 +66,18 @@
 
 * Installing, and using locally:
     > 
-    >   Type the following commands in terminal
+    >   1- Type the following commands in terminal
     >
         $ git clone https://github.com/kiyami/sneratio.git
         $ pip3 install ./sneratio
         $ cd sneratio
         $ python3 app.py
     >
-    >   Open the address shown in the terminal from the internet browser. 
+    >   2- Open the address shown in the terminal from the internet browser. 
     >    
     >   (http://127.0.0.1:5000/)
     > 
-    >   Make your selections and click "Fit".
+    >   3- Make your selections and click "Fit".
   
 > Feel free to make contributions or report bugs.
 >
