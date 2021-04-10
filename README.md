@@ -4,7 +4,7 @@
 >
 > * If you use this package either from the source code or from the web app for a publication please cite:
 > 
->      __*The Relative Supernovae Contribution to the Chemical Enrichment History of Abell 1837*__ (In review..)
+>      *The Relative Supernovae Contribution to the Chemical Enrichment History of Abell 1837* (In review..)
 
 > **Web App**
 > 
@@ -31,19 +31,6 @@
 > This package is introduced and used in the paper "The Relative Supernovae Contribution to the Chemical Enrichment
 > History of Abell 1837". (In review..)
 
-
-#### Installation:
-
-> Type the following commands in terminal:
->
-    $ git clone https://github.com/kiyami/sneratio.git
-    $ pip3 install ./sneratio
->
-> (Alternative way)
->
-    $ git clone https://github.com/kiyami/sneratio.git
-    $ cd sneratio
-    $ python3 setup.py install
 
 #### Usage:
 * From Web App:
@@ -73,8 +60,8 @@
   >         You should clicking the little box next to the element name for activation, then enter the abundance
             value into the 'Value' box and uncertainty value into the 'Error' box.
             
-  >     * _Note: The reference element should be selected. At least 3 elements should be selected.
-          Asymmetric uncertainties can not be used yet._
+  >     * _Note: The reference element should be selected. At least 3 elements should be selected._
+          _Asymmetric uncertainties can not be used yet._
   >    
   > * Click __'Fit'__ button
   > 
@@ -86,6 +73,8 @@
     > 
     >   Type the following commands in terminal
     >
+        $ git clone https://github.com/kiyami/sneratio.git
+        $ pip3 install ./sneratio
         $ cd sneratio
         $ python3 app.py
     >
