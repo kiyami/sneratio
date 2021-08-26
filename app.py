@@ -1,199 +1,189 @@
 from flask import Flask
 
-app = Flask(__name__, instance_relative_config=True)
-
-#################################
+app = Flask(__name__, instance_relative_config=True, static_folder="templates/static", template_folder="templates")
+#app = Flask(__name__, instance_relative_config=True)
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, redirect, json, render_template, request, url_for
 )
 
 import json
 from sneratio.src.adapter import Methods
+import sneratio.src.adapter as adapter
 
 import io
 import base64
+import os
 
+from redis import Redis
+from rq import Queue, Worker
+
+from worker import conn
 
 bp = Blueprint('', __name__)
-
 Methods.initialise_options()
+print("methods db path", Methods.db_path)
 
-"""
-@bp.route('/', methods=('GET', 'POST'))
+#queue = Queue(connection=Redis())
+queue = Queue(connection=conn)
+
+@bp.route('/')
+@bp.route('/sneratio')
 def index():
-    return redirect(url_for('.main'))
-"""
+    return render_template('index.html')
+
+# @bp.route('/')
+# @bp.route('/sneratio')
+# def index():
+#     return {"a": "1"}
+#
+
+@bp.route('/sneratio/get_info')
+def sneratio():
+    return Methods.read_info_from_json()
+    #return Methods.select_db()
 
 
-@bp.route('/', methods=('GET', 'POST'))
-def main():
+@bp.route('/sneratio/get_empty_plot')
+def get_empty_plot():
     fig = Methods.get_empty_plot()
     img_data = io.BytesIO()
     fig.savefig(img_data, format="png")
     img_data.seek(0)
     encoded_img_data = base64.b64encode(img_data.read())
 
-    Methods.set_status_text("Welcome to the SNeRatio App..")
-
-    return render_template('index.html',
-                           data_field=Methods.get_data_field(),
-                           img_data=encoded_img_data.decode(),
-                           status=Methods.get_status_text())
+    return {'img_data': encoded_img_data.decode()}
 
 
-@bp.route('/fit', methods=('GET', 'POST'))
+@bp.route('/sneratio/fit', methods=['GET', 'POST'])
 def fit():
-    fig = Methods.get_empty_plot()
-    img_data = io.BytesIO()
-    fig.savefig(img_data, format="png")
-    img_data.seek(0)
-    encoded_img_data = base64.b64encode(img_data.read())
-
     if request.method == 'POST':
-        updated_data_field = json.loads(request.form["data_field"])
-        #print("updated_data_field elements", updated_data_field["selections"])
+        request_data = json.loads(request.data)
+        selections = request_data["selections"]
+        elements = request_data["elements"]
 
-        if updated_data_field["results"]["ref_element_selected"] and updated_data_field["results"]["min_elements_selected"]:
+        vapec_elements = ['C', 'N', 'O', 'Ne', 'Mg', 'Al', 'Si', 'S', 'Ar', 'Ca', 'Fe', 'Ni']
+        elements_list, abund_list, abund_err_list = [], [], []
 
-            Methods.update_data_field(updated_data_field)
-            Methods.fit()
+        for e in vapec_elements:
+            if elements[f"chb_{e}"] == 1:
+                elements_list.append(e)
+                abund_list.append(elements[f"val_{e}"])
+                abund_err_list.append(elements[f"err_{e}"])
 
-            fig = Methods.get_fit_plot()
-            img_data = io.BytesIO()
-            fig.savefig(img_data, format="png")
-            img_data.seek(0)
-            encoded_img_data = base64.b64encode(img_data.read())
+        elements_data = {
+            "element": elements_list,
+            "abund": abund_list,
+            "abund_err": abund_err_list,
+        }
 
-            Methods.set_status_text("Fitting completed..")
+        Methods.update_data_field(selections_data=selections, elements_data=elements_data)
+        Methods.fit()
 
-        else:
-            Methods.set_status_text("Invalid Selections..")
-
-        return render_template('index.html',
-                               data_field=Methods.get_data_field(),
-                               img_data=encoded_img_data.decode(),
-                               status=Methods.get_status_text())
-
-    return render_template('index.html',
-                           data_field=Methods.get_data_field(),
-                           img_data=encoded_img_data.decode(),
-                           status=Methods.get_status_text())
-
-
-"""
-def _fit_loop_process(data_field):
-    Methods.update_data_field(data_field)
-    print("asdasdasd")
-
-    fig = Methods.get_empty_plot()
-    img_data = io.BytesIO()
-    fig.savefig(img_data, format="png")
-    img_data.seek(0)
-    encoded_img_data = base64.b64encode(img_data.read())
-
-    from sneratio.src.lib import info
-
-    info.results_dict["fit_results"] = Methods.get_fit_loop_results()
-
-    Methods.set_status_text("asdasd..")
-    time.sleep(3)
-    print("asdasdasd after 3 secs")
-    print(request.base_url, url_for('.fit_loop_result'))
-
-    requests.get(request.base_url)
-
-    #return redirect(url_for('.fit_loop', param=1))
-
-
-@bp.route('/fit_loop_result', methods=('GET', 'POST'))
-def fit_loop_result():
-    fig = Methods.get_empty_plot()
-    img_data = io.BytesIO()
-    fig.savefig(img_data, format="png")
-    img_data.seek(0)
-    encoded_img_data = base64.b64encode(img_data.read())
-
-    Methods.set_status_text("Fitting for all model combinations..")
-
-    return render_template('index.html', data_field=Methods.get_data_field(), img_data=encoded_img_data.decode(), status=Methods.get_status_text())
-
-
-
-@bp.route('/fit_loop', methods=('GET', 'POST'))
-def fit_loop():
-    fig = Methods.get_empty_plot()
-    img_data = io.BytesIO()
-    fig.savefig(img_data, format="png")
-    img_data.seek(0)
-    encoded_img_data = base64.b64encode(img_data.read())
-
-    if request.method == 'POST':
-        updated_data_field = json.loads(request.form["data_field_2"])
-
-        Methods.update_data_field(updated_data_field)
-
-        from sneratio.src.lib import info
-
-        info.results_dict["fit_results"] = Methods.get_fit_loop_results()
-        
-        proc = Process(target=_fit_loop_process, args=(updated_data_field,))
-        proc.start()
-        print('started')
-
-        Methods.set_status_text("Fitting for all model combinations..")
-
-        return render_template('index.html', data_field=Methods.get_data_field(), img_data=encoded_img_data.decode(), status=Methods.get_status_text())
-
-    try:
-        proc.join()
-        print("proc deleted ##########")
-    except:
-        print("proc except ##########")
-        pass
-
-    return render_template('index.html', data_field=Methods.get_data_field(), img_data=encoded_img_data.decode(), status=Methods.get_status_text())
-"""    
-
-
-@bp.route('/fit_loop', methods=('GET', 'POST'))
-def fit_loop():
-    fig = Methods.get_empty_plot()
-    img_data = io.BytesIO()
-    fig.savefig(img_data, format="png")
-    img_data.seek(0)
-    encoded_img_data = base64.b64encode(img_data.read())
-
-    if request.method == 'POST':
-        updated_data_field = json.loads(request.form["data_field_2"])
-
-        Methods.update_data_field(updated_data_field)
-        Methods.fit_loop()
-
-        fig = Methods.get_fit_loop_plot()
+        fig = Methods.get_fit_plot()
         img_data = io.BytesIO()
         fig.savefig(img_data, format="png")
         img_data.seek(0)
         encoded_img_data = base64.b64encode(img_data.read())
 
-        Methods.set_status_text("Fitting for all models completed..")
+        Methods.set_status_text("Fitting completed..")
+        results = Methods.get_data_field()["results"]
 
-        return render_template('index.html',
-                               data_field=Methods.get_data_field(),
-                               img_data=encoded_img_data.decode(),
-                               status=Methods.get_status_text())
+        return {"results": results, "img_data": encoded_img_data.decode(), "status": Methods.get_status_text()}
 
-    return render_template('index.html',
-                           data_field=Methods.get_data_field(),
-                           img_data=encoded_img_data.decode(),
-                           status=Methods.get_status_text())
+    return {'201': '/fit GET!'}
 
 
-#################################
+@bp.route('/sneratio/start_fit_loop', methods=['POST'])
+def start_fit_loop():
+    request_data = json.loads(request.data)
+    selections = request_data["selections"]
+    elements = request_data["elements"]
+
+    vapec_elements = ['C', 'N', 'O', 'Ne', 'Mg', 'Al', 'Si', 'S', 'Ar', 'Ca', 'Fe', 'Ni']
+    elements_list, abund_list, abund_err_list = [], [], []
+
+    for e in vapec_elements:
+        if elements[f"chb_{e}"] == 1:
+            elements_list.append(e)
+            abund_list.append(elements[f"val_{e}"])
+            abund_err_list.append(elements[f"err_{e}"])
+
+    elements_data = {
+        "element": elements_list,
+        "abund": abund_list,
+        "abund_err": abund_err_list,
+    }
+
+    Methods.update_data_field(selections_data=selections, elements_data=elements_data)
+
+    # _path = './loop_info.json'
+    # if os.path.exists(_path):
+    #     os.remove(_path)
+
+    #Methods.write_loop_info_to_json()
+
+    #res = queue.enqueue(adapter.fit_loop, selections=selections, elements_data=elements_data)
+    Methods.initialize_db(db_path=Methods.db_path)
+    res = queue.enqueue(adapter.fit_loop_db, selections=selections, elements_data=elements_data)
+
+    empty_results = {
+        "fit_results": {
+            "chi_squared": "",
+            "dof": "",
+            "ratio": "",
+        },
+
+        "fit_results_text": "",
+        "ref_element_selected": False,
+        "min_elements_selected": False,
+    }
+
+    fig = Methods.get_empty_plot()
+    img_data = io.BytesIO()
+    fig.savefig(img_data, format="png")
+    img_data.seek(0)
+    encoded_img_data = base64.b64encode(img_data.read())
+
+    Methods.set_status_text("Fit loop started.. (This may take a while..) ")
+
+    return {"task_done": False, "results": empty_results, "img_data": encoded_img_data.decode(), 'status': Methods.get_status_text()}
+
+
+@bp.route('/sneratio/check_fit_loop')
+def check_fit_loop():
+    #info_dict = Methods.read_loop_info_from_json()
+    info_dict = Methods.select_db()
+
+    _status_text = Methods.get_status_text()
+    _new_status_text = f"{_status_text}#"
+    Methods.set_status_text(_new_status_text)
+
+    # _path = '/app/sneratio/src/loop_info.json'
+    # if os.path.exists(_path):
+    #     # os.remove(_path)
+    #     print("path exist")
+    # else:
+    #     print("path doesnt exist")
+
+
+    return {"task_done": info_dict["task_done"], "status": Methods.get_status_text()}
+
+
+@bp.route('/sneratio/get_fit_loop_result')
+def get_fit_loop_results():
+    #info_dict = Methods.read_loop_info_from_json()
+    info_dict = Methods.select_db()
+
+    Methods.set_status_text("Fitting loop completed..")
+
+    results = Methods.get_data_field()["results"]
+
+    return {"results": results, "img_data": info_dict["img_data"], "status": Methods.get_status_text()}
 
 
 app.register_blueprint(bp)
-app.add_url_rule('/', endpoint='index')
+# app.add_url_rule('/', endpoint='index')
 
 
 if __name__ == '__main__':

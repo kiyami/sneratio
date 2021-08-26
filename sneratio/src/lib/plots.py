@@ -7,9 +7,17 @@ from sneratio.src.lib.table import Data
 from sneratio.src.lib import info
 
 
+plt.rcParams["font.family"] = "Times New Roman"
+plt.rcParams.update({'font.size': 12})
+plt.rcParams["legend.markerscale"] = 2.0
+
+
 def get_fit_plot():
     fig = Figure(dpi=200, facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
     ax = fig.add_subplot(111)
+
+    Ia_table_name = info.get_selected_option("Ia_table")[:-4]
+    cc_table_name = info.get_selected_option("cc_table")[:-4]
 
     contribution_Ia = Stats.fit_results["Ia_contribution"]
     contribution_cc = Stats.fit_results["cc_contribution"]
@@ -23,20 +31,32 @@ def get_fit_plot():
 
     ax.errorbar(x=elements, y=norm_abund, yerr=norm_abund_err, fmt='.k', markersize='12', elinewidth=2.0)
 
-    ax.bar(elements, contribution_Ia, 0.4, label="SNIa", color="blue", alpha=0.5)
-    ax.bar(elements, contribution_cc, 0.4, bottom=contribution_Ia, label="SNcc", color="green", alpha=0.5)
+    ax.bar(elements, contribution_Ia, 0.4, label=f"SNIa ({Ia_table_name})", color="red", alpha=0.6)
+    ax.bar(elements, contribution_cc, 0.4, bottom=contribution_Ia, label=f"SNcc ({cc_table_name})", color="teal", alpha=0.7)
 
-    ax.set_ylim(bottom=0)
+
+    max_contribution = max([Ia+cc for Ia,cc in zip(contribution_Ia,contribution_cc)])
+    max_abund = max([abund+err for abund,err in zip(norm_abund,norm_abund_err)])
+    print("max", max_abund, max_contribution)
+
+    if max_contribution > max_abund:
+        y_max = max_contribution
+    else:
+        y_max = max_abund
+
+    ax.set_ylim(bottom=0, top=y_max*1.3)
 
     # ax.set_xlabel("Elements", fontsize=16)
-    ax.set_ylabel("[X/{}]".format(ref_element), fontsize=12)
+    ax.set_ylabel("[X/{}]".format(ref_element))
 
     ax.tick_params(axis="x", labelsize=12)
     ax.tick_params(axis="y", labelsize=12)
 
     # ax.set_title("{} Normalised Relative Abundances".format(self.ref_element), fontsize=15)
-    ax.legend(loc="upper left", fontsize=12)
-    ax.grid(True)
+    ax.legend(loc="upper left")
+    ax.grid(False)
+
+    ax.margins(0.12)
 
     return fig
 
@@ -94,7 +114,7 @@ def get_fit_loop_plot():
     ax[1].set_yticks(range(Ia_model_count))
     ax[1].set_yticklabels(ylabel, size=5)
 
-    ax[1].imshow(new_ratio_list, cmap=matplotlib.cm.get_cmap('autumn_r'))
+    ax[1].imshow(new_ratio_list, vmin=0, vmax=1, cmap=matplotlib.cm.get_cmap('autumn_r'))
 
     for i in range(len(xlabel)):
         for j in range(len(ylabel)):

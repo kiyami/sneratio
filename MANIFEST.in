@@ -1,5 +1,0 @@
-include sneratio/schema.sql
-graft sneratio/static
-graft sneratio/templates
-graft sneratio/src/data/*
-global-exclude *.pyc

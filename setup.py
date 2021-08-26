@@ -6,9 +6,9 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="sneratio",
-    version="0.3.0",
+    version="1.0.0",
     author="M.Kıyami ERDİM",
-    author_email="kiyami_erdim@hotmail.com",
+    author_email="kiyamierdim@gmail.com",
 
     description="Supernova Ratio Calculator",
     long_description=long_description,
@@ -26,7 +26,8 @@ setuptools.setup(
 
     include_package_data=True,
     package_data = {
-        'sneratio/src': ['data/*']
+        'sneratio/src': ['data/*'],
+        'sneratio/src': ['info.json']
     },
 
     install_requires=[
@@ -35,5 +36,8 @@ setuptools.setup(
         "matplotlib",
         "scipy",
         "gunicorn",
+        "python-dotenv",
+        "redis",
+        "rq",
     ],
 )

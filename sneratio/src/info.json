@@ -1,0 +1,96 @@
+{
+    "elements": {
+        "abund": [],
+        "abund_err": [],
+        "element": []
+    },
+    "options": {
+        "Ia_table": [
+            "Fink_2013_N100Hdef.txt",
+            "Fink_2013_N100Ldef.txt",
+            "Fink_2013_N100def.txt",
+            "Fink_2013_N10def.txt",
+            "Fink_2013_N150def.txt",
+            "Fink_2013_N1600Cdef.txt",
+            "Fink_2013_N1600def.txt",
+            "Fink_2013_N1def.txt",
+            "Fink_2013_N200def.txt",
+            "Fink_2013_N20def.txt",
+            "Fink_2013_N300Cdef.txt",
+            "Fink_2013_N3def.txt",
+            "Fink_2013_N40def.txt",
+            "Fink_2013_N5def.txt",
+            "Seitenzahl_2013_N1.txt",
+            "Seitenzahl_2013_N10.txt",
+            "Seitenzahl_2013_N100-Z0.01.txt",
+            "Seitenzahl_2013_N100-Z0.1.txt",
+            "Seitenzahl_2013_N100-Z0.5.txt",
+            "Seitenzahl_2013_N100.txt",
+            "Seitenzahl_2013_N100H.txt",
+            "Seitenzahl_2013_N100L.txt",
+            "Seitenzahl_2013_N150.txt",
+            "Seitenzahl_2013_N1600.txt",
+            "Seitenzahl_2013_N1600C.txt",
+            "Seitenzahl_2013_N20.txt",
+            "Seitenzahl_2013_N200.txt",
+            "Seitenzahl_2013_N3.txt",
+            "Seitenzahl_2013_N300C.txt",
+            "Seitenzahl_2013_N40.txt",
+            "Seitenzahl_2013_N5.txt"
+        ],
+        "cc_imf": [
+            "Salpeter"
+        ],
+        "cc_mass_range": [
+            "10-50 Msun",
+            "10-70 Msun"
+        ],
+        "cc_table": [
+            "Nomoto_2013_0.0.txt",
+            "Nomoto_2013_0.001.txt",
+            "Nomoto_2013_0.004.txt",
+            "Nomoto_2013_0.008.txt",
+            "Nomoto_2013_0.02.txt",
+            "Nomoto_2013_0.05.txt"
+        ],
+        "input_data": [
+            "test_data.txt"
+        ],
+        "mass_number_table": [
+            "mass_number.txt"
+        ],
+        "ref_element": [
+            "Fe"
+        ],
+        "sigma": [
+            "1.0",
+            "2.0"
+        ],
+        "solar_table": [
+            "aspl.txt",
+            "angr.txt",
+            "lodd.txt"
+        ]
+    },
+    "results": {
+        "fit_results": {
+            "chi_squared": "",
+            "dof": "",
+            "ratio": ""
+        },
+        "fit_results_text": "",
+        "min_elements_selected": false,
+        "ref_element_selected": false
+    },
+    "selections": {
+        "Ia_table": 0,
+        "cc_imf": 0,
+        "cc_mass_range": 0,
+        "cc_table": 0,
+        "input_data": 0,
+        "mass_number_table": 0,
+        "ref_element": 0,
+        "sigma": 0,
+        "solar_table": 0
+    }
+}
