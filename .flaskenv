@@ -1,2 +1,2 @@
 export FLASK_APP=sneratio
-export FLASK_ENV=development
+export FLASK_ENV=product
