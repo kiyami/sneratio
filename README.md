@@ -10,7 +10,7 @@
 > 
 > This package can be used as a web app from the following link:
 > 
-> http://sneratio.herokuapp.com/
+> https://sneratio.herokuapp.com/
 
 > **Description** 
 > 
