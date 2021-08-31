@@ -44,15 +44,9 @@
        reference element (e.g. X/Fe). 
   > * Select __'Confidence Interval'__ for uncertainty calculations.
   > * Data input:
-  >     * Load your abundance data via __'Browse'__ button;
-  >         
-  >         Prepare a text file that contains 3 columns with column names __"Element"__, __"Abund"__ and __"AbundErr"__
-            written in the first row. The following rows should contain element name, abundance value and abundance
-            uncertainty (e.g. __"Fe 0.78 0.01"__)
-  >   
   >     * Enter your values from 'Abundance Values' column;
   > 
-  >         You should clicking the little box next to the element name for activation, then enter the abundance
+  >         Click the little box next to the element name for activation, then enter the abundance
             value into the 'Value' box and uncertainty value into the 'Error' box.
   > 
   >     * Note: The reference element should be selected. At least 3 elements should be selected.
@@ -94,3 +88,8 @@
 ![GitHub Logo](/examples/gui.png)
 
 
+<!-- >     * Load your abundance data via __'Browse'__ button;
+>         
+>         Prepare a text file that contains 3 columns with column names __"Element"__, __"Abund"__ and __"AbundErr"__
+          written in the first row. The following rows should contain element name, abundance value and abundance
+          uncertainty (e.g. __"Fe 0.78 0.01"__) -->
