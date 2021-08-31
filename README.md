@@ -63,9 +63,9 @@
     >
     >   1- Create a Python virtual environment (Optional)
     >
-        $ cd /path/of/the/app/        # go to the path that you want to install the app
-        $ python3 -m venv venv        # create a python3 virtual environment named venv
-        $ source venv/bin/activate    # activate the virtual environment
+        $ cd /path/of/the/installation/   # go to the path that you want to install the app
+        $ python3 -m venv venv            # create a python3 virtual environment named venv
+        $ source venv/bin/activate        # activate the virtual environment
     > 
     >   2- Clone the repository and install the app.
     >
@@ -85,8 +85,16 @@
     >    
     >   (http://127.0.0.1:5000/)
     > 
-    >   4- Make your selections and click "Fit".
   
+    >   4- Make your selections and click "Fit".
+    > 
+  
+    >   5- Deactivate the virtual environment.
+    > 
+        (venv) $ deactivate
+
+    >   6- To uninstall the app, delete the "sneratio" and "venv" folders.
+
 > Feel free to make contributions or report bugs.
 >
 > M.K.Erdim
@@ -95,11 +103,6 @@
 > 
 > kiyamierdim@gmail.com
 > 
-
-
-#### GUI:
-
-![GitHub Logo](/examples/gui.png)
 
 
 <!-- >     * Load your abundance data via __'Browse'__ button;
