@@ -59,19 +59,33 @@
   > 
 
 * Installing, and using locally:
+    >   (Type the following commands in terminal)
+    >
+    >   1- Create a Python virtual environment (Optional)
+    >
+        $ cd /path/of/the/app/        # go to the path that you want to install the app
+        $ python3 -m venv venv        # create a python3 virtual environment named venv
+        $ source venv/bin/activate    # activate the virtual environment
     > 
-    >   1- Type the following commands in terminal
+    >   2- Clone the repository and install the app.
     >
-        $ git clone https://github.com/kiyami/sneratio.git
-        $ pip3 install ./sneratio
-        $ cd sneratio
-        $ python3 app.py
+        (venv) $ git clone https://github.com/kiyami/sneratio.git   # clone the repository (or download from github.com)
+        (venv) $ pip3 install ./sneratio                            # install the app via pip3
+        (venv) $ cd sneratio                                        # change directory
+        (venv) $ python3 app.py                                     # run the app
+
+    >   (Alternative) 2- If you don't have pip3 installed do the following steps:
+        (venv) $ git clone https://github.com/kiyami/sneratio.git   # clone the repository (or download from github.com)
+        (venv) $ cd sneratio                                        # change directory
+        (venv) $ python3 setup.py install                           # install the app via setup.py script                            
+        (venv) $ python3 app.py                                     # run the app
+
     >
-    >   2- Open the address shown in the terminal from the internet browser. 
+    >   3- Open the address that shown in the terminal from your internet browser. 
     >    
     >   (http://127.0.0.1:5000/)
     > 
-    >   3- Make your selections and click "Fit".
+    >   4- Make your selections and click "Fit".
   
 > Feel free to make contributions or report bugs.
 >
