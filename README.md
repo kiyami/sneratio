@@ -10,7 +10,7 @@
 > 
 > This package can be used as a web app from the following link:
 > 
-> http://kiyami.herokuapp.com/
+> http://sneratio.herokuapp.com/
 
 > **Description** 
 > 
