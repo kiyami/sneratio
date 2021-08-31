@@ -73,13 +73,13 @@
         (venv) $ pip3 install ./sneratio                            # install the app via pip3
         (venv) $ cd sneratio                                        # change directory
         (venv) $ python3 app.py                                     # run the app
-
+    >
     >   (Alternative) 2- If you don't have pip3 installed do the following steps:
+    >
         (venv) $ git clone https://github.com/kiyami/sneratio.git   # clone the repository (or download from github.com)
         (venv) $ cd sneratio                                        # change directory
         (venv) $ python3 setup.py install                           # install the app via setup.py script                            
         (venv) $ python3 app.py                                     # run the app
-
     >
     >   3- Open the address that shown in the terminal from your internet browser. 
     >    
