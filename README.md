@@ -34,7 +34,7 @@
 
 #### Usage:
 * From Web App:
-  > * Open http://kiyami.herokuapp.com/
+  > * Open https://sneratio.herokuapp.com/
   > * Select an __'SNIa Model'__ (yield table)
   > * Select an __'SNcc Model'__ (yield table)
   > * Select __'SNcc Mass Range'__ for integration with IMF function
