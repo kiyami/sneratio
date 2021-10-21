@@ -1,10 +1,12 @@
-## SNeRatio: *A supernova ratio calculator for x-ray observation of galaxies and galaxy clusters.*
+## **SNeRatio**: *A supernova ratio calculator for x-ray observation of galaxies and galaxy clusters.*
 
-> **Note**
+> **Citation**
 >
-> * If you use this package either from the source code or from the web app for a publication please cite:
+> If you use this package either from the source code or from the web app for a publication please cite:
 > 
->      *The Relative Supernovae Contribution to the Chemical Enrichment History of Abell 1837* (In review..)
+> *M K Erdim, C Ezer, O Ünver, F Hazar, M Hudaverdi, The relative supernovae contribution to the chemical enrichment history of Abell 1837, Monthly Notices of the Royal Astronomical Society, Volume 508, Issue 3, December 2021, Pages 3337–3344*
+>
+> https://doi.org/10.1093/mnras/stab2730
 
 > **Web App**
 > 
@@ -32,7 +34,7 @@
 > History of Abell 1837". (In review..)
 
 
-#### Usage:
+#### **Usage**:
 * From Web App:
   > * Open https://sneratio.herokuapp.com/
   > * Select an __'SNIa Model'__ (yield table)
