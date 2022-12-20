@@ -8,11 +8,10 @@
 >
 > https://doi.org/10.1093/mnras/stab2730
 
-> **Web App**
+> **Web App (Under Maintenance)**
 > 
-> This package can be used as a web app from the following link:
+> ~~This package can be used as a web app from the following link:~~
 > 
-> https://sneratio.herokuapp.com/
 
 > **Description** 
 > 
@@ -35,31 +34,6 @@
 
 
 #### **Usage**:
-* From Web App:
-  > * Open https://sneratio.herokuapp.com/
-  > * Select an __'SNIa Model'__ (yield table)
-  > * Select an __'SNcc Model'__ (yield table)
-  > * Select __'SNcc Mass Range'__ for integration with IMF function
-  > * Select an __'IMF'__ (Initial Mass Function)
-  > * Select a __'Solar Table'__
-  > * Select a __'Reference Element'__. This selection turns your input abundace values into a ratio with
-       reference element (e.g. X/Fe). 
-  > * Select __'Confidence Interval'__ for uncertainty calculations.
-  > * Data input:
-  >     * Enter your values from 'Abundance Values' column;
-  > 
-  >         Click the little box next to the element name for activation, then enter the abundance
-            value into the 'Value' box and uncertainty value into the 'Error' box.
-  > 
-  >     * Note: The reference element should be selected. At least 3 elements should be selected.
-          Asymmetric uncertainties can not be used yet.
-  >    
-  > * Click __'Fit'__ button
-  > 
-  > 
-  > After a few seconds, the fit plot should be visible in the middle panel, and the fit results will be shown below.
-  > 
-
 * Installing, and using locally:
     >   (Type the following commands in terminal)
     >
@@ -69,33 +43,35 @@
         $ python3 -m venv venv            # create a python3 virtual environment named venv
         $ source venv/bin/activate        # activate the virtual environment
     > 
-    >   2- Clone the repository and install the app.
+    >   2- Clone the repository and install the requirements.
     >
         (venv) $ git clone https://github.com/kiyami/sneratio.git   # clone the repository (or download from github.com)
-        (venv) $ pip3 install ./sneratio                            # install the app via pip3
+
         (venv) $ cd sneratio                                        # change directory
-        (venv) $ python3 app.py                                     # run the app
+        (venv) $ pip3 install -r requirements.txt                   # install the required libraries via pip3
     >
-    >   (Alternative) 2- If you don't have pip3 installed do the following steps:
+    >   3- Prepare a data file for your abundance values as the example file 'test_data.txt' in 'data' folder.
     >
-        (venv) $ git clone https://github.com/kiyami/sneratio.git   # clone the repository (or download from github.com)
-        (venv) $ cd sneratio                                        # change directory
-        (venv) $ python3 setup.py install                           # install the app via setup.py script                            
-        (venv) $ python3 app.py                                     # run the app
+    >   4- Open the 'main.py' with a text editor and update the 'my_selections' part. 
+    >   
+    >   For example: 
     >
-    >   3- Open the address that shown in the terminal from your internet browser. 
-    >    
-    >   (http://127.0.0.1:5000/)
+    >       "abund_data": "data/abund_data.txt" -> enter the path of your data file
     > 
-  
-    >   4- Make your selections and click "Fit".
+
+    >   5- Run the app.
+    >
+        (venv) $ python3 main.py                                     # run the app
     > 
-  
-    >   5- Deactivate the virtual environment.
+
+    >   6- Check the results from the 'outputs' folder.
+    >
+
+    >   7- Deactivate the virtual environment.
     > 
         (venv) $ deactivate
 
-    >   6- To uninstall the app, delete the "sneratio" and "venv" folders.
+    >   8- To uninstall the app, delete the "sneratio" and "venv" folders.
 
 > Feel free to make contributions or report bugs.
 >
@@ -105,10 +81,3 @@
 > 
 > kiyamierdim@gmail.com
 > 
-
-
-<!-- >     * Load your abundance data via __'Browse'__ button;
->         
->         Prepare a text file that contains 3 columns with column names __"Element"__, __"Abund"__ and __"AbundErr"__
-          written in the first row. The following rows should contain element name, abundance value and abundance
-          uncertainty (e.g. __"Fe 0.78 0.01"__) -->
