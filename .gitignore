@@ -7,4 +7,4 @@ build
 dist
 **.pyc
 **.DS_Store
-.ipynb*
+*.ipynb*
