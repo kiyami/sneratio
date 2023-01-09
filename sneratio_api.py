@@ -393,12 +393,21 @@ class SNeStats:
         fit_results = {
             "Ia_table": Ia_table_name,
             "cc_table": cc_table_name,
+
             "elements": elements,
+
             "total_cont": total_cont,
             "cont_Ia": cont_Ia,
             "cont_cc": cont_cc,
-            "ratio_Ia": np.array([r_Ia_best[0], r_Ia_err_n[0], r_Ia_err_p[0]]),
-            "ratio_cc": np.array([r_cc_best[0], r_cc_err_n[0], r_cc_err_p[0]]),
+
+            "r_Ia": r_Ia_best[0],
+            "r_Ia_err_n": r_Ia_err_n[0],
+            "r_Ia_err_p": r_Ia_err_p[0],
+
+            "r_cc": r_cc_best[0],
+            "r_cc_err_n": r_cc_err_n[0],
+            "r_cc_err_p": r_cc_err_p[0],
+
             "chisq": min_chi,
             "dof": dof,
         }
@@ -609,8 +618,13 @@ class SNePlots:
         cont_Ia = SNeStats.fit_results["cont_Ia"]
         cont_cc = SNeStats.fit_results["cont_cc"]
 
-        rIa, rIa_n, rIa_p = SNeStats.fit_results["ratio_Ia"]
-        rcc, rcc_n, rcc_p = SNeStats.fit_results["ratio_cc"]
+        rIa = SNeStats.fit_results["r_Ia"]
+        rIa_n = SNeStats.fit_results["r_Ia_err_n"]
+        rIa_p = SNeStats.fit_results["r_Ia_err_p"]
+
+        rcc = SNeStats.fit_results["r_cc"]
+        rcc_n = SNeStats.fit_results["r_cc_err_n"]
+        rcc_p = SNeStats.fit_results["r_cc_err_p"]
 
         ax.bar(x=x_values, height=cont_Ia, color="red", width=0.4, alpha=0.6, label="SNIa(%): {:.1f}(-{:.1f},+{:.1f}) [{}]".format(rIa*100, rIa_n*100, rIa_p*100, Ia_table))
         ax.bar(x=x_values, height=cont_cc, bottom=cont_Ia, color="teal", width=0.4, alpha=0.6, label="SNcc(%): {:.1f}(-{:.1f},+{:.1f}) [{}]".format(rcc*100, rcc_n*100, rcc_p*100, cc_table))
@@ -650,8 +664,13 @@ class SNePlots:
         min_index = np.where(chi_min == chi_list)
         best_ratio1 = x_list[min_index]
 
-        rIa, rIa_n, rIa_p = SNeStats.fit_results["ratio_Ia"]
-        rcc, rcc_n, rcc_p = SNeStats.fit_results["ratio_cc"]
+        rIa = SNeStats.fit_results["r_Ia"]
+        rIa_n = SNeStats.fit_results["r_Ia_err_n"]
+        rIa_p = SNeStats.fit_results["r_Ia_err_p"]
+
+        rcc = SNeStats.fit_results["r_cc"]
+        rcc_n = SNeStats.fit_results["r_cc_err_n"]
+        rcc_p = SNeStats.fit_results["r_cc_err_p"]
         
         print("R_snIa: {:.3f} (-{:.3f},+{:.3f})".format(rIa, rIa_n, rIa_p))
         print("R_sncc: {:.3f} (-{:.3f},+{:.3f})".format(rcc, rcc_n, rcc_p))
