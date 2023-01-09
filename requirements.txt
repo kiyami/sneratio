@@ -4,6 +4,7 @@ fonttools==4.38.0
 kiwisolver==1.4.4
 matplotlib==3.6.2
 numpy==1.24.0
+openpyxl==3.0.10
 packaging==22.0
 pandas==1.5.2
 Pillow==9.3.0

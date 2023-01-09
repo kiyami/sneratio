@@ -248,6 +248,7 @@ class SNeStats:
     
     fit_results = None
     fit_results_all = None
+    fit_results_all_df = None
 
     @staticmethod
     def _ratio2percent(r):
@@ -417,7 +418,7 @@ class SNeStats:
         return fit_results
     
     @classmethod
-    def fit_all(cls, SNeRatio):
+    def fit_all_old(cls, SNeRatio):
 
         snIa_tables = [f for f in SNeRatio.options["snIa_data"] if f.endswith(".txt")]
         sncc_tables = [f for f in SNeRatio.options["sncc_data"] if f.endswith(".txt")]
@@ -533,6 +534,167 @@ class SNeStats:
         return fit_results_all
 
     @classmethod
+    def fit_all(cls, SNeRatio):
+
+        snIa_tables = [f for f in SNeRatio.options["snIa_data"] if f.endswith(".txt")]
+        sncc_tables = [f for f in SNeRatio.options["sncc_data"] if f.endswith(".txt")]
+        
+        n_Ia = len(snIa_tables)
+        n_cc = len(sncc_tables)
+
+        Ia_yields_list = np.arange(n_Ia, dtype=np.ndarray)
+        cc_yields_list = np.arange(n_cc, dtype=np.ndarray)
+        
+        # non-changing values for fitting all combinations
+        mass_number, norm_solar = SNeRatio.df_master["MassNumber"].values, SNeRatio.df_master["norm_solar"].values
+        elements, ref_element = SNeRatio.df_master["Element"].values, SNeRatio.selections["ref_element"]
+        
+        imf = SNeRatio.imf_dict[SNeRatio.selections["imf"]]
+        mass_range = SNeRatio.selections["sncc_mass_range"]
+        
+        x = range(len(elements))
+        norm_abund = SNeRatio.df_master.norm_abund
+        norm_abund_err = SNeRatio.df_master.norm_abund_err
+
+        # yields for all tables
+        for i,Ia in enumerate(snIa_tables):
+            Ia_path = SNeRatio._paths["snIa_data"]
+            temp_df_Ia = SNeRatio.read_data(os.path.join(Ia_path, Ia))
+            temp_Ia_yields = SNeRatio._calc_snIa_yields(temp_df_Ia, elements)
+            Ia_yields_list[i] = np.array(temp_Ia_yields)
+             
+        for i,cc in enumerate(sncc_tables):
+            cc_path = SNeRatio._paths["sncc_data"]
+            temp_df_cc = SNeRatio.read_data(os.path.join(cc_path, cc))
+            temp_cc_yields = SNeRatio._calc_sncc_yields(temp_df_cc, elements, imf, mass_range)
+            cc_yields_list[i] = np.array(temp_cc_yields)
+
+        col_names_t = ["Ia_table", "cc_table"]
+        col_names_r = ["r_Ia", "r_Ia_err_n", "r_Ia_err_p", "r_cc", "r_cc_err_n", "r_cc_err_p"]
+        col_names_s = ["chisq", "dof"]
+        col_names_tot = [f"Total_cont_{e}" for e in elements]
+        col_names_Ia = [f"Ia_cont_{e}" for e in elements]
+        col_names_cc = [f"cc_cont_{e}" for e in elements]
+
+        col_names = col_names_t + col_names_r + col_names_s + col_names_tot + col_names_Ia + col_names_cc
+
+        r_Ia_array = np.arange(n_Ia*n_cc, dtype=float)
+        r_Ia_err_n_array = np.arange(n_Ia*n_cc, dtype=float)
+        r_Ia_err_p_array = np.arange(n_Ia*n_cc, dtype=float)
+
+        r_cc_array = np.arange(n_Ia*n_cc, dtype=float)
+        r_cc_err_n_array = np.arange(n_Ia*n_cc, dtype=float)
+        r_cc_err_p_array = np.arange(n_Ia*n_cc, dtype=float)
+
+        chisq_array = np.arange(n_Ia*n_cc, dtype=float)
+        dof_array = np.arange(n_Ia*n_cc, dtype=float)
+
+        total_cont_array_dict = {
+            e:np.arange(n_Ia*n_cc, dtype=float) for e in elements
+            }
+
+        Ia_cont_array_dict = total_cont_array_dict.copy()
+        cc_cont_array_dict = total_cont_array_dict.copy()
+
+
+        for i,Ia_yields in enumerate(Ia_yields_list):
+            
+            for j,cc_yields in enumerate(cc_yields_list):
+                
+                # fit
+                r_init = 0.5        
+                modified_fit_func = cls._modified_fit_func(Ia_yields, cc_yields, mass_number, norm_solar, elements, ref_element)
+                r_best, cov = curve_fit(modified_fit_func, x, norm_abund, sigma=norm_abund_err, p0=[r_init], bounds=(0,np.inf))
+
+                # best r contributions
+                r_Ia_best = r_best / (1.0+r_best)
+                r_cc_best = 1.0 / (1.0+r_best)
+                total_cont, cont_Ia, cont_cc = cls._calc_contribution(r_Ia_best, r_cc_best, Ia_yields, cc_yields, mass_number, norm_solar, elements, ref_element)
+
+                # delta chi for uncertainties
+                min_chi = cls._chisq(norm_abund, norm_abund_err, total_cont)
+                delta_chi = SNeRatio.sigma_to_delta_chisq[SNeRatio.selections["confidence"]]
+
+                modified_fit_func_conf = cls._modified_fit_func_conf(norm_abund, norm_abund_err, min_chi, delta_chi, Ia_yields, cc_yields, mass_number, norm_solar, elements, ref_element)
+                
+                # lower uncertainty
+                r_low_init = r_best/1.5
+                fit_result_low = least_squares(modified_fit_func_conf, x0=r_low_init)
+                r_low = fit_result_low.x
+
+                # upper uncertainty
+                r_high_init = min(r_best*1.5, 1.0) # should not exceed 1.0
+                fit_result_high = least_squares(modified_fit_func_conf, x0=r_high_init)
+                r_high = fit_result_high.x
+
+                # error values
+                r_Ia_best = r_best/(1.0 + r_best)
+                r_Ia_low = r_low/(1.0 + r_low)
+                r_Ia_high = r_high/(1.0 + r_high)
+
+                r_Ia_err_n = r_Ia_best - r_Ia_low
+                r_Ia_err_p = r_Ia_high - r_Ia_best
+
+                r_cc_best = 1.0 - r_Ia_best
+                r_cc_err_n = r_Ia_err_p
+                r_cc_err_p = r_Ia_err_n
+
+                # fit results
+                index = int(i*n_cc + j)
+
+                #Ia_table_array[index] = snIa_tables[i]
+                #cc_table_array[index] = sncc_tables[j]
+
+                r_Ia_array[index] = r_Ia_best
+                r_Ia_err_n_array[index] = r_Ia_err_n
+                r_Ia_err_p_array[index] = r_Ia_err_p
+
+                r_cc_array[index] = r_cc_best
+                r_cc_err_n_array[index] = r_cc_err_n
+                r_cc_err_p_array[index] = r_cc_err_p
+
+                for k,e in enumerate(elements):
+                    total_cont_array_dict[e][index] = total_cont[k]
+                    Ia_cont_array_dict[e][index] = cont_Ia[k]
+                    cc_cont_array_dict[e][index] = cont_cc[k]
+
+                chisq_array[index] = min_chi
+                dof_array[index] = len(elements)-1-1
+                
+
+        Ia_table_array, cc_table_array = np.array(np.meshgrid(snIa_tables, sncc_tables)).reshape(2,-1)
+
+        fit_results_all = {
+            "Ia_table": Ia_table_array,
+            "cc_table": cc_table_array,
+
+            "r_Ia": r_Ia_array,
+            "r_Ia_err_n": r_Ia_err_n_array,
+            "r_Ia_err_p": r_Ia_err_p_array,
+
+            "r_cc": r_cc_array,
+            "r_cc_err_n": r_cc_err_n_array,
+            "r_cc_err_p": r_cc_err_p_array,
+
+            "chisq": chisq_array,
+            "dof": dof_array,
+        }
+
+        for k in range(len(elements)):
+            fit_results_all[col_names_tot[k]] = total_cont_array_dict[e]
+            fit_results_all[col_names_Ia[k]] = Ia_cont_array_dict[e]
+            fit_results_all[col_names_cc[k]] = cc_cont_array_dict[e]
+
+
+        cls.fit_results_all = fit_results_all
+        cls.fit_results_all_df = pd.DataFrame(fit_results_all)
+
+        print(cls.fit_results_all_df.info())
+        print(cls.fit_results_all_df.iloc[:5])
+        
+        return cls.fit_results_all_df
+
+    @classmethod
     def save_fit_results(cls):
 
         now = datetime.datetime.now()
@@ -562,7 +724,7 @@ class SNeStats:
 
 
     @classmethod
-    def save_fit_all_results(cls):
+    def save_fit_all_results_old(cls):
 
         now = datetime.datetime.now()
         now_str = now.strftime(r'%Y-%m-%d_%H-%M-%S')
@@ -587,6 +749,35 @@ class SNeStats:
 
         except:
             print("WARNING: Couldn't save the fit_all_results!")
+
+
+    @classmethod
+    def save_fit_all_results(cls):
+
+        now = datetime.datetime.now()
+        now_str = now.strftime(r'%Y-%m-%d_%H-%M-%S')
+        filename_csv = "outputs/fit_all_results_{}.csv".format(now_str)
+        filename_xlsx = "outputs/fit_all_results_{}.xlsx".format(now_str)
+
+        try:
+
+            if cls.fit_results_all_df is not None:
+
+                with open(filename_csv, "w+") as f:
+                    cls.fit_results_all_df.to_csv(filename_csv, sep=",")
+
+        except:
+            print("WARNING: Couldn't save the fit_all_results!")
+
+        try:
+            import openpyxl
+        
+            with open(filename_xlsx, "w+") as f:
+                cls.fit_results_all_df.to_excel(filename_xlsx, encoding="utf-8")
+
+        except:
+            print("WARNING: Couldn't save as .xslx!")
+
 
  
 # SNePlots class --------------------------------------------
@@ -701,7 +892,7 @@ class SNePlots:
         fig.savefig("outputs/plot_statistics.jpeg", dpi=200)
         
     @staticmethod
-    def plot_fit_all(SNeRatio, SNeStats):
+    def plot_fit_all_old(SNeRatio, SNeStats):
         
         n_Ia = SNeStats.fit_results_all["n_Ia"]
         n_cc = SNeStats.fit_results_all["n_cc"]
@@ -784,6 +975,107 @@ class SNePlots:
         for i in range(len(xlabel)):
             for j in range(len(ylabel)):
                 avg_err = (abs(ratio_Ia_err_n[j, i]) + abs(ratio_Ia_err_p[j, i]))/2.0
+                text = ax[2].text(i, j, "{:.2f}".format(avg_err), ha="center", va="center",
+                                  color="black", fontsize=5)
+
+        ax[2].set_title("Avg. Error")
+        
+        #---------------------------------------------------------------------------------
+        
+        cbar0 = plt.colorbar(im0, ax=ax[0], orientation='vertical', aspect=60)
+        cbar0.ax.tick_params(axis="both", labelsize=7)
+        
+        cbar1 = plt.colorbar(im1, ax=ax[1], orientation='vertical', aspect=60)
+        cbar1.ax.tick_params(axis="both", labelsize=7)
+
+        fig.tight_layout()
+        fig.savefig("outputs/plot_fit_all.jpeg", dpi=200)
+
+
+    @staticmethod
+    def plot_fit_all(SNeRatio, SNeStats):
+        
+        Ia_tables = SNeStats.fit_results_all_df["Ia_table"].unique()
+        cc_tables = SNeStats.fit_results_all_df["cc_table"].unique()
+
+        n_Ia = len(Ia_tables)
+        n_cc = len(cc_tables)
+                
+        font = {'size'   : 8}
+        plt.rc('font', **font)
+
+        fig = plt.figure(dpi=200, figsize=(10,10), facecolor=(1, 1, 1), edgecolor=(0, 0, 0))
+        ax = [fig.add_subplot(141),
+              fig.add_subplot(142),
+              fig.add_subplot(143)]
+
+        fig.subplots_adjust(left=0.15,
+                            bottom=0.175,
+                            right=0.95,
+                            top=0.95,
+                            wspace=0.0,
+                            hspace=0.0)
+        
+        #---------------------------------------------------------------------------------
+        
+        chisq_data = SNeStats.fit_results_all_df.groupby(["Ia_table","cc_table"])["chisq"].mean().unstack().values
+        
+        r_Ia_data = SNeStats.fit_results_all_df.groupby(["Ia_table","cc_table"])["r_Ia"].mean().unstack().values
+        
+        r_Ia_err_n_data = SNeStats.fit_results_all_df.groupby(["Ia_table","cc_table"])["r_Ia_err_n"].mean().unstack().values
+        r_Ia_err_p_data = SNeStats.fit_results_all_df.groupby(["Ia_table","cc_table"])["r_Ia_err_p"].mean().unstack().values
+        
+        r_Ia_err_data = (r_Ia_err_n_data + r_Ia_err_p_data)/2.0
+
+        xlabel = [t.rsplit(".", 1)[0] for t in cc_tables]
+        ax[0].set_xticks(range(n_cc))
+        ax[0].set_xticklabels(xlabel, rotation=80, size=5)
+
+        ylabel = [t.rsplit(".", 1)[0] for t in Ia_tables]
+        ax[0].set_yticks(range(n_Ia))
+        ax[0].set_yticklabels(ylabel, size=5)
+
+        im0 = ax[0].imshow(chisq_data, cmap=plt.cm.get_cmap('Greens'))
+
+        for i in range(len(xlabel)):
+            for j in range(len(ylabel)):
+                text = ax[0].text(i, j, "{:.2f}".format(chisq_data[j, i]), ha="center", va="center",
+                                  color="black", fontsize=5)
+
+        ax[0].set_title("$\chi^2$")
+        
+        #---------------------------------------------------------------------------------
+
+        ax[1].set_xticks(range(n_cc))
+        ax[1].set_xticklabels(xlabel, rotation=80, size=5)
+
+        ylabel = ["" for _ in Ia_tables]
+        ax[1].set_yticks(range(n_Ia))
+        ax[1].set_yticklabels(ylabel, size=5)
+
+        im1 = ax[1].imshow(r_Ia_data, vmin=0, vmax=1, cmap=plt.cm.get_cmap('autumn_r'))
+
+        for i in range(len(xlabel)):
+            for j in range(len(ylabel)):
+                text = ax[1].text(i, j, "{:.2f}".format(r_Ia_data[j, i]), ha="center", va="center",
+                                  color="black", fontsize=5)
+
+        ax[1].set_title("SNIa Ratio")
+        
+        #---------------------------------------------------------------------------------
+        
+        ax[2].set_xticks(range(n_cc))
+        ax[2].set_xticklabels(xlabel, rotation=80, size=5)
+
+        ylabel = ["" for _ in Ia_tables]
+        ax[2].set_yticks(range(n_Ia))
+        ax[2].set_yticklabels(ylabel, size=5)
+
+        ax[2].imshow(r_Ia_err_data, vmin=0, vmax=1, cmap=plt.cm.get_cmap('summer_r'))
+
+        for i in range(len(xlabel)):
+            for j in range(len(ylabel)):
+                avg_err = r_Ia_err_data[j,i]
                 text = ax[2].text(i, j, "{:.2f}".format(avg_err), ha="center", va="center",
                                   color="black", fontsize=5)
 
