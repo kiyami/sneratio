@@ -30,7 +30,7 @@
 > data for selected yield tables and models.
 >
 > This package is introduced and used in the paper "The Relative Supernovae Contribution to the Chemical Enrichment
-> History of Abell 1837". (In review..)
+> History of Abell 1837" (https://doi.org/10.1093/mnras/stab2730).
 
 
 #### **Usage**:
