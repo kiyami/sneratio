@@ -228,9 +228,8 @@ class SNeRatio:
         norm_abund = cls.df_master.Abund.values / cls.df_master[ref_row].Abund.values
         cls.df_master["norm_abund"] = norm_abund
 
-
-        ref_abund = cls.df_master[ref_row].Abund
-        ref_abund_err = cls.df_master[ref_row].AbundError
+        ref_abund = cls.df_master[ref_row].Abund.values[0]
+        ref_abund_err = cls.df_master[ref_row].AbundError.values[0]
 
         _, norm_abund_err = zip(*[cls.division_error(cls.df_master.Abund.values[i], cls.df_master.AbundError.values[i], ref_abund, ref_abund_err) for i in range(len(cls.elements))])
         cls.df_master["norm_abund_err"] = norm_abund_err
@@ -645,6 +644,14 @@ class SNeStats:
                 #Ia_table_array[index] = snIa_tables[i]
                 #cc_table_array[index] = sncc_tables[j]
 
+                r_Ia_best = r_Ia_best[0]
+                r_Ia_err_n = r_Ia_err_n[0]
+                r_Ia_err_p = r_Ia_err_p[0]
+
+                r_cc_best = r_cc_best[0]
+                r_cc_err_n = r_cc_err_n[0]
+                r_cc_err_p = r_cc_err_p[0]
+
                 r_Ia_array[index] = r_Ia_best
                 r_Ia_err_n_array[index] = r_Ia_err_n
                 r_Ia_err_p_array[index] = r_Ia_err_p
@@ -704,23 +711,28 @@ class SNeStats:
         saveable_fit_results = dict()
 
         try:
+            from collections.abc import Iterable
+
             if cls.fit_results is not None:
 
                 for key,value in cls.fit_results.items():
                     
-                    if isinstance(value, np.ndarray):
+                    if isinstance(value, Iterable) and (not isinstance(value, str)):
                         saveable_fit_results[key] = value.tolist()
 
                     else:
                         saveable_fit_results[key] = value
+
+            print(saveable_fit_results)
 
             with open(filename, "w+") as f:
 
                 f.write("Fit Results (Single Fit):\n")
                 f.write(json.dumps(saveable_fit_results, indent=4))
 
-        except:
+        except Exception as e:
             print("WARNING: Couldn't save the fit_results!")
+            print(e)
 
 
     @classmethod
@@ -770,13 +782,23 @@ class SNeStats:
             print("WARNING: Couldn't save the fit_all_results!")
 
         try:
-            import openpyxl
+            
+            try:
+                import openpyxl
+                HAS_openpyxl = True
+            except ImportError:
+                HAS_openpyxl = False
         
-            with open(filename_xlsx, "w+") as f:
-                cls.fit_results_all_df.to_excel(filename_xlsx, encoding="utf-8")
+            
+            if HAS_openpyxl:
+                with open(filename_xlsx, "w+") as f:
+                    cls.fit_results_all_df.to_excel(filename_xlsx, encoding="utf-8")
+            else:
+                print("INFO: 'openpyxl' is not installed. Saving as .xlsx is skipped")
 
-        except:
-            print("WARNING: Couldn't save as .xslx!")
+        except Exception as e:
+            print("WARNING: Couldn't save as .xlsx!")
+            print(e)
 
 
  

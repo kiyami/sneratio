@@ -31,4 +31,4 @@ fit(my_selections)
 # to do multiple fits with all of the available sn yield model combinations with your selections.
 # the fit results will be saved into the 'outputs' folder
 # put a '#' at the beginning of the following line to disable the 'fit_all' function.
-#fit_all(my_selections)
+fit_all(my_selections)
