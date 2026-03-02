@@ -8,9 +8,9 @@
 >
 > https://doi.org/10.1093/mnras/stab2730
 
-> **Web App (Under Maintenance)**
+> **Web App (In testing phase)**
 > 
-> ~~This package can be used as a web app from the following link:~~
+> [https://sneratio-web.onrender.com/](https://sneratio-web.onrender.com/)
 > 
 
 > **Description** 
